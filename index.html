@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SaaSquatch Lab — Software for real people</title>
+  <meta name="description" content="SaaSquatch Lab builds durable, trust-first software. Sasquatch Social, App Tracker, and Sasquatch Polling." />
+  <meta property="og:title" content="SaaSquatch Lab" />
+  <meta property="og:description" content="Software built for durability and trust. No growth hacks. No dark patterns." />
+  <meta property="og:url" content="https://saasquatchlab.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0b;
+      --surface: #111113;
+      --border: #1e1e22;
+      --muted: #3a3a40;
+      --text: #e8e8ed;
+      --text-muted: #8a8a94;
+      --accent: #7c3aed;
+      --accent-light: #a78bfa;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --blue: #3b82f6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 11, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo-mark {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124, 58, 237, 0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-light);
+      padding: 0.3rem 0.9rem;
+      border: 1px solid rgba(124, 58, 237, 0.35);
+      border-radius: 999px;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      max-width: 700px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .hero-cta:hover { background: #6d28d9; transform: translateY(-1px); }
+
+    /* ── SECTION ── */
+    section { padding: 5rem 2rem; }
+
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-light);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ── PRODUCTS ── */
+    #products { border-top: 1px solid var(--border); }
+
+    .products-header { margin-bottom: 3.5rem; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      border-radius: inherit;
+    }
+
+    .product-card:hover { transform: translateY(-3px); }
+
+    .product-card.social { --card-color: #7c3aed; }
+    .product-card.tracker { --card-color: #2563eb; }
+    .product-card.polling { --card-color: #059669; }
+
+    .product-card:hover { border-color: color-mix(in srgb, var(--card-color) 60%, transparent); }
+    .product-card::before { background: radial-gradient(ellipse at top left, color-mix(in srgb, var(--card-color) 12%, transparent), transparent 70%); }
+    .product-card:hover::before { opacity: 1; }
+
+    .product-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .product-card.social .product-icon { background: rgba(124, 58, 237, 0.15); }
+    .product-card.tracker .product-icon { background: rgba(37, 99, 235, 0.15); }
+    .product-card.polling .product-icon { background: rgba(5, 150, 105, 0.15); }
+
+    .product-tag {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.25rem;
+    }
+
+    .product-card.social .product-tag { background: rgba(124, 58, 237, 0.15); color: #a78bfa; }
+    .product-card.tracker .product-tag { background: rgba(37, 99, 235, 0.15); color: #93c5fd; }
+    .product-card.polling .product-tag { background: rgba(5, 150, 105, 0.15); color: #6ee7b7; }
+
+    .product-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .product-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .product-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .product-features li {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .product-features li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: var(--card-color);
+    }
+
+    .product-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--card-color);
+      margin-top: 0.5rem;
+      transition: gap 0.15s;
+    }
+
+    .product-link:hover { gap: 0.65rem; }
+
+    /* ── VALUES ── */
+    #values { border-top: 1px solid var(--border); background: var(--surface); }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .value-item { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .value-icon {
+      font-size: 1.4rem;
+      width: 44px;
+      height: 44px;
+      background: rgba(124, 58, 237, 0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .value-title { font-weight: 700; font-size: 0.95rem; }
+    .value-desc { color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; }
+
+    /* ── ABOUT ── */
+    #about { border-top: 1px solid var(--border); }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 720px) {
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      width: 100%;
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+      .hero { padding: 4rem 1.25rem 3.5rem; }
+      section { padding: 3.5rem 1.25rem; }
+      footer { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">SL</div>
+      SaaSquatch Lab
+    </a>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#values">Principles</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="mailto:hello@saasquatchlab.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eyebrow">
+      <span>&#10022;</span> Software for real people
+    </div>
+    <h1>Build things<br>that <span>last</span></h1>
+    <p class="hero-sub">
+      SaaSquatch Lab creates durable, trust-first software. No growth hacks.
+      No dark patterns. Platforms designed to serve users well for years, not just quarters.
+    </p>
+    <a href="#products" class="hero-cta">
+      Explore our products
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </header>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="container">
+      <div class="products-header">
+        <p class="section-label">Our products</p>
+        <h2 class="section-title">Three platforms,<br>one philosophy</h2>
+        <p class="section-sub">Each product is built with the same commitment: honest design, real utility, and respect for the people using it.</p>
+      </div>
+
+      <div class="product-grid">
+
+        <!-- Sasquatch Social -->
+        <div class="product-card social">
+          <div>
+            <div class="product-icon">🌲</div>
+          </div>
+          <div>
+            <span class="product-tag">Social Network</span>
+            <h3 class="product-name">Sasquatch Social</h3>
+          </div>
+          <p class="product-desc">
+            A community-first social network built around real conversation, local connection,
+            and civic engagement. Designed for the Pacific Northwest and beyond — without
+            the algorithmic manipulation or engagement traps of mainstream platforms.
+          </p>
+          <ul class="product-features">
+            <li>Community feed with local and regional channels</li>
+            <li>Agora debate platform for structured civic discourse</li>
+            <li>Hiring fair, marketplace, and event listings</li>
+            <li>Sasquatch Polling integration for live community votes</li>
+            <li>iOS app with push notifications</li>
+          </ul>
+          <a href="https://sasquatchsocial.com" target="_blank" rel="noopener" class="product-link">
+            Visit sasquatchsocial.com
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- App Tracker -->
+        <div class="product-card tracker">
+          <div>
+            <div class="product-icon">📋</div>
+          </div>
+          <div>
+            <span class="product-tag">Career Tools</span>
+            <h3 class="product-name">App Tracker</h3>
+          </div>
+          <p class="product-desc">
+            A professional job application manager built for serious job seekers. Track every
+            application, generate AI-tailored resumes and cover letters, prep for interviews,
+            and move from prospect to offer with a system that keeps up with you.
+          </p>
+          <ul class="product-features">
+            <li>Application pipeline with status tracking and reminders</li>
+            <li>AI writing suite — resumes, cover letters, thank-you notes</li>
+            <li>Company intel for interview prep (Pro)</li>
+            <li>Resume workspace with live preview and PDF export</li>
+            <li>Job link vault and ATS portal sync</li>
+          </ul>
+          <a href="https://saasquatchapptracker.com" target="_blank" rel="noopener" class="product-link">
+            Visit saasquatchapptracker.com
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- Sasquatch Polling -->
+        <div class="product-card polling">
+          <div>
+            <div class="product-icon">📊</div>
+          </div>
+          <div>
+            <span class="product-tag">Polling Platform</span>
+            <h3 class="product-name">Sasquatch Polling</h3>
+          </div>
+          <p class="product-desc">
+            A professional polling platform for media organizations, campaigns, and civic groups.
+            Real-time results, demographic breakdowns, and embeddable widgets — with a
+            transparent methodology built for credibility, not virality.
+          </p>
+          <ul class="product-features">
+            <li>Live poll results with regional and demographic filters</li>
+            <li>Embeddable widgets for news and media sites</li>
+            <li>Multi-tier access for pollsters and advertisers</li>
+            <li>Audit logs and transparent methodology</li>
+            <li>City and state-level civic engagement polls</li>
+          </ul>
+          <a href="https://sasquatchpolling.com" target="_blank" rel="noopener" class="product-link">
+            Visit sasquatchpolling.com
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section id="values">
+    <div class="container">
+      <p class="section-label">How we build</p>
+      <h2 class="section-title">Principles, not platitudes</h2>
+      <p class="section-sub">These aren't aspirations — they're constraints we hold ourselves to in every product decision.</p>
+
+      <div class="values-grid">
+        <div class="value-item">
+          <div class="value-icon">🏗️</div>
+          <h3 class="value-title">Built to last</h3>
+          <p class="value-desc">We optimize for durability over speed. Every architectural decision is made with a ten-year horizon, not a next-quarter growth target.</p>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🔍</div>
+          <h3 class="value-title">Transparent by default</h3>
+          <p class="value-desc">Our algorithms, pricing, and data practices are documented and explained. If we can't defend a decision in plain language, we don't ship it.</p>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🚫</div>
+          <h3 class="value-title">No dark patterns</h3>
+          <p class="value-desc">We don't manufacture urgency, bury cancellation flows, or exploit psychological vulnerabilities. Honest design is non-negotiable.</p>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🌱</div>
+          <h3 class="value-title">Sustainable growth</h3>
+          <p class="value-desc">We grow by being genuinely useful. Retention through value, not addiction. We'd rather have fewer users who trust us than millions who don't.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div>
+          <p class="section-label">About SaaSquatch Lab</p>
+          <h2 class="section-title">Independent software, long-term thinking</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.75; margin-top: 1.25rem;">
+            SaaSquatch Lab is an independent software company based in the Pacific Northwest.
+            We build tools for communities, job seekers, and civic organizations — things
+            that solve real problems without surveillance-based business models.
+          </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.75; margin-top: 1rem;">
+            Every product we ship is self-funded and built on clear principles. We answer
+            to our users, not investors. That means we can build for the long run.
+          </p>
+          <a href="mailto:hello@saasquatchlab.com" style="
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            margin-top: 2rem; font-size: 0.9rem; font-weight: 600;
+            color: var(--accent-light); border: 1px solid rgba(124, 58, 237, 0.35);
+            padding: 0.6rem 1.25rem; border-radius: 8px; transition: background 0.2s;
+          ">
+            Get in touch
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Active products</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">PNW</div>
+            <div class="stat-label">Pacific Northwest based</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">0</div>
+            <div class="stat-label">Dark patterns</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Year horizon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <div class="nav-logo-mark" style="width:24px;height:24px;font-size:0.65rem;border-radius:6px;">SL</div>
+      SaaSquatch Lab
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://sasquatchsocial.com" target="_blank" rel="noopener">Sasquatch Social</a></li>
+      <li><a href="https://saasquatchapptracker.com" target="_blank" rel="noopener">App Tracker</a></li>
+      <li><a href="https://sasquatchpolling.com" target="_blank" rel="noopener">Polling</a></li>
+      <li><a href="mailto:hello@saasquatchlab.com">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 SaaSquatch Lab. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
