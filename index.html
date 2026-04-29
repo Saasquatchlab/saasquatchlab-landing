@@ -15,17 +15,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0b;
-      --surface: #111113;
-      --border: #1e1e22;
-      --muted: #3a3a40;
-      --text: #e8e8ed;
-      --text-muted: #8a8a94;
-      --accent: #7c3aed;
-      --accent-light: #a78bfa;
-      --green: #22c55e;
-      --amber: #f59e0b;
-      --blue: #3b82f6;
+      /* Pacific Northwest palette */
+      --bg: #070d09;           /* old growth forest floor */
+      --surface: #0c1510;      /* deep fern shadow */
+      --border: #162418;       /* forest undergrowth */
+      --muted: #2a3d2e;        /* mossy bark */
+      --text: #dde8dc;         /* morning mist */
+      --text-muted: #7a9480;   /* lichen grey-green */
+      --accent: #2d6a4f;       /* Cascades forest green */
+      --accent-light: #74c69d; /* new fern growth */
+      --cedar: #c07b3a;        /* cedar heartwood */
+      --slate: #3a6478;        /* Pacific sound */
+      --fog: #8faaa6;          /* coastal fog */
     }
 
     html { scroll-behavior: smooth; }
@@ -49,7 +50,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem 2rem;
-      background: rgba(10, 10, 11, 0.85);
+      background: rgba(7, 13, 9, 0.88);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -66,7 +67,7 @@
     .nav-logo-mark {
       width: 30px;
       height: 30px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      background: linear-gradient(135deg, var(--accent), #40916c);
       border-radius: 8px;
       display: flex;
       align-items: center;
@@ -104,7 +105,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124, 58, 237, 0.18) 0%, transparent 70%);
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(45, 106, 79, 0.22) 0%, rgba(58, 100, 120, 0.08) 55%, transparent 75%);
       pointer-events: none;
     }
 
@@ -118,7 +119,7 @@
       letter-spacing: 0.08em;
       color: var(--accent-light);
       padding: 0.3rem 0.9rem;
-      border: 1px solid rgba(124, 58, 237, 0.35);
+      border: 1px solid rgba(116, 198, 157, 0.3);
       border-radius: 999px;
       margin-bottom: 1.75rem;
     }
@@ -133,7 +134,7 @@
     }
 
     .hero h1 span {
-      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      background: linear-gradient(135deg, var(--accent-light), #b7e4c7);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -160,7 +161,7 @@
       transition: background 0.2s, transform 0.15s;
     }
 
-    .hero-cta:hover { background: #6d28d9; transform: translateY(-1px); }
+    .hero-cta:hover { background: #1e4d38; transform: translateY(-1px); }
 
     /* ── SECTION ── */
     section { padding: 5rem 2rem; }
@@ -227,9 +228,9 @@
 
     .product-card:hover { transform: translateY(-3px); }
 
-    .product-card.social { --card-color: #7c3aed; }
-    .product-card.tracker { --card-color: #2563eb; }
-    .product-card.polling { --card-color: #059669; }
+    .product-card.social { --card-color: #40916c; }   /* Cascades green */
+    .product-card.tracker { --card-color: #3a6478; }  /* Pacific slate */
+    .product-card.polling { --card-color: #c07b3a; }  /* Cedar amber */
 
     .product-card:hover { border-color: color-mix(in srgb, var(--card-color) 60%, transparent); }
     .product-card::before { background: radial-gradient(ellipse at top left, color-mix(in srgb, var(--card-color) 12%, transparent), transparent 70%); }
@@ -246,9 +247,9 @@
       flex-shrink: 0;
     }
 
-    .product-card.social .product-icon { background: rgba(124, 58, 237, 0.15); }
-    .product-card.tracker .product-icon { background: rgba(37, 99, 235, 0.15); }
-    .product-card.polling .product-icon { background: rgba(5, 150, 105, 0.15); }
+    .product-card.social .product-icon { background: rgba(64, 145, 108, 0.15); }
+    .product-card.tracker .product-icon { background: rgba(58, 100, 120, 0.15); }
+    .product-card.polling .product-icon { background: rgba(192, 123, 58, 0.15); }
 
     .product-tag {
       display: inline-flex;
@@ -262,9 +263,9 @@
       margin-bottom: 0.25rem;
     }
 
-    .product-card.social .product-tag { background: rgba(124, 58, 237, 0.15); color: #a78bfa; }
-    .product-card.tracker .product-tag { background: rgba(37, 99, 235, 0.15); color: #93c5fd; }
-    .product-card.polling .product-tag { background: rgba(5, 150, 105, 0.15); color: #6ee7b7; }
+    .product-card.social .product-tag { background: rgba(64, 145, 108, 0.15); color: #74c69d; }
+    .product-card.tracker .product-tag { background: rgba(58, 100, 120, 0.15); color: #8faaa6; }
+    .product-card.polling .product-tag { background: rgba(192, 123, 58, 0.18); color: #e6a87c; }
 
     .product-name {
       font-size: 1.3rem;
@@ -332,7 +333,7 @@
       font-size: 1.4rem;
       width: 44px;
       height: 44px;
-      background: rgba(124, 58, 237, 0.1);
+      background: rgba(45, 106, 79, 0.15);
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -373,7 +374,7 @@
       font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.04em;
-      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      background: linear-gradient(135deg, var(--accent-light), #b7e4c7);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -608,7 +609,7 @@
           <a href="mailto:hello@saasquatchlab.com" style="
             display: inline-flex; align-items: center; gap: 0.5rem;
             margin-top: 2rem; font-size: 0.9rem; font-weight: 600;
-            color: var(--accent-light); border: 1px solid rgba(124, 58, 237, 0.35);
+            color: var(--accent-light); border: 1px solid rgba(116, 198, 157, 0.3);
             padding: 0.6rem 1.25rem; border-radius: 8px; transition: background 0.2s;
           ">
             Get in touch
