@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SaaSquatch Lab — Software for real people</title>
-  <meta name="description" content="SaaSquatch Lab builds durable, trust-first software. Sasquatch Social, App Tracker, and Sasquatch Polling." />
+  <meta name="description" content="SaaSquatch Lab builds durable, trust-first software. Sasquatch Social, SizeSquatch, App Tracker, and Sasquatch Polling." />
   <meta property="og:title" content="SaaSquatch Lab" />
   <meta property="og:description" content="Software built for durability and trust. No growth hacks. No dark patterns." />
   <meta property="og:url" content="https://saasquatchlab.com" />
@@ -231,6 +231,7 @@
     .product-card.social { --card-color: #40916c; }   /* Cascades green */
     .product-card.tracker { --card-color: #3a6478; }  /* Pacific slate */
     .product-card.polling { --card-color: #c07b3a; }  /* Cedar amber */
+    .product-card.sizesquatch { --card-color: #74c69d; } /* new fern growth */
 
     .product-card:hover { border-color: color-mix(in srgb, var(--card-color) 60%, transparent); }
     .product-card::before { background: radial-gradient(ellipse at top left, color-mix(in srgb, var(--card-color) 12%, transparent), transparent 70%); }
@@ -250,6 +251,7 @@
     .product-card.social .product-icon { background: transparent; padding: 0; overflow: hidden; }
     .product-card.tracker .product-icon { background: rgba(58, 100, 120, 0.15); }
     .product-card.polling .product-icon { background: rgba(192, 123, 58, 0.15); }
+    .product-card.sizesquatch .product-icon { background: transparent; padding: 0; overflow: hidden; }
 
     .product-tag {
       display: inline-flex;
@@ -266,6 +268,7 @@
     .product-card.social .product-tag { background: rgba(64, 145, 108, 0.15); color: #74c69d; }
     .product-card.tracker .product-tag { background: rgba(58, 100, 120, 0.15); color: #8faaa6; }
     .product-card.polling .product-tag { background: rgba(192, 123, 58, 0.18); color: #e6a87c; }
+    .product-card.sizesquatch .product-tag { background: rgba(116, 198, 157, 0.15); color: #a5dcc0; }
 
     .product-name {
       font-size: 1.3rem;
@@ -439,9 +442,10 @@
       SaaSquatch Lab
     </a>
     <ul class="nav-links">
-      <li><a href="#products">Products</a></li>
-      <li><a href="#values">Principles</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="/#products">Products</a></li>
+      <li><a href="/#values">Principles</a></li>
+      <li><a href="/#about">About</a></li>
+      <li><a href="/support">Support</a></li>
       <li><a href="mailto:hello@saasquatchlab.com">Contact</a></li>
     </ul>
   </nav>
@@ -467,7 +471,7 @@
     <div class="container">
       <div class="products-header">
         <p class="section-label">Our products</p>
-        <h2 class="section-title">Three platforms,<br>one philosophy</h2>
+        <h2 class="section-title">Four products,<br>one philosophy</h2>
         <p class="section-sub">Each product is built with the same commitment: honest design, real utility, and respect for the people using it.</p>
       </div>
 
@@ -496,6 +500,33 @@
           </ul>
           <a href="https://sasquatchsocial.com" target="_blank" rel="noopener" class="product-link">
             Visit sasquatchsocial.com
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- SizeSquatch -->
+        <div class="product-card sizesquatch">
+          <div>
+            <div class="product-icon"><img src="logo-sizesquatch.png" alt="SizeSquatch" style="width:44px;height:44px;border-radius:10px;object-fit:cover;display:block;" /></div>
+          </div>
+          <div>
+            <span class="product-tag">iOS App — Coming Soon</span>
+            <h3 class="product-name">SizeSquatch: Photo Resizer</h3>
+          </div>
+          <p class="product-desc">
+            Resize any photo to exactly the right size for wherever it's going — Instagram,
+            Facebook, LinkedIn, ads, prints, even passport photos. Every pixel is processed
+            on your device: your photos never leave your phone. No accounts, no ads, no tracking.
+          </p>
+          <ul class="product-features">
+            <li>Presets for every social platform, ad format, and print size</li>
+            <li>Adjustable crop — drag and pinch, never a surprise white bar</li>
+            <li>Passport &amp; ID photos with official sizing rules built in</li>
+            <li>Photo grids, exact file-size targets, JPEG/PNG/HEIC</li>
+            <li>Free to try — one-time unlock, no subscription</li>
+          </ul>
+          <a href="/support#sizesquatch" class="product-link">
+            Support &amp; FAQ
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
@@ -647,8 +678,10 @@
     </div>
     <ul class="footer-links">
       <li><a href="https://sasquatchsocial.com" target="_blank" rel="noopener">Sasquatch Social</a></li>
+      <li><a href="/#products">SizeSquatch</a></li>
       <li><a href="https://saasquatchapptracker.com" target="_blank" rel="noopener">App Tracker</a></li>
       <li><a href="https://sasquatchpolling.com" target="_blank" rel="noopener">Polling</a></li>
+      <li><a href="/support">Support</a></li>
       <li><a href="mailto:hello@saasquatchlab.com">Contact</a></li>
     </ul>
     <p class="footer-copy">© 2026 SaaSquatch Lab. All rights reserved.</p>

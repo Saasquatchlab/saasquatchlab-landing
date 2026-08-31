@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — SaaSquatch Lab</title>
+  <meta name="description" content="Support for SaaSquatch Lab products: SizeSquatch, Sasquatch Social, App Tracker, and Sasquatch Polling." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #070d09; --surface: #0c1510; --border: #162418; --text: #dde8dc;
+      --text-muted: #7a9480; --accent: #2d6a4f; --accent-light: #74c69d;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; background: rgba(7,13,9,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { display: flex; align-items: center; gap: 0.625rem; font-weight: 700; font-size: 1.05rem; color: var(--text); }
+    .nav-logo:hover { text-decoration: none; }
+    .nav-logo-mark { width: 30px; height: 30px; background: linear-gradient(135deg, var(--accent), #40916c); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; color: #fff; }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; font-size: 0.92rem; }
+    .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    main { max-width: 760px; margin: 0 auto; padding: 4rem 1.5rem 5rem; }
+    h1 { font-size: 2.2rem; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .sub { color: var(--text-muted); margin-bottom: 3rem; }
+    h2 { font-size: 1.35rem; margin: 3rem 0 0.75rem; color: var(--accent-light); letter-spacing: -0.01em; }
+    h3 { font-size: 1.02rem; margin: 1.5rem 0 0.35rem; }
+    p, li { color: var(--text-muted); font-size: 0.98rem; }
+    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo"><div class="nav-logo-mark">SL</div>SaaSquatch Lab</a>
+    <ul class="nav-links">
+      <li><a href="/#products">Products</a></li>
+      <li><a href="/support">Support</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <h1>Support</h1>
+    <p class="sub">We're a small team and we read everything. Email <a href="mailto:hello@saasquatchlab.com">hello@saasquatchlab.com</a> and we'll get back to you as soon as we can.</p>
+
+    <h2 id="sizesquatch">SizeSquatch: Photo Resizer</h2>
+
+    <h3>Are my photos uploaded anywhere?</h3>
+    <p>No. Every resize, crop, and grid is processed entirely on your device. SizeSquatch has no servers, no accounts, and no analytics — your photos never leave your phone. See the full <a href="/sizesquatch/privacy">privacy policy</a>.</p>
+
+    <h3>How does the free version work?</h3>
+    <p>The free version includes 3 exports with every feature available. A one-time purchase unlocks unlimited exports forever — there is no subscription.</p>
+
+    <h3>I purchased the unlock but it shows as locked.</h3>
+    <p>Open SizeSquatch → Settings (gear icon) → <strong>Restore Purchases</strong>. Make sure you're signed in with the same Apple Account you purchased with. The unlock supports Family Sharing, so family members can restore it too.</p>
+
+    <h3>How do refunds work?</h3>
+    <p>Purchases are processed by Apple, so refunds go through them: visit <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>, sign in, and choose the purchase.</p>
+
+    <h3>My exported photo looks cropped differently than I expected.</h3>
+    <p>SizeSquatch fills the target frame completely so there are never white bars. Drag the preview to reposition and pinch to zoom before exporting — what you see in the preview is exactly what gets exported.</p>
+
+    <h3>Does it really work for passport photos?</h3>
+    <p>Yes — the Passport &amp; ID presets produce correctly sized files (for example, US 2×2 in at 600×600 px, 300 DPI) and show the official framing rules. You're responsible for meeting the photo-quality rules (lighting, background, expression), so review the guidance shown in the app before submitting to an agency.</p>
+
+    <h2 id="social">Sasquatch Social</h2>
+    <p>For help with Sasquatch Social, visit <a href="https://www.sasquatchsocial.com/support">sasquatchsocial.com/support</a>.</p>
+
+    <h2 id="other">App Tracker &amp; Sasquatch Polling</h2>
+    <p>Support for <a href="https://saasquatchapptracker.com">App Tracker</a> and <a href="https://sasquatchpolling.com">Sasquatch Polling</a> is available in each product, or email us at the address above.</p>
+  </main>
+
+  <footer>© 2026 SaaSquatch Lab · <a href="/">Home</a> · <a href="/sizesquatch/privacy">SizeSquatch Privacy</a></footer>
+</body>
+</html>
