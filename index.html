@@ -232,6 +232,7 @@
     .product-card.tracker { --card-color: #3a6478; }  /* Pacific slate */
     .product-card.polling { --card-color: #c07b3a; }  /* Cedar amber */
     .product-card.sizesquatch { --card-color: #74c69d; } /* new fern growth */
+    .product-card.connect { --card-color: #52b788; }  /* alpine meadow */
 
     .product-card:hover { border-color: color-mix(in srgb, var(--card-color) 60%, transparent); }
     .product-card::before { background: radial-gradient(ellipse at top left, color-mix(in srgb, var(--card-color) 12%, transparent), transparent 70%); }
@@ -252,6 +253,7 @@
     .product-card.tracker .product-icon { background: rgba(58, 100, 120, 0.15); }
     .product-card.polling .product-icon { background: rgba(192, 123, 58, 0.15); }
     .product-card.sizesquatch .product-icon { background: transparent; padding: 0; overflow: hidden; }
+    .product-card.connect .product-icon { background: transparent; padding: 0; overflow: hidden; }
 
     .product-tag {
       display: inline-flex;
@@ -269,6 +271,7 @@
     .product-card.tracker .product-tag { background: rgba(58, 100, 120, 0.15); color: #8faaa6; }
     .product-card.polling .product-tag { background: rgba(192, 123, 58, 0.18); color: #e6a87c; }
     .product-card.sizesquatch .product-tag { background: rgba(116, 198, 157, 0.15); color: #a5dcc0; }
+    .product-card.connect .product-tag { background: rgba(82, 183, 136, 0.16); color: #95d5b2; }
 
     .product-name {
       font-size: 1.3rem;
@@ -471,7 +474,7 @@
     <div class="container">
       <div class="products-header">
         <p class="section-label">Our products</p>
-        <h2 class="section-title">Four products,<br>one philosophy</h2>
+        <h2 class="section-title">Five products,<br>one philosophy</h2>
         <p class="section-sub">Each product is built with the same commitment: honest design, real utility, and respect for the people using it.</p>
       </div>
 
@@ -529,6 +532,32 @@
             Download on the App Store
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
+        </div>
+
+        <!-- Squatch Connect -->
+        <div class="product-card connect">
+          <div>
+            <div class="product-icon"><img src="logo-squatch-connect.png" alt="Squatch Connect" style="width:44px;height:44px;border-radius:10px;object-fit:cover;display:block;" /></div>
+          </div>
+          <div>
+            <span class="product-tag">Travel eSIM · Coming Soon</span>
+            <h3 class="product-name">Squatch Connect</h3>
+          </div>
+          <p class="product-desc">
+            A privacy-first travel eSIM for iPhone. Pick a country or region, pick a data
+            plan, and install in one tap — or just ask Siri. No account, no tracking,
+            no passport uploads. Connectivity without surveillance, in 190+ destinations.
+          </p>
+          <ul class="product-features">
+            <li>Data plans for countries, regions, and worldwide</li>
+            <li>One-tap eSIM install — no QR gymnastics</li>
+            <li>Hotspot-ready plans for laptops and travel companions</li>
+            <li>"Hey Siri, add an eSIM for France" — hands-free setup</li>
+            <li>No account, no ad trackers, Apple Pay guest checkout</li>
+          </ul>
+          <span class="product-link" style="cursor: default;">
+            Launching soon on the App Store
+          </span>
         </div>
 
         <!-- App Tracker -->
