@@ -1,2 +1,6 @@
 .vercel
 .env*
+
+# Python bytecode from tools/build_site.py
+__pycache__/
+*.pyc
