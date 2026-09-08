@@ -38,17 +38,19 @@ PRODUCTS = [
     dict(
         slug="squatch-lift", name="Squatch Lift", accent="#74c69d",
         logo="logo-squatchlift.png", tag="In App Review", tagclass="review",
-        category="Fitness &middot; iOS",
+        category="Fitness &middot; iOS &amp; Android",
         tagline="Log the set. Close the phone.",
         blurb=("A no-nonsense workout tracker built for the gym floor. Log lifts in seconds "
                "between sets, watch strength trend upward, and keep every rep on your device — "
                "your training data never touches a server."),
-        meta=["130+ exercise library", "Personal record tracking", "Zero networking", "iPhone &amp; iPad"],
+        meta=["130+ exercise library", "Personal record tracking", "No accounts, no tracking", "iPhone, iPad &amp; Android"],
         hero_note="Three full workouts free &middot; Pro $4.99/month or $29.99/year &middot; No account, ever",
         ctas=[("Coming to the App Store", "#", "primary", False)],
-        promise=("Squatch Lift has <strong>no servers and makes no network requests at all</strong>. "
-                 "Your workouts, measurements, and photos live in a database on your phone. "
-                 "We could not see your training data if we wanted to."),
+        promise=("Squatch Lift has <strong>no servers of its own</strong>. Your workouts, measurements, "
+                 "and photos live in a database on your phone, and we could not see your training "
+                 "data if we wanted to. On iPhone and iPad the app makes no network requests at all; "
+                 "on Android, Google&rsquo;s billing library needs network permission to process the "
+                 "subscription, and that is the only thing it is used for."),
         features=[
             ("Fast set logging", "Weight, reps, and done. The last workout prefills automatically, so repeating a session is a few taps rather than a data-entry chore."),
             ("130+ exercise library", "A full catalogue out of the box, plus your own custom movements. Templates cover standard training splits, with beginner suggestions you can switch off once you outgrow them."),
@@ -62,12 +64,14 @@ PRODUCTS = [
         detail=[("Pricing", [
             "Your first three completed workouts are free, with no account and no card. After that, Squatch Lift Pro unlocks unlimited use at <strong>$4.99 per month</strong> or <strong>$29.99 per year</strong>.",
             "Subscriptions are billed by Apple and renew automatically until cancelled. You manage or cancel from your App Store account settings at any time — full terms are in our <a href=\"/terms#subscriptions\">Terms of Use</a>."]),
-            ("Android", ["Squatch Lift is iPhone and iPad only today. An Android version is planned but not yet in development — we would rather ship one good platform than two rushed ones."])],
+            ("On Android", [
+                "The Android build carries the same 130+ exercise catalogue, the same fast set logging, the same PR badges and strength charts, and the same three-free-workouts-then-Pro pricing as the iPhone version. Your training data is stored on the device there too.",
+                "One honest difference: Google&rsquo;s billing library requires network permissions in order to sell and verify the subscription, so the Android build declares them. Nothing about your training is sent anywhere — the network is used only for the purchase."])],
     ),
     dict(
         slug="sizesquatch", name="SizeSquatch", accent="#a5dcc0",
         logo="logo-sizesquatch.png", tag="Live", tagclass="live",
-        category="Photo utility &middot; iOS",
+        category="Photo utility &middot; iOS &amp; Android",
         tagline="Any photo. Perfect size.",
         blurb=("Resize any photo to exactly the right size for wherever it is going — Instagram, "
                "LinkedIn, ads, prints, even passport photos. Every pixel is processed on your "
@@ -192,17 +196,19 @@ COMING = dict(
 POLICIES = {
     "squatch-lift": dict(
         name="Squatch Lift", accent="#74c69d",
-        short="Squatch Lift collects nothing. It has no servers and makes no network requests.",
+        short="Squatch Lift collects nothing. It has no servers, and no copy of your training data exists anywhere but your device.",
         sections=[
-            ("What we collect", ["<strong>Nothing.</strong> Squatch Lift has no backend, no user accounts, no analytics, no advertising SDKs, and no third-party trackers. The app makes no network connections of its own."]),
+            ("What we collect", [
+                "<strong>Nothing.</strong> Squatch Lift has no backend, no user accounts, no analytics, no advertising SDKs, and no third-party trackers.",
+                "On iPhone and iPad the app makes no network connections of its own. On Android, Google Play&rsquo;s billing library requires network permissions in order to sell and verify the subscription, so the Android build declares them; they are used for nothing else. No training data, photo, or measurement is transmitted on either platform."]),
             ("Your training data", [
-                "Your workouts, exercise history, personal records, body measurements, supplement log, custom exercises, and templates are stored in a database <strong>on your device</strong> using Apple&rsquo;s on-device storage framework.",
+                "Your workouts, exercise history, personal records, body measurements, supplement log, custom exercises, and templates are stored in a database <strong>on your device</strong> — Apple&rsquo;s on-device storage framework on iPhone and iPad, and the equivalent on-device database on Android.",
                 "This data is never transmitted to us or to anyone else. We have no copy of it and no way to obtain one. If you delete the app, the data is deleted with it, so keep a device backup if you want to preserve your history."]),
             ("Photos", ["If you attach a selfie to a workout share card, the image is used only to render that card on your device. It is not uploaded. Where the resulting card goes afterwards is entirely your choice."]),
             ("Health data", ["Squatch Lift does not read from or write to Apple Health. The measurements you enter are typed by you and stay in the app."]),
             ("Subscriptions", [
-                "Squatch Lift Pro is an auto-renewing subscription ($4.99/month or $29.99/year) sold through Apple. <strong>Apple processes the payment; we never receive your card details or your Apple Account identity.</strong> The app receives only a signed receipt confirming whether a subscription is active, and it validates that on your device.",
-                "Manage or cancel from your App Store account settings. Full terms are in our <a href=\"/terms#subscriptions\">Terms of Use</a>."]),
+                "Squatch Lift Pro is an auto-renewing subscription ($4.99/month or $29.99/year), sold through Apple on iPhone and iPad and through Google Play on Android. <strong>The store processes the payment; we never receive your card details or your Apple or Google account identity.</strong> The app receives only a signed receipt confirming whether a subscription is active, and it validates that on your device.",
+                "Manage or cancel from your App Store account settings, or from Google Play&rsquo;s subscriptions screen on Android. Full terms are in our <a href=\"/terms#subscriptions\">Terms of Use</a>."]),
             ("What we never do", ["We do not sell data, share it with data brokers, or use it for advertising — a claim that is easy for us to make, because the data never leaves your phone."]),
             ("Children", ["Squatch Lift is not directed to children under 13 and collects no personal information from anyone."]),
             ("Your rights", ["Rights to access, correct, delete, or port your data apply to data a company holds about you. We hold none. Deleting the app removes everything. If you have questions, email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>."]),

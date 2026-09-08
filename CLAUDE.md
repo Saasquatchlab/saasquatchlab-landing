@@ -27,6 +27,24 @@ python3 tools/build_site.py      # regenerates every page listed below
 
 **Edit the generator, not the generated HTML** — hand edits to generated files are lost on the next build. Product status tags (`Live` / `In App Review` / `Coming soon`) live in `content.py` and must track reality.
 
+### Privacy copy must be per-platform, not per-app
+
+Both shipping apps are now on **iOS and Android**, and the two platforms do not have
+the same privacy story. Google Play Billing forces `INTERNET` and
+`ACCESS_NETWORK_STATE` into the merged Android manifest; the iOS builds still make no
+network requests at all. A blanket "makes no network requests" claim is therefore
+**false on Android** — and these pages are the privacy URLs Apple *and* Google have on
+file, read by reviewers against the actual manifest.
+
+The pattern both apps now use: state the on-device guarantee unconditionally, then name
+the one difference explicitly ("on Android, Google's billing library requires network
+permission to process the purchase, and that is the only thing it is used for").
+
+This bit Squatch Lift on 2026-09-08: its Play-registered `/squatch-lift/privacy` still
+read "makes no network connections of its own" *while the Android build was in review
+declaring three network-related permissions*. Check this whenever an app gains a
+platform.
+
 ### Art direction — "It's out there"
 
 The brand line is literal: a Pacific Northwest ridgeline at first light with the SaaSquatch mark standing in the treeline, half-occluded by the front rank of conifers. The scene is two stacked SVGs so the front trees genuinely occlude the figure. Rules the design holds to (the brief was explicitly *not* to look like a generic AI/SaaS template): asymmetric editorial grid, no pill badges, no gradient-text headlines, no boxed feature-card grids, hairline spec rows instead, tracked micro-caps for metadata, film grain + vignette for a photographic surface.
@@ -65,6 +83,9 @@ Note the inconsistent slug: Squatch Travel is `/squatchtravel` (no hyphen) becau
 | `/squatchtravel/privacy` | App Store Connect — Squatch Travel privacy URL |
 | `/ads/*` | Meta ad library image sources |
 | `/api/squatchtravel/*` | Squatch Travel iOS app (destination packs) |
+| `/sizesquatch/privacy` | **Google Play** — SizeSquatch privacy policy URL (as well as App Store) |
+| `/squatch-lift/privacy` | **Google Play** — Squatch Lift privacy policy URL |
+| `/support` | **Google Play** — support URL for both Android listings |
 
 ⚠️ `vercel.json` rewrites every unmatched path to `/index.html`, so a **missing page returns 200 with the landing page rather than a 404**. Broken registered URLs therefore fail silently — verify by title, not status code. `/privacy` and `/terms` were in exactly this state until 2026-09-07.
 
