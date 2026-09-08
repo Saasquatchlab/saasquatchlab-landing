@@ -75,7 +75,8 @@ PRODUCTS = [
         meta=["45+ built-in presets", "Passport &amp; ID sizing", "Exact file-size targets", "100% on-device"],
         hero_note="Free to try &middot; three free exports &middot; $4.99 one-time unlock &middot; No subscription",
         ctas=[("Download on the App Store", APPSTORE + "6806940474", "primary", True)],
-        promise=("SizeSquatch makes <strong>no network connections of its own</strong>. It uses the system "
+        promise=("<strong>Your photos never leave your device.</strong> All resizing and encoding happens "
+                 "locally, and SizeSquatch has no server of its own to send anything to. It uses the system "
                  "photo picker, so it can only ever touch the specific photos you hand it — never your "
                  "whole library."),
         features=[
@@ -91,7 +92,7 @@ PRODUCTS = [
         detail=[("Pricing", [
             "SizeSquatch is free to download and gives you three free exports. A single <strong>$4.99 one-time unlock</strong> removes the limit permanently. There is no subscription and there never will be."]),
             ("On Android", [
-                "A native Android build of SizeSquatch exists and is currently in <strong>internal testing on Google Play</strong> while the remaining store paperwork is completed. It carries the same full preset catalogue, the same fit and fill editor with circular crops, the same maximum-file-size search — and, like the iPhone version, it requests no internet permission at all."])],
+                "SizeSquatch on Android carries the same preset catalogue, the same fit and fill editor with circular crops, the same maximum-file-size search, and the same three-free-exports-then-one-unlock pricing as the iPhone version. One honest difference: Google's billing library requires network permissions in order to process the unlock, so the Android build declares them. No photo is ever sent anywhere — the network is used only to check and complete your purchase."])],
     ),
     dict(
         slug="squatch-connect", name="Squatch Connect", accent="#52b788",
