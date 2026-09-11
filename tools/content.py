@@ -71,32 +71,34 @@ PRODUCTS = [
     dict(
         slug="sizesquatch", name="SizeSquatch", accent="#a5dcc0",
         logo="logo-sizesquatch.png", tag="Live", tagclass="live",
-        category="Photo utility &middot; iOS &amp; Android",
-        tagline="Any photo. Perfect size.",
-        blurb=("Resize any photo to exactly the right size for wherever it is going — Instagram, "
-               "LinkedIn, ads, prints, even passport photos. Every pixel is processed on your "
-               "device: your photos never leave your phone."),
+        category="Photo &amp; video utility &middot; iOS &amp; Android",
+        tagline="Any photo. Any video. Perfect size.",
+        blurb=("Resize and crop any photo or video to exactly the right size for wherever it is going — "
+               "Reels, TikTok, Shorts, Instagram, LinkedIn, ads, prints, even passport photos. Everything "
+               "is processed on your device: your photos and videos never leave your phone."),
         meta=["45+ built-in presets", "Passport &amp; ID sizing", "Exact file-size targets", "100% on-device"],
         hero_note="Free to try &middot; three free exports &middot; $4.99 one-time unlock &middot; No subscription",
         ctas=[("Download on the App Store", APPSTORE + "6806940474", "primary", True)],
-        promise=("<strong>Your photos never leave your device.</strong> All resizing and encoding happens "
-                 "locally, and SizeSquatch has no server of its own to send anything to. It uses the system "
-                 "photo picker, so it can only ever touch the specific photos you hand it — never your "
-                 "whole library."),
+        promise=("<strong>Your photos and videos never leave your device.</strong> All resizing, cropping "
+                 "and video re-encoding happens locally, and SizeSquatch has no server of its own to send "
+                 "anything to. There is no cloud render step — a video you crop in SizeSquatch is decoded "
+                 "and re-encoded by your own phone's hardware. It uses the system photo picker, so it can "
+                 "only ever touch the specific photos and videos you hand it — never your whole library."),
         features=[
-            ("Every size you need", "Presets for Instagram, Facebook, LinkedIn, X, YouTube, TikTok, and Pinterest, plus IAB display ad sizes and social and CTV creative formats."),
+            ("Video for Reels, TikTok &amp; Shorts", "Crop a clip to 1080&times;1920 vertical or 1080&times;1080 square, centred and filled, and export an MP4 with the audio intact. Decoded and re-encoded entirely on your own device — no upload, no cloud render, no watermark."),
+            ("Every size you need", "Presets for Instagram, Facebook, LinkedIn, X, YouTube, TikTok, and Pinterest, plus IAB display ad sizes and social and CTV creative formats. Eight of those sizes also accept video."),
             ("Print at 300 DPI", "Real print sizes with the DPI metadata actually embedded in the file, so the lab prints what you meant."),
             ("Passport &amp; ID photos", "US 2&times;2&Prime; and UK/EU sizes with the official framing rules built in, and instructions on screen while you crop."),
-            ("Frame it yourself", "Drag and pinch to position the crop. The frame is clamped so circular and fill exports can never come out with a surprise white bar."),
+            ("Frame it yourself", "Drag and pinch to position the crop. The frame is clamped so circular and fill exports can never come out with a surprise white bar. Photos only — video is centred automatically."),
             ("Hit an exact file size", "Set a KB or MB ceiling and SizeSquatch searches for the highest quality that fits underneath it."),
             ("Photo grids", "Build multi-photo grids at the exact output size you need, without a separate collage app."),
             ("JPEG, PNG, HEIC", "Pick your format, or let &ldquo;Auto — best for target&rdquo; choose. Defaults are configurable in Settings so you are not re-picking every time."),
             ("Custom pixel sizes", "Any width and height you like, when none of the presets are the thing you actually need."),
         ],
         detail=[("Pricing", [
-            "SizeSquatch is free to download and gives you three free exports. A single <strong>$4.99 one-time unlock</strong> removes the limit permanently. There is no subscription and there never will be."]),
+            "SizeSquatch is free to download and gives you three free exports. A single <strong>$4.99 one-time unlock</strong> removes the limit permanently. There is no subscription and there never will be. Video exports use the same three free exports and the same single $4.99 unlock — there is no separate video purchase and no subscription."]),
             ("On Android", [
-                "SizeSquatch on Android carries the same preset catalogue, the same fit and fill editor with circular crops, the same maximum-file-size search, and the same three-free-exports-then-one-unlock pricing as the iPhone version. One honest difference: Google's billing library requires network permissions in order to process the unlock, so the Android build declares them. No photo is ever sent anywhere — the network is used only to check and complete your purchase."])],
+                "SizeSquatch on Android carries the same preset catalogue, the same fit and fill editor with circular crops, the same maximum-file-size search, and the same three-free-exports-then-one-unlock pricing as the iPhone version. One honest difference: Google's billing library requires network permissions in order to process the unlock, so the Android build declares them. No photo is ever sent anywhere — the network is used only to check and complete your purchase. Video crops on Android run through Android's own on-device media transformer, the same way the iPhone build uses AVFoundation. Nothing is uploaded on either platform — the network permission is still only there for the unlock purchase."])],
     ),
     dict(
         slug="squatch-connect", name="Squatch Connect", accent="#52b788",
