@@ -24,6 +24,7 @@ ART DIRECTION — "It's out there"
 NEVER emit into a `public/` directory — see CLAUDE.md (that takes the site down).
 """
 import json
+import re
 import math
 import os
 import random
@@ -882,6 +883,20 @@ __SCENE__
                 "sameAs": ["https://www.sasquatchsocial.com", "https://saasquatchapptracker.com"]})
 
 
+def product_schema(p):
+    store = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://apps.apple.com/")), None)
+    d = {"@context": "https://schema.org", "@type": "SoftwareApplication",
+         "name": p["name"], "applicationCategory": "TravelApplication" if "eSIM" in p["category"] else "UtilitiesApplication",
+         "operatingSystem": "iOS" + (", Android" if "Android" in p["category"] else ""),
+         "description": re.sub(r"<[^>]+>", "", p["blurb"]).replace("&rsquo;", "'").replace("&middot;", "·"),
+         "url": "https://www.saasquatchlab.com/%s" % p["slug"],
+         "image": "https://www.saasquatchlab.com/%s" % p["logo"] if p.get("logo") else None,
+         "author": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com"},
+         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}
+    if store: d["installUrl"] = store
+    return {k: v for k, v in d.items() if v is not None}
+
+
 def product_page(p):
     acts = " ".join(link(l, h, key=(k == "primary"), off=not on, ext=on and h.startswith("http"))
                     for l, h, k, on in p["ctas"])
@@ -964,7 +979,7 @@ __SCENE__
         "%s — %s | SaaSquatch Lab" % (p["name"], p["tagline"].rstrip(".")),
         p["blurb"].replace("&mdash;", "—").replace("&rsquo;", "'"),
         body, accent=p["accent"],
-        canonical="https://www.saasquatchlab.com/%s" % p["slug"])
+        canonical="https://www.saasquatchlab.com/%s" % p["slug"], schema=product_schema(p))
 
 
 def privacy_page(slug, d):
@@ -1110,8 +1125,29 @@ def main():
         "Support for SaaSquatch Lab products: SizeSquatch, Sasquatch Social, and App Tracker.",
         "https://www.saasquatchlab.com/support"))
 
+    pages = ["/", "/for-good"] + ["/%s" % p["slug"] for p in PRODUCTS] \
+        + ["/%s/privacy" % slug for slug in POLICIES] \
+        + ["/sizesquatch/privacy", "/squatch-connect/privacy", "/squatchtravel/privacy"] \
+        + ["/privacy", "/terms", "/support"]
+    write_crawl_files(sorted(set(pages), key=pages.index))
+
     print("Still hand-maintained: /sizesquatch/privacy, /squatch-connect/privacy,")
     print("  /squatchtravel/privacy (each App Store registered, content unchanged)")
+
+
+def write_crawl_files(pages):
+    base = "https://www.saasquatchlab.com"
+    Path("robots.txt").write_text("User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % base)
+    urls = "".join("  <url><loc>%s%s</loc></url>\n" % (base, u) for u in pages)
+    Path("sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s</urlset>\n' % urls)
+    lines = ["# SaaSquatch Lab", "", "> Privacy-first software that is actually easy to use. Independent studio in the Pacific Northwest.", "", "## Products"]
+    for p in PRODUCTS:
+        store = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://apps.apple.com/")), None)
+        desc = re.sub(r"<[^>]+>", "", p["blurb"]).replace("&rsquo;", "'").replace("&middot;", "·")
+        lines.append("- [%s](%s/%s): %s%s" % (p["name"], base, p["slug"], desc, (" App Store: " + store) if store else ""))
+    lines += ["", "## Policies", "- [Privacy](%s/privacy)" % base, "- [Terms of Use](%s/terms)" % base, "- [Support](%s/support)" % base]
+    Path("llms.txt").write_text("\n".join(lines) + "\n")
+    print("  robots.txt, sitemap.xml (%d urls), llms.txt" % len(pages))
 
 
 if __name__ == "__main__":
