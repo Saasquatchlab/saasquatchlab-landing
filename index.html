@@ -102,6 +102,9 @@
     .lnk.off { color: var(--ink-3); pointer-events: none; }
     .lnk.off::before { display: none; }
     .acts { display: flex; flex-wrap: wrap; gap: clamp(1.4rem, 4vw, 3rem); align-items: center; }
+    .badge-app-store { display: inline-block; line-height: 0; transition: opacity 0.4s var(--ease), transform 0.5s var(--ease); }
+    .badge-app-store img { display: block; height: 50px; width: auto; }
+    .badge-app-store:hover { opacity: 0.85; transform: translateY(-1px); }
 
     /* ── scene ─────────────────────────────────────────────────────────── */
     .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }

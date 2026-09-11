@@ -102,6 +102,9 @@
     .lnk.off { color: var(--ink-3); pointer-events: none; }
     .lnk.off::before { display: none; }
     .acts { display: flex; flex-wrap: wrap; gap: clamp(1.4rem, 4vw, 3rem); align-items: center; }
+    .badge-app-store { display: inline-block; line-height: 0; transition: opacity 0.4s var(--ease), transform 0.5s var(--ease); }
+    .badge-app-store img { display: block; height: 50px; width: auto; }
+    .badge-app-store:hover { opacity: 0.85; transform: translateY(-1px); }
 
     /* ── scene ─────────────────────────────────────────────────────────── */
     .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
@@ -352,7 +355,7 @@
         <h1 class="mega" style="font-size: clamp(2.3rem, 6.6vw, 5.2rem)"><span class="w"><span style="transition-delay:0.000s">Any</span></span> <span class="w"><span style="transition-delay:0.080s">photo.</span></span> <span class="w"><span style="transition-delay:0.160s">Perfect</span></span> <span class="w"><span style="transition-delay:0.240s">size.</span></span></h1>
       </div>
       <div class="hero-foot">
-        <div class="hero-acts"><div class="acts"><a class="lnk key" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener">Download on the App Store <svg width="20" height="9" viewBox="0 0 20 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4.5h18M14.5 1 18 4.5 14.5 8"/></svg></a></div></div>
+        <div class="hero-acts"><div class="acts"><a class="badge-app-store" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener" aria-label="Download on the App Store"><img src="/badge-app-store.svg" alt="Download on the App Store" width="150" height="50" loading="lazy" /></a></div></div>
         <div class="hero-lede"><p class="lede">Resize any photo to exactly the right size for wherever it is going — Instagram, LinkedIn, ads, prints, even passport photos. Every pixel is processed on your device: your photos never leave your phone.</p></div>
         <p class="fig hero-cap">Free to try &middot; three free exports &middot; $4.99 one-time unlock &middot; No subscription</p>
       </div>
@@ -386,7 +389,7 @@
       <div class="closer-in">
         <h2 class="r">SizeSquatch</h2>
         <p class="lede r">Any photo. Perfect size.</p>
-        <div class="acts r"><a class="lnk key" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener">Download on the App Store <svg width="20" height="9" viewBox="0 0 20 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4.5h18M14.5 1 18 4.5 14.5 8"/></svg></a></div>
+        <div class="acts r"><a class="badge-app-store" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener" aria-label="Download on the App Store"><img src="/badge-app-store.svg" alt="Download on the App Store" width="150" height="50" loading="lazy" /></a></div>
       </div>
     </div>
   </section>

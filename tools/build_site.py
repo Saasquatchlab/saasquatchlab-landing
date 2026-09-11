@@ -212,6 +212,9 @@ CSS = """
     .lnk.off { color: var(--ink-3); pointer-events: none; }
     .lnk.off::before { display: none; }
     .acts { display: flex; flex-wrap: wrap; gap: clamp(1.4rem, 4vw, 3rem); align-items: center; }
+    .badge-app-store { display: inline-block; line-height: 0; transition: opacity 0.4s var(--ease), transform 0.5s var(--ease); }
+    .badge-app-store img { display: block; height: 50px; width: auto; }
+    .badge-app-store:hover { opacity: 0.85; transform: translateY(-1px); }
 
     /* ── scene ─────────────────────────────────────────────────────────── */
     .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
@@ -519,9 +522,18 @@ def words(text, d0=0.0, step=0.08):
         for i, w in enumerate(text.split(" ")))
 
 
+APP_STORE_BADGE = ('<a class="badge-app-store" href="%s" target="_blank" rel="noopener" '
+                   'aria-label="Download on the App Store">'
+                   '<img src="/badge-app-store.svg" alt="Download on the App Store" '
+                   'width="150" height="50" loading="lazy" /></a>')
+
+
 def link(label, href, key=False, off=False, ext=False):
     if off:
         return '<span class="lnk off">%s %s</span>' % (label, ARR)
+    if href.startswith("https://apps.apple.com/"):
+        # Apple's official badge, unmodified, per App Store marketing guidelines
+        return APP_STORE_BADGE % href
     rel = ' target="_blank" rel="noopener"' if ext else ""
     return '<a class="lnk%s" href="%s"%s>%s %s</a>' % (" key" if key else "", href, rel, label, ARR)
 
