@@ -366,10 +366,10 @@ POLICIES = {
                 "Camera, photo, and PDF text extraction happen <strong>on the device</strong>, using Apple&rsquo;s Vision framework. Once text is extracted, the source image is deleted &mdash; unless you turn on &ldquo;keep original images&rdquo; in Settings, in which case it stays on your device like everything else."]),
             ("What leaves the device, and why", [
                 "The only data that ever leaves your device is what you choose to have explained: the text you selected, a bounded summary of that lesson (its title, key facts, and Learning Board items), and the learning preferences you set during onboarding (grade level and explanation preferences). We never send a name or contact details, because we do not collect them.",
-                "That data travels over HTTPS to SaaSquatch Lab&rsquo;s gateway, which forwards it to our AI provider, Anthropic, to generate the explanation, the tutor&rsquo;s reply, or a quiz. <strong>Nothing is sent when you are simply viewing a lesson you already saved.</strong>"]),
-            ("Our gateway and Anthropic", [
+                "That data travels over HTTPS to SaaSquatch Lab&rsquo;s gateway, which forwards it to our AI provider, OpenAI, to generate the explanation, the tutor&rsquo;s reply, a quiz, or the illustration that appears with an explanation. <strong>Nothing is sent when you are simply viewing a lesson you already saved.</strong>"]),
+            ("Our gateway and OpenAI", [
                 "Our gateway logs only the operation type, how long it took, and whether it succeeded &mdash; never the content of what was sent.",
-                "Anthropic may retain API requests for a limited period to monitor for abuse, under its own commercial terms, and does not use them to train its models."]),
+                "OpenAI may retain API requests for up to 30 days to monitor for abuse, under its API terms, and does not use API data to train its models. The generated illustration is returned to your device and is not kept by our gateway."]),
             ("The onboarding question about imagery", [
                 "During onboarding you are asked an optional question about how you experience mental imagery. This is <strong>not a medical assessment</strong> &mdash; it only tunes how explanations are written &mdash; and the answer stays on your device."]),
             ("Not a diagnosis or treatment", ["Squatch Aphantasia is an educational accessibility tool. It does not diagnose aphantasia or any other condition, and it is not a substitute for evaluation by a medical or educational professional."]),
