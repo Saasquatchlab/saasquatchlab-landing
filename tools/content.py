@@ -100,14 +100,14 @@ PRODUCTS = [
     ),
     dict(
         slug="squatch-connect", name="Squatch Connect", accent="#52b788",
-        logo="logo-squatch-connect.png", tag="In App Review", tagclass="review",
+        logo="logo-squatch-connect.png", tag="Live", tagclass="live",
         category="Travel eSIM &middot; iOS &amp; Android",
         tagline="Data abroad without the surveillance.",
         blurb=("A privacy-first travel eSIM. Pick a destination, pick a plan, and install in one "
                "tap — or just ask Siri. No account, no tracking, no passport uploads."),
         meta=["No account required", "One-tap eSIM install", "Live usage widgets", "Apple Pay checkout"],
         hero_note="Plans from $1.99 &middot; No account &middot; No subscription &middot; Pay as you travel",
-        ctas=[("Coming to the App Store", "#", "primary", False)],
+        ctas=[("Download on the App Store", APPSTORE + "6808746597", "primary", True)],
         promise=("Squatch Connect has <strong>no user accounts at all</strong>. We process the destination "
                  "you picked and an email for your receipt. Stripe handles the payment; we never see "
                  "your card. There is no passport upload and no KYC."),
@@ -124,7 +124,7 @@ PRODUCTS = [
         detail=[("What an eSIM is and is not", [
             "Squatch Connect sells cellular data plans that install as an eSIM profile on your phone. It gives you working mobile data abroad at local rates instead of your carrier&rsquo;s roaming price.",
             "It is a connectivity product, not a privacy tunnel — it does not encrypt or anonymise your traffic beyond what normal cellular service does. We would rather tell you that plainly than let you assume otherwise."]),
-            ("Android", ["A native Android build is in <strong>internal testing on Google Play</strong>, with the same catalogue, the same install flow, and a home screen widget that refreshes in the background."])],
+            ("Android", ["A native Android build is <strong>in review on Google Play</strong>, with the same catalogue, the same install flow, and a home screen widget that refreshes in the background."])],
     ),
     dict(
         slug="squatchtravel", name="Squatch Travel", accent="#E07A5F",
