@@ -25,6 +25,7 @@ NEVER emit into a `public/` directory — see CLAUDE.md (that takes the site dow
 """
 import json
 import re
+from pathlib import Path
 import math
 import os
 import random

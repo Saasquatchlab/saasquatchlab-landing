@@ -1,0 +1,18 @@
+# SaaSquatch Lab
+
+> Privacy-first software that is actually easy to use. Independent studio in the Pacific Northwest.
+
+## Products
+- [Sasquatch Social](https://www.saasquatchlab.com/sasquatch-social): A community-first social network built around real conversation, local connection, and civic engagement — without the algorithmic manipulation and engagement traps of mainstream platforms. App Store: https://apps.apple.com/app/id6762406901
+- [Squatch Lift](https://www.saasquatchlab.com/squatch-lift): A no-nonsense workout tracker built for the gym floor. Log lifts in seconds between sets, watch strength trend upward, and keep every rep on your device — your training data never touches a server.
+- [SizeSquatch](https://www.saasquatchlab.com/sizesquatch): Resize any photo to exactly the right size for wherever it is going — Instagram, LinkedIn, ads, prints, even passport photos. Every pixel is processed on your device: your photos never leave your phone. App Store: https://apps.apple.com/app/id6806940474
+- [Squatch Connect](https://www.saasquatchlab.com/squatch-connect): A privacy-first travel eSIM. Pick a destination, pick a plan, and install in one tap — or just ask Siri. No account, no tracking, no passport uploads. App Store: https://apps.apple.com/app/id6808746597
+- [Squatch Travel](https://www.saasquatchlab.com/squatchtravel): One app from booking to touchdown: itinerary, offline translation, emergency numbers, currency, and local know-how — all downloaded before you fly, so everything works with no cell service.
+- [Squatch Vitals](https://www.saasquatchlab.com/squatch-vitals): A daily record of weight, blood pressure, blood oxygen, heart rate and sleep, built for someone who has been asked to keep track and hand it to a doctor. Photograph a paper log and it reads the numbers off the page. Everything stays on the phone.
+- [Squatch Aphantasia](https://www.saasquatchlab.com/squatch-aphantasia): Paste it, photograph it, or scan it. Squatch explains it without asking you to picture anything.
+- [App Tracker](https://www.saasquatchlab.com/app-tracker): A job application manager built around a resume vault and an append-only consistency ledger — so months into a search you still know which version of your story went where.
+
+## Policies
+- [Privacy](https://www.saasquatchlab.com/privacy)
+- [Terms of Use](https://www.saasquatchlab.com/terms)
+- [Support](https://www.saasquatchlab.com/support)
