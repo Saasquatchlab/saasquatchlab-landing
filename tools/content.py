@@ -155,7 +155,7 @@ PRODUCTS = [
             ("Built-in eSIM", ["Squatch Travel connects to Squatch Connect, so you can add mobile data for your destination from inside your itinerary rather than hunting for a SIM at the airport."])],
     ),
     dict(
-        slug="squatch-vitals", name="Squatch Vitals", accent="#2d6a4f",
+        slug="squatch-vitals", name="Squatch Vitals", accent="#2d6a4f", for_good=True,
         logo="logo-squatch-vitals.png", tag="In App Review", tagclass="review",
         category="Health tracking &middot; iOS",
         tagline="Your numbers, in one place, on your phone.",
@@ -188,6 +188,37 @@ PRODUCTS = [
                 "Nothing is trusted blindly. Every row it reads is shown next to the raw line it came from, dates it had to guess are flagged, and any line holding a number it could not interpret is reported rather than silently dropped."])],
     ),
     dict(
+        slug="squatch-aphantasia", name="Squatch Aphantasia", accent="#4f86c6",
+        logo="logo-squatch-aphantasia.png", tag="Coming soon", tagclass="soon", for_good=True,
+        category="Education &amp; accessibility &middot; iOS &amp; iPadOS",
+        tagline="I Can&rsquo;t Picture This",
+        blurb=("An explanation engine for students with aphantasia or weak mental imagery. Hand it any "
+               "school material and it explains it the way you actually need &mdash; never by asking "
+               "you to picture something."),
+        meta=["No mental imagery required", "Persistent Learning Board", "Ask Squatch tutor", "Free, no account, no ads"],
+        hero_note="Free &middot; No account required &middot; No ads &middot; For students 13+",
+        ctas=[("Coming to the App Store", "#", "primary", False)],
+        promise=("You don&rsquo;t have to picture it to understand it. Squatch Aphantasia asks for nothing "
+                 "but the material you want explained &mdash; <strong>no account, no ads, no data sale</strong>. "
+                 "Everything you save stays on your device; the only thing that ever leaves it is the material "
+                 "you choose to have explained, sent only to generate that explanation."),
+        features=[
+            ("Any material in", "Type it, paste it, photograph a textbook page, scan a worksheet, or hand over a PDF &mdash; Squatch Aphantasia reads it however it arrives."),
+            ("No mental imagery required", "Every explanation is built from words, structure, and logic rather than pictures you are asked to form &mdash; because you don&rsquo;t have to picture it to understand it."),
+            ("The main idea, stated plainly", "Each explanation opens with what it is actually about, in one sentence you can hold onto before the detail arrives."),
+            ("Facts kept visible", "Key facts stay on screen as you work through the material, so nothing depends on remembering something you were never shown a picture of."),
+            ("Steps in order, relationships made explicit", "Processes are broken into ordered steps, and how ideas connect to each other is stated outright &mdash; never left for you to visualise."),
+            ("A Learning Board that persists", "A running board of concrete examples and key facts for what you are studying, saved and ready next time you open it &mdash; even offline."),
+            ("Read-aloud audio &amp; Ask Squatch", "Have the material read aloud, or ask Squatch, the built-in tutor, a follow-up question when a part still hasn&rsquo;t landed."),
+            ("Quizzes with Need Help", "Check what stuck, and tap Need Help mid-quiz for a nudge that never relies on picturing the answer."),
+        ],
+        detail=[("Who it&rsquo;s for", [
+            "Squatch Aphantasia is built for students 13 and up &mdash; high school, college, and adult learners &mdash; who have aphantasia or otherwise weak mental imagery, and who are tired of material that leans on &ldquo;picture this&rdquo; as if it were the only way in.",
+            "It is an <strong>educational accessibility tool, not a diagnosis or a treatment</strong>. It does not assess or label anyone; it explains material in a way that never depends on forming a mental image."]),
+            ("Works offline once saved", [
+                "Explanations, Learning Boards, quizzes, and tutor conversations are saved to the device and stay usable with no connection. The app is free, requires no account, and carries no ads &mdash; and there are no upsells waiting once you are in."])],
+    ),
+    dict(
         slug="app-tracker", name="App Tracker", accent="#3a6478",
         logo=None, emoji="&#128203;", tag="Live", tagclass="live",
         category="Career tools &middot; Web",
@@ -213,6 +244,26 @@ PRODUCTS = [
         ],
         detail=[("Pricing", ["App Tracker is free to start. Pro is <strong>$9 per month</strong> or <strong>$79 per year</strong>, billed through Stripe on the web — not through an app store."])],
     ),
+]
+
+FOR_GOOD_SLUGS = ["squatch-vitals", "squatch-aphantasia"]
+
+FOR_GOOD_SHORT = (
+    "Sasquatch for Good is a small, separate family of apps built to help, not to make money. Every app in "
+    "it is <strong>free</strong>, asks for no account, carries no ads, and sells no data &mdash; and there is "
+    "no upsell waiting once you are in, because that was never the plan."
+)
+
+FOR_GOOD_FULL = [
+    "Sasquatch for Good is a small, separate family of apps built to help, not to make money. Every app in "
+    "it is <strong>free</strong>, asks for no account, carries no ads, and sells no data &mdash; and there is "
+    "no upsell waiting once you are in, because that was never the plan.",
+    "Everything else about how we build &mdash; privacy-first design, no ad trackers, no data brokers, no "
+    "dark patterns &mdash; already applied to these apps before this family had a name. What sets them apart "
+    "is the reason they exist: someone needed a tool that did not exist yet, or existed only behind a "
+    "paywall, and building it was the whole point.",
+    "If you or someone you know could use one of these, or you have an idea for a tool that belongs in this "
+    "family, we would like to hear it. Email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>.",
 ]
 
 COMING = dict(
@@ -302,6 +353,31 @@ POLICIES = {
                 "EU/EEA and UK users have GDPR rights including restriction, objection, and portability. California residents have CCPA/CPRA rights — and we do not sell or share personal information as those terms are defined."]),
             ("Children", ["Sasquatch Social is not intended for anyone under 13, and we do not knowingly collect their information."]),
             ("Security", ["Traffic is encrypted with TLS. Data is held in access-controlled managed infrastructure with row-level authorisation, so accounts cannot reach each other&rsquo;s private data. Passwords are stored hashed."]),
+        ]),
+    "squatch-aphantasia": dict(
+        name="Squatch Aphantasia", accent="#4f86c6", effective="10 September 2026", platforms="iOS and iPadOS only, for now.",
+        short=("Squatch Aphantasia has no account and no ads. Only the material you choose to have "
+               "explained ever leaves your device, and only to generate that explanation."),
+        sections=[
+            ("What we collect", [
+                "<strong>No account.</strong> Squatch Aphantasia does not ask you to sign up or sign in, and has no user accounts of any kind.",
+                "The app runs no analytics, includes no advertising SDK, and uses no advertising or tracking identifiers. Nothing about your use of the app is sold."]),
+            ("What stays on the device", [
+                "Your lessons, Learning Boards, quiz results, and conversations with the Ask Squatch tutor are stored only on your device.",
+                "Camera, photo, and PDF text extraction happen <strong>on the device</strong>, using Apple&rsquo;s Vision framework. Once text is extracted, the source image is deleted &mdash; unless you turn on &ldquo;keep original images&rdquo; in Settings, in which case it stays on your device like everything else."]),
+            ("What leaves the device, and why", [
+                "The only data that ever leaves your device is what you choose to have explained: the text you selected, a bounded summary of that lesson (its title, key facts, and Learning Board items), and the learning preferences you set during onboarding (grade level and explanation preferences). We never send a name or contact details, because we do not collect them.",
+                "That data travels over HTTPS to SaaSquatch Lab&rsquo;s gateway, which forwards it to our AI provider, Anthropic, to generate the explanation, the tutor&rsquo;s reply, or a quiz. <strong>Nothing is sent when you are simply viewing a lesson you already saved.</strong>"]),
+            ("Our gateway and Anthropic", [
+                "Our gateway logs only the operation type, how long it took, and whether it succeeded &mdash; never the content of what was sent.",
+                "Anthropic may retain API requests for a limited period to monitor for abuse, under its own commercial terms, and does not use them to train its models."]),
+            ("The onboarding question about imagery", [
+                "During onboarding you are asked an optional question about how you experience mental imagery. This is <strong>not a medical assessment</strong> &mdash; it only tunes how explanations are written &mdash; and the answer stays on your device."]),
+            ("Not a diagnosis or treatment", ["Squatch Aphantasia is an educational accessibility tool. It does not diagnose aphantasia or any other condition, and it is not a substitute for evaluation by a medical or educational professional."]),
+            ("Platforms", ["Squatch Aphantasia is available on iOS and iPadOS only, for now."]),
+            ("What we never do", ["We do not sell data, share it with data brokers, or use it for advertising. We do not run an advertising SDK or use tracking identifiers. We have no account system, so we have no way to know who you are."]),
+            ("Children", ["Squatch Aphantasia is built for students 13 and up and is not directed to children under 13. The app has no accounts, so it has no way to knowingly collect information from anyone, including children."]),
+            ("Your rights", ["Because lessons, Learning Boards, quizzes, and tutor conversations live only on your device, deleting the app removes them completely; we hold no copy to access, correct, or delete on our end. If you have questions, email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>."]),
         ]),
     "app-tracker": dict(
         name="App Tracker", accent="#3a6478",

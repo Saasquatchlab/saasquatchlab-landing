@@ -30,7 +30,7 @@ import random
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from content import PRODUCTS, COMING, POLICIES  # noqa: E402
+from content import PRODUCTS, COMING, POLICIES, FOR_GOOD_SLUGS, FOR_GOOD_SHORT, FOR_GOOD_FULL  # noqa: E402
 from legal import PRIVACY, SUPPORT, TERMS  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -432,6 +432,7 @@ ARR = ('<svg width="20" height="9" viewBox="0 0 20 9" fill="none" stroke="curren
 ARR_B = ('<svg width="20" height="9" viewBox="0 0 20 9" fill="none" stroke="currentColor" stroke-width="1.4" '
          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4.5H2M5.5 1 2 4.5 5.5 8"/></svg>')
 MARK = '<span class="brand-mark" aria-hidden="true"><img src="/mark-sasquatch.png" alt="" width="182" height="253" /></span>'
+NUM_WORDS = {5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine", 10: "Ten"}
 
 
 def words(text, d0=0.0, step=0.08):
@@ -501,7 +502,7 @@ def footer():
           <a href="/" class="brand">__MARK__ SaaSquatch Lab</a>
           <p class="foot-blurb">Privacy-first software from the Pacific Northwest. Easy to use, and it stays out of your way.</p>
         </div>
-        <div><h4>Products</h4><ul>__PRODS__</ul></div>
+        <div><h4>Products</h4><ul><li><a href="/for-good">Sasquatch for Good</a></li>__PRODS__</ul></div>
         <div><h4>Privacy</h4><ul><li><a href="/privacy">All policies</a></li>__PRIVS__</ul></div>
         <div><h4>Company</h4><ul>
           <li><a href="/support">Support</a></li>
@@ -548,12 +549,15 @@ def spec_rows(pairs):
         for i, (t, d) in enumerate(pairs, 1))
 
 
-def home():
-    items = []
-    for i, p in enumerate(PRODUCTS, 1):
-        mark = ('<img class="item-logo" src="/%s" alt="" width="40" height="40" />' % p["logo"]
-                if p.get("logo") else '<div class="item-logo em" aria-hidden="true">%s</div>' % p["emoji"])
-        items.append("""
+def find_product(slug):
+    return next(p for p in PRODUCTS if p["slug"] == slug)
+
+
+def product_row(p, n):
+    """One hairline catalogue row for a product — shared by the home index and /for-good."""
+    mark = ('<img class="item-logo" src="/%s" alt="" width="40" height="40" />' % p["logo"]
+            if p.get("logo") else '<div class="item-logo em" aria-hidden="true">%s</div>' % p["emoji"])
+    return ("""
           <a class="item r" href="/__SLUG__" style="--rc: __RC__">
             <div class="item-n">__N__</div>
             <div>
@@ -569,12 +573,19 @@ def home():
             <p class="item-desc">__DESC__</p>
             <span class="item-go">Explore __ARR__</span>
           </a>
-""".replace("__SLUG__", p["slug"]).replace("__RC__", p["accent"]).replace("__N__", "%02d" % i)
+""".replace("__SLUG__", p["slug"]).replace("__RC__", p["accent"]).replace("__N__", "%02d" % n)
             .replace("__MARK__", mark).replace("__NAME__", p["name"])
             .replace("__CAT__", p["category"]).replace("__TC__", p["tagclass"])
             .replace("__TAG__", p["tag"]).replace("__DESC__", p["blurb"])
             .replace("__META__", "".join("<li>%s</li>" % m for m in p["meta"]))
             .replace("__ARR__", ARR))
+
+
+def home():
+    n_products = len(PRODUCTS)
+    n_word = NUM_WORDS.get(n_products, str(n_products))
+    items = [product_row(p, i) for i, p in enumerate(PRODUCTS, 1)]
+    for_good_items = [product_row(find_product(s), i) for i, s in enumerate(FOR_GOOD_SLUGS, 1)]
 
     items.append("""
           <div class="item r" style="--rc: __RC__">
@@ -616,7 +627,7 @@ __SCENE__
         </div>
         <div class="hero-lede">
           <p class="lede"><strong>Privacy-first software that is actually easy to use.</strong>
-          Seven products built on one rule &mdash; your data is not the product. No ad trackers,
+          __NWORD__ products built on one rule &mdash; your data is not the product. No ad trackers,
           no data brokers, no dark patterns.</p>
         </div>
         <p class="fig hero-cap">Fig. 01 &mdash; Cascade ridgeline, first light. Subject unconfirmed.</p>
@@ -629,12 +640,24 @@ __SCENE__
     <div class="g">
       <div class="head r">
         <p class="marque key">The catalogue</p>
-        <h2 class="t">Seven products,<br /><em>one refusal</em></h2>
+        <h2 class="t">__NWORD__ products,<br /><em>one refusal</em></h2>
         <p class="lede">Every one is built on the same refusal to monetise you. What differs is only how
         much data the product genuinely needs to function &mdash; and for most of them, the honest
         answer is none at all.</p>
       </div>
       <div class="idx">__ITEMS__</div>
+    </div>
+  </section>
+
+  <section id="for-good" class="ruled">
+    <div class="g">
+      <div class="head r">
+        <p class="marque key">A separate promise</p>
+        <h2 class="t">Sasquatch<br /><em>for Good</em></h2>
+        <p class="lede">__FORGOOD_SHORT__</p>
+        <div class="acts r" style="margin-top: 1.5rem">__FORGOOD_LINK__</div>
+      </div>
+      <div class="idx">__FORGOOD_ITEMS__</div>
     </div>
   </section>
 
@@ -661,7 +684,7 @@ __SCENE__
         whole reason we can build this way.</p>
       </div>
       <div class="ledger r">
-        <div class="led"><div class="led-n">7</div><div class="led-l">Products shipping or in review</div></div>
+        <div class="led"><div class="led-n">__NCOUNT__</div><div class="led-l">Products shipping or in review</div></div>
         <div class="led"><div class="led-n">4</div><div class="led-l">Apps that collect zero data</div></div>
         <div class="led"><div class="led-n">0</div><div class="led-l">Ad trackers, ever</div></div>
         <div class="led"><div class="led-n">PNW</div><div class="led-l">Pacific Northwest built</div></div>
@@ -687,6 +710,10 @@ __SCENE__
         .replace("__A3__", link("Browse the catalogue", "#products", key=True))
         .replace("__A4__", link("Read our privacy policies", "/privacy"))
         .replace("__ITEMS__", "".join(items))
+        .replace("__FORGOOD_SHORT__", FOR_GOOD_SHORT)
+        .replace("__FORGOOD_LINK__", link("More about Sasquatch for Good", "/for-good", key=True))
+        .replace("__FORGOOD_ITEMS__", "".join(for_good_items))
+        .replace("__NWORD__", n_word).replace("__NCOUNT__", str(n_products))
         .replace("__PRINCIPLES__", spec_rows(PRINCIPLES)) + footer())
 
     return shell(
@@ -719,6 +746,7 @@ __SCENE__
       <div class="hero-mark">
         __ICON__
         <p class="marque key">__CAT__ &mdash; __TAG__</p>
+        __FORGOOD__
       </div>
       <div class="hero-type">
         <h1 class="mega" style="font-size: clamp(2.3rem, 6.6vw, 5.2rem)">__TAGLINE__</h1>
@@ -769,6 +797,9 @@ __SCENE__
                  % (p["logo"], p["name"]) if p.get("logo")
                  else '<div class="hero-icon em" aria-hidden="true">%s</div>' % p["emoji"])
         .replace("__TAG__", p["tag"])
+        .replace("__FORGOOD__",
+                 '<p class="marque" style="margin-top:0.6rem"><a href="/for-good">Part of Sasquatch for Good</a></p>'
+                 if p.get("for_good") else "")
         .replace("__TAGLINE__", words(p["tagline"]))
         .replace("__TAGLINE_P__", p["tagline"])
         .replace("__ACTS__", acts).replace("__BLURB__", p["blurb"])
@@ -799,7 +830,7 @@ def privacy_page(slug, d):
         <div class="prose">
           <p class="marque key" style="margin-bottom: 1.5rem">Privacy policy</p>
           <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 0.7rem;">__NAME__</h1>
-          <p class="fig" style="margin-bottom: 2rem;">SaaSquatch Lab LLC &middot; Effective 7 September 2026</p>
+          <p class="fig" style="margin-bottom: 2rem;">SaaSquatch Lab LLC &middot; Effective __DATE__</p>
           <p class="lead">__SHORT__</p>
           __SECS__
           <h2 id="changes">Changes</h2>
@@ -814,13 +845,70 @@ def privacy_page(slug, d):
     </section>
   </main>
 """.replace("__NAME__", d["name"] + " Privacy Policy").replace("__SHORT__", d["short"])
-        .replace("__SECS__", secs) + footer())
+        .replace("__SECS__", secs).replace("__DATE__", d.get("effective", "7 September 2026")) + footer())
 
     return shell(
         "%s Privacy Policy — SaaSquatch Lab" % d["name"],
         d["short"].replace("&rsquo;", "'"),
         body, accent=d["accent"],
         canonical="https://www.saasquatchlab.com/%s/privacy" % slug)
+
+
+def for_good_page():
+    """The /for-good landing page: fuller statement, the two apps, how to reach us."""
+    items = [product_row(find_product(s), i) for i, s in enumerate(FOR_GOOD_SLUGS, 1)]
+    statement = "".join("<p>%s</p>" % para for para in FOR_GOOD_FULL)
+    body = (nav(back=True) + """
+  <header class="hero" style="padding-bottom: clamp(2rem, 5vh, 3.5rem)">
+__SCENE__
+    <div class="g">
+      <p class="marque hero-mark key">A separate promise</p>
+      <div class="hero-type">
+        <h1 class="mega" style="font-size: clamp(2.6rem, 7.2vw, 5.6rem)">Sasquatch<em> for Good</em></h1>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+  <section style="padding-top: 0">
+    <div class="g">
+      <div class="prose r">__STATEMENT__</div>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="g">
+      <div class="head r">
+        <p class="marque key">The apps</p>
+        <h2 class="t">Free, on purpose,<br /><em>no exceptions</em></h2>
+        <p class="lede">No account, no ads, no subscriptions &mdash; and none planned.</p>
+      </div>
+      <div class="idx">__ITEMS__</div>
+    </div>
+  </section>
+
+  <section class="closer ruled">
+    <div class="g">
+      <div class="closer-in">
+        <h2 class="r">Get in <em>touch</em></h2>
+        <p class="lede r">Have an idea that belongs in this family, or a question about one of these apps?
+        Email us &mdash; we read everything.</p>
+        <div class="acts r">__CONTACT__ __PRIVACY__</div>
+      </div>
+    </div>
+  </section>
+  </main>
+""".replace("__SCENE__", scene(cryptid=True))
+        .replace("__STATEMENT__", statement)
+        .replace("__ITEMS__", "".join(items))
+        .replace("__CONTACT__", link("hello@saasquatchlab.com", "mailto:hello@saasquatchlab.com", key=True))
+        .replace("__PRIVACY__", link("Read our privacy policies", "/privacy")) + footer())
+
+    return shell(
+        "Sasquatch for Good — SaaSquatch Lab",
+        "A family of free apps built to help, not to make money: no accounts, no ads, no subscriptions. "
+        "Squatch Vitals and Squatch Aphantasia.",
+        body, accent="#4f86c6", canonical="https://www.saasquatchlab.com/for-good")
 
 
 def legal_page(body, title, desc, canonical, accent="#52b788"):
@@ -850,6 +938,7 @@ def main():
         "A public/ directory exists — that 404s the whole site. See CLAUDE.md."
     print("Building saasquatchlab.com")
     write("index.html", home())
+    write("for-good/index.html", for_good_page())
     for p in PRODUCTS:
         write("%s/index.html" % p["slug"], product_page(p))
     for slug, d in POLICIES.items():
