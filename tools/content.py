@@ -191,10 +191,9 @@ PRODUCTS = [
         slug="squatch-aphantasia", name="Squatch Aphantasia", accent="#4f86c6",
         logo="logo-squatch-aphantasia.png", tag="Coming soon", tagclass="soon", for_good=True,
         category="Education &amp; accessibility &middot; iOS &amp; iPadOS",
-        tagline="I Can&rsquo;t Picture This",
-        blurb=("An explanation engine for students with aphantasia or weak mental imagery. Hand it any "
-               "school material and it explains it the way you actually need &mdash; never by asking "
-               "you to picture something."),
+        tagline="What do you need to visualize?",
+        blurb=("Paste it, photograph it, or scan it. Squatch explains it without asking you to "
+               "picture anything."),
         meta=["No mental imagery required", "Persistent Learning Board", "Ask Squatch tutor", "Free, no account, no ads"],
         hero_note="Free &middot; No account required &middot; No ads &middot; For students 13+",
         ctas=[("Coming to the App Store", "#", "primary", False)],
@@ -204,7 +203,7 @@ PRODUCTS = [
                  "you choose to have explained, sent only to generate that explanation."),
         features=[
             ("Any material in", "Type it, paste it, photograph a textbook page, scan a worksheet, or hand over a PDF &mdash; Squatch Aphantasia reads it however it arrives."),
-            ("No mental imagery required", "Every explanation is built from words, structure, and logic rather than pictures you are asked to form &mdash; because you don&rsquo;t have to picture it to understand it."),
+            ("Press &ldquo;I Can&rsquo;t Picture This&rdquo;", "Whenever an explanation leans on an image you can&rsquo;t form, tap the I Can&rsquo;t Picture This button and Squatch rewrites that part in words, structure, and logic instead &mdash; no picturing required."),
             ("The main idea, stated plainly", "Each explanation opens with what it is actually about, in one sentence you can hold onto before the detail arrives."),
             ("Facts kept visible", "Key facts stay on screen as you work through the material, so nothing depends on remembering something you were never shown a picture of."),
             ("Steps in order, relationships made explicit", "Processes are broken into ordered steps, and how ideas connect to each other is stated outright &mdash; never left for you to visualise."),

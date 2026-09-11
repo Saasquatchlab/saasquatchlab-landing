@@ -331,13 +331,38 @@ CSS = """
     /* ── nav ───────────────────────────────────────────────────────────── */
     .nav { position: sticky; top: 0; z-index: 90; display: flex; align-items: center; justify-content: space-between; padding: 0.95rem var(--gut); border-bottom: 1px solid transparent; transition: background 0.4s var(--ease), border-color 0.4s var(--ease); }
     .nav.stuck { background: rgba(5, 9, 7, 0.86); backdrop-filter: blur(16px) saturate(1.3); border-bottom-color: var(--rule); }
+    .nav-left { display: flex; align-items: center; gap: clamp(1rem, 2.6vw, 2rem); min-width: 0; }
+    .nav-right { display: flex; align-items: center; gap: 1.4rem; }
     .brand { display: flex; align-items: center; gap: 0.7rem; font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.17em; }
     .brand-mark { width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0; background: linear-gradient(145deg, #1e4d38, var(--moss) 55%, #40916c); display: grid; place-items: center; overflow: hidden; }
     .brand-mark img { width: 74%; height: auto; }
-    .nav ul { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.1rem); list-style: none; }
-    .nav ul a, .nav-back { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500; color: var(--ink-3); transition: color 0.25s; }
-    .nav ul a:hover, .nav-back:hover { color: var(--ink); }
+    .nav-list { display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.1rem); list-style: none; }
+    .nav-list > li { position: relative; }
+    .nav-list > li > a, .nav-back { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500; color: var(--ink-3); transition: color 0.25s; }
+    .nav-list > li > a:hover, .nav-back:hover { color: var(--ink); }
     .nav-back { display: inline-flex; align-items: center; gap: 0.55rem; }
+
+    /* ── nav dropdowns ─────────────────────────────────────────────────── */
+    .nav-trigger { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .nav-trigger::after { content: ''; width: 5px; height: 5px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg) translateY(-1px); opacity: 0.7; transition: transform 0.25s var(--ease); }
+    .nav-drop:hover .nav-trigger::after, .nav-drop.open .nav-trigger::after { transform: rotate(225deg) translateY(1px); }
+    .nav-menu { position: absolute; top: 100%; left: 0; margin-top: 0.9rem; min-width: 232px; list-style: none; padding: 0.5rem 0; background: rgba(5, 9, 7, 0.96); backdrop-filter: blur(16px) saturate(1.3); border: 1px solid var(--rule); border-radius: 3px; opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s; z-index: 95; }
+    .nav-drop:hover .nav-menu, .nav-drop:focus-within .nav-menu, .nav-drop.open .nav-menu { opacity: 1; visibility: visible; transform: none; }
+    .nav-menu a { display: block; padding: 0.55rem 1.1rem; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.13em; font-weight: 500; color: var(--ink-2); white-space: nowrap; transition: color 0.2s, background 0.2s; }
+    .nav-menu a:hover, .nav-menu a:focus-visible { color: var(--ink); background: rgba(255, 255, 255, 0.04); }
+
+    /* ── mobile nav toggle + panel ────────────────────────────────────── */
+    .nav-toggle { display: none; font: inherit; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 500; color: var(--ink); background: transparent; border: 1px solid var(--rule-lit); border-radius: 3px; padding: 0.5rem 0.9rem; cursor: pointer; }
+    .nav-toggle:hover { border-color: var(--ink-3); }
+    .nav-mobile { display: none; background: var(--bg-2); border-bottom: 1px solid var(--rule); padding: 0.5rem var(--gut) 1.5rem; }
+    .nav-mobile:not([hidden]) { display: block; }
+    .nav-mobile > ul { list-style: none; }
+    .nav-mobile > ul > li { border-top: 1px solid var(--rule); }
+    .nav-mobile > ul > li:first-child { border-top: 0; }
+    .nav-mobile > ul > li > a, .nav-mobile-head { display: block; padding: 0.9rem 0; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; color: var(--ink); }
+    .nav-mobile-group ul { list-style: none; padding-bottom: 0.6rem; }
+    .nav-mobile-group ul a { display: block; padding: 0.55rem 0 0.55rem 1rem; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-2); }
+    .nav-mobile a:hover { color: var(--frond); }
 
     /* ── footer ────────────────────────────────────────────────────────── */
     .foot { border-top: 1px solid var(--rule); padding: clamp(3rem, 7vh, 4.5rem) 0 2rem; background: var(--bg-2); }
@@ -367,7 +392,8 @@ CSS = """
       .item-desc { grid-column: 2 / -1; margin-top: 0.5rem; }
     }
     @media (max-width: 760px) {
-      .nav ul { display: none; }
+      .nav-list { display: none; }
+      .nav-toggle { display: inline-flex; }
       .item { grid-template-columns: 2.5rem 1fr; row-gap: 0.6rem; }
       .item-n { padding-top: 0.2rem; }
       .item-desc, .item-go { grid-column: 2; }
@@ -423,6 +449,57 @@ JS = """
       }
       addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(paint); } }, { passive: true });
       paint();
+    }
+
+    // Nav dropdowns — CSS hover/:focus-within already reveals the menu;
+    // this layers in click-to-toggle (so the trigger stays a real link),
+    // Escape, and outside-click for keyboard and touch users.
+    var drops = document.querySelectorAll('.nav-drop');
+    function closeDrop(li) {
+      li.classList.remove('open');
+      var t = li.querySelector('.nav-trigger');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    }
+    function closeAllDrops() { drops.forEach(closeDrop); }
+    drops.forEach(function (li) {
+      var trigger = li.querySelector('.nav-trigger');
+      if (!trigger) return;
+      li.addEventListener('mouseenter', function () { trigger.setAttribute('aria-expanded', 'true'); });
+      li.addEventListener('mouseleave', function () { if (!li.classList.contains('open')) trigger.setAttribute('aria-expanded', 'false'); });
+      li.addEventListener('focusin', function () { trigger.setAttribute('aria-expanded', 'true'); });
+      li.addEventListener('focusout', function (e) {
+        if (!li.contains(e.relatedTarget)) closeDrop(li);
+      });
+      trigger.addEventListener('click', function (e) {
+        if (!li.classList.contains('open')) {
+          e.preventDefault();
+          closeAllDrops();
+          li.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+    document.addEventListener('click', function (e) {
+      drops.forEach(function (li) { if (!li.contains(e.target)) closeDrop(li); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var open = document.querySelector('.nav-drop.open');
+      closeAllDrops();
+      if (open) { var t = open.querySelector('.nav-trigger'); if (t) t.focus(); }
+      if (navMobile && !navMobile.hidden) { navMobile.hidden = true; if (navToggle) { navToggle.setAttribute('aria-expanded', 'false'); navToggle.focus(); } }
+    });
+
+    // Mobile "Menu" toggle — stacked list below the 760px breakpoint,
+    // where the dropdown nav has nowhere to go.
+    var navToggle = document.querySelector('.nav-toggle');
+    var navMobile = document.getElementById('nav-mobile');
+    if (navToggle && navMobile) {
+      navToggle.addEventListener('click', function () {
+        var opening = navMobile.hidden;
+        navMobile.hidden = !opening;
+        navToggle.setAttribute('aria-expanded', String(opening));
+      });
     }
   })();
 """
@@ -484,11 +561,73 @@ __B__
         "__JS__", JS).replace("__B__", body).replace("__LD__", ld)
 
 
-def nav(links=None, back=False):
+def nav_groups(home):
+    """Ordered nav descriptor: plain (label, href) pairs and dropdown groups.
+
+    `home` controls whether in-page anchors resolve relative to `/` (product,
+    privacy, and legal pages) or bare (the home page itself).
+    """
+    prefix = "" if home else "/"
+    products = [(p["name"], "/%s" % p["slug"]) for p in PRODUCTS]
+    for_good = [("About Sasquatch for Good", "/for-good")] + \
+        [(find_product(s)["name"], "/%s" % s) for s in FOR_GOOD_SLUGS]
+    support = [("Support", "/support"), ("Privacy Policy", "/privacy"),
+               ("Terms of Use", "/terms"), ("Contact", "mailto:hello@saasquatchlab.com")]
+    return [
+        dict(kind="drop", id="products", label="Products", href="%s#products" % prefix, items=products),
+        dict(kind="link", label="Principles", href="%s#principles" % prefix),
+        dict(kind="link", label="About", href="%s#about" % prefix),
+        dict(kind="drop", id="forgood", label="Sasquatch for Good", href="/for-good", items=for_good),
+        dict(kind="drop", id="support", label="Support", href="/support", items=support),
+        dict(kind="link", label="Contact", href="mailto:hello@saasquatchlab.com"),
+    ]
+
+
+def nav(home=False, back=False):
+    groups = nav_groups(home)
+
+    def desktop_item(g):
+        if g["kind"] == "link":
+            return '<li><a href="%s">%s</a></li>' % (g["href"], g["label"])
+        sub = "".join('<li role="none"><a role="menuitem" href="%s">%s</a></li>' % (h, t)
+                      for t, h in g["items"])
+        menu_id = "nav-menu-%s" % g["id"]
+        return ('<li class="nav-drop">'
+                '<a href="%s" class="nav-trigger" aria-haspopup="true" aria-expanded="false" aria-controls="%s">'
+                '%s</a>'
+                '<ul class="nav-menu" id="%s" role="menu">%s</ul>'
+                '</li>') % (g["href"], menu_id, g["label"], menu_id, sub)
+
+    def mobile_item(g):
+        if g["kind"] == "link":
+            return '<li><a href="%s">%s</a></li>' % (g["href"], g["label"])
+        sub = "".join('<li><a href="%s">%s</a></li>' % (h, t) for t, h in g["items"])
+        return ('<li class="nav-mobile-group">'
+                '<a class="nav-mobile-head" href="%s">%s</a>'
+                '<ul>%s</ul></li>') % (g["href"], g["label"], sub)
+
     # The brand already sits on the left; repeating it on the right reads as a bug.
-    right = ('<a class="nav-back" href="/#products">%s All products</a>' % ARR_B if back
-             else '<ul>%s</ul>' % "".join('<li><a href="%s">%s</a></li>' % (h, t) for t, h in links))
-    return '\n  <nav class="nav">\n    <a href="/" class="brand">%s SaaSquatch Lab</a>\n    %s\n  </nav>\n' % (MARK, right)
+    back_link = ('<a class="nav-back" href="/#products">%s All products</a>' % ARR_B) if back else ""
+
+    return """
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="/" class="brand">__MARK__ SaaSquatch Lab</a>
+      __BACK__
+    </div>
+    <div class="nav-right">
+      <ul class="nav-list">__ITEMS__</ul>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-mobile">Menu</button>
+    </div>
+  </nav>
+  <div class="nav-mobile" id="nav-mobile" hidden>
+    __MBACK__
+    <ul>__MITEMS__</ul>
+  </div>
+""".replace("__MARK__", MARK).replace("__BACK__", back_link).replace(
+        "__ITEMS__", "".join(desktop_item(g) for g in groups)).replace(
+        "__MBACK__", ('<a class="nav-back" href="/#products">%s All products</a>' % ARR_B) if back else "").replace(
+        "__MITEMS__", "".join(mobile_item(g) for g in groups))
 
 
 def footer():
@@ -609,8 +748,7 @@ def home():
         .replace("__TAG__", COMING["tag"]).replace("__DESC__", COMING["blurb"])
         .replace("__META__", "".join("<li>%s</li>" % m for m in COMING["meta"])))
 
-    body = (nav([("Products", "#products"), ("Principles", "#principles"), ("About", "#about"),
-                 ("Support", "/support"), ("Contact", "mailto:hello@saasquatchlab.com")]) + """
+    body = (nav(home=True) + """
   <header class="hero">
 __SCENE__
     <div class="g">
