@@ -155,6 +155,39 @@ PRODUCTS = [
             ("Built-in eSIM", ["Squatch Travel connects to Squatch Connect, so you can add mobile data for your destination from inside your itinerary rather than hunting for a SIM at the airport."])],
     ),
     dict(
+        slug="squatch-vitals", name="Squatch Vitals", accent="#2d6a4f",
+        logo="logo-squatch-vitals.png", tag="In App Review", tagclass="review",
+        category="Health tracking &middot; iOS",
+        tagline="Your numbers, in one place, on your phone.",
+        blurb=("A daily record of weight, blood pressure, blood oxygen, heart rate and sleep, "
+               "built for someone who has been asked to keep track and hand it to a doctor. "
+               "Photograph a paper log and it reads the numbers off the page. Everything stays "
+               "on the phone."),
+        meta=["Weight against a goal", "Reads your paper log sheet", "Apple Watch import", "PDF report for your doctor"],
+        hero_note="Free &middot; No account &middot; Nothing leaves your iPhone unless you send it",
+        ctas=[("Coming to the App Store", "#", "primary", False)],
+        promise=("Squatch Vitals contains <strong>no networking code at all</strong> &mdash; no account, no "
+                 "server, no analytics. Apple Health access is <strong>read-only</strong>, so the app "
+                 "structurally cannot alter your Health record. The only way a reading leaves the phone "
+                 "is when you send a report yourself."),
+        features=[
+            ("Daily weight against a goal", "Every weigh-in shows how far above or below your goal you are, and what changed since last time. Log more than once a day when your care team asks for it."),
+            ("Blood pressure and blood oxygen", "As many readings a day as you need, each one placed against the standard reference ranges so a high number is obvious at a glance."),
+            ("Sleep from your Apple Watch", "Time asleep, time in bed, sleep efficiency, deep and REM &mdash; pulled from what your watch already recorded, or typed in by hand."),
+            ("Scan a paper log sheet", "Photograph the handwritten sheet on the fridge and Squatch Vitals reads the dates and numbers off it. You check every row before anything is saved."),
+            ("Trends that answer the question", "Week, month, quarter, year. Whether the last two months actually moved anything, with your goal drawn on the chart."),
+            ("A report your doctor can read", "A clean PDF &mdash; summary page, then day-by-day detail &mdash; or CSV for a spreadsheet. Any date range, sent by email, message, AirDrop or Files."),
+            ("A nudge in the morning", "One local notification at a time you pick, so the record does not develop holes."),
+            ("Only what you need", "Switch off anything you are not tracking and it leaves the screen. Readings you already recorded are never hidden."),
+        ],
+        detail=[("Built for a patient, not a fitness tracker", [
+            "The reason this exists is unglamorous: someone is asked to write their weight and blood pressure on a piece of paper every morning and bring it to an appointment. Paper gets lost, handwriting gets misread, and nobody can see a trend in a column of numbers.",
+            "So the app is deliberately plain. Big targets, a goal you can see, and a report that prints. It does not score you, gamify anything, or tell you what your readings mean &mdash; it is a record-keeping tool, not a medical device, and it says so on every screen that shows a reference range."]),
+            ("Why it reads your paper sheet", [
+                "Months of existing readings are usually already on paper, and retyping them is exactly the sort of chore that stops someone using an app at all. Squatch Vitals uses Apple&rsquo;s on-device text recognition to read the page &mdash; the photo is processed in memory, never written to disk, and never uploaded.",
+                "Nothing is trusted blindly. Every row it reads is shown next to the raw line it came from, dates it had to guess are flagged, and any line holding a number it could not interpret is reported rather than silently dropped."])],
+    ),
+    dict(
         slug="app-tracker", name="App Tracker", accent="#3a6478",
         logo=None, emoji="&#128203;", tag="Live", tagclass="live",
         category="Career tools &middot; Web",
@@ -211,6 +244,34 @@ POLICIES = {
                 "Manage or cancel from your App Store account settings, or from Google Play&rsquo;s subscriptions screen on Android. Full terms are in our <a href=\"/terms#subscriptions\">Terms of Use</a>."]),
             ("What we never do", ["We do not sell data, share it with data brokers, or use it for advertising — a claim that is easy for us to make, because the data never leaves your phone."]),
             ("Children", ["Squatch Lift is not directed to children under 13 and collects no personal information from anyone."]),
+            ("Your rights", ["Rights to access, correct, delete, or port your data apply to data a company holds about you. We hold none. Deleting the app removes everything. If you have questions, email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>."]),
+        ]),
+    "squatch-vitals": dict(
+        name="Squatch Vitals", accent="#2d6a4f",
+        short=("Squatch Vitals collects nothing. It has no servers and contains no networking code, "
+               "Apple Health access is read-only, and your readings exist only on your iPhone."),
+        sections=[
+            ("What we collect", [
+                "<strong>Nothing.</strong> Squatch Vitals has no backend, no user accounts, no analytics, no advertising SDKs, and no third-party trackers.",
+                "The app contains <strong>no networking code at all</strong>. It cannot transmit a reading because it has nothing to transmit to and no means of doing so. Squatch Vitals is iPhone and iPad only; there is no Android build and therefore no billing library requiring network permissions."]),
+            ("Your health readings", [
+                "Your weight and goal, blood pressure, blood oxygen, heart rate, sleep, fluid intake, notes, and reminder settings are stored in a database <strong>on your device</strong> using Apple&rsquo;s on-device storage framework.",
+                "This data is never transmitted to us or to anyone else. We have no copy of it and no way to obtain one. If you delete the app, the data is deleted with it, so keep a device backup if you want to preserve your history."]),
+            ("Apple Health", [
+                "Squatch Vitals requests <strong>read permission only</strong>. It is not capable of writing to or changing your Health record &mdash; the request for write access is empty, so iOS will not grant it.",
+                "It reads heart rate, blood oxygen, blood pressure, body weight and sleep, and only when you run an import and choose what to bring in. You see every reading before it is saved, and you can decline any of it. What it reads stays on the device alongside everything else.",
+                "You can revoke Health access at any time in Settings &rsaquo; Privacy &amp; Security &rsaquo; Health &rsaquo; Squatch Vitals. The app keeps working; it simply stops importing."]),
+            ("Camera and photos", [
+                "The camera and photo library are used for one thing: reading a photograph of a paper log sheet. Text recognition runs <strong>entirely on your device</strong> using Apple&rsquo;s Vision framework.",
+                "The image is processed in memory and is never written to disk, never stored in the app, and never uploaded. Choosing an existing photo goes through the system photo picker, so the app only ever sees the single image you hand it &mdash; never your library."]),
+            ("Reports you send", [
+                "PDF and CSV reports are generated on your device into temporary storage, and the previous export is deleted each time a new one is made.",
+                "A report leaves your phone only when <strong>you</strong> send it, through the system share sheet, to a destination you pick &mdash; email, Messages, Files, AirDrop or a printer. We are not a party to that and never receive a copy."]),
+            ("Reminders", ["The morning weigh-in reminder is a local notification scheduled on your device. Nothing is registered with a push server and no reminder passes through us."]),
+            ("Price", ["Squatch Vitals is free. There is no subscription, no in-app purchase, and no payment processing of any kind."]),
+            ("Not a medical device", ["Squatch Vitals is a personal record-keeping tool. It does not diagnose anything, and the reference ranges it displays are general published bands shown for context only. It is not a substitute for advice from your care team."]),
+            ("What we never do", ["We do not sell data, share it with data brokers, or use it for advertising &mdash; a claim that is easy for us to make, because the data never leaves your phone."]),
+            ("Children", ["Squatch Vitals is not directed to children under 13 and collects no personal information from anyone."]),
             ("Your rights", ["Rights to access, correct, delete, or port your data apply to data a company holds about you. We hold none. Deleting the app removes everything. If you have questions, email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>."]),
         ]),
     "sasquatch-social": dict(
