@@ -245,6 +245,89 @@ PRODUCTS = [
         ],
         detail=[("Pricing", ["App Tracker is free to start. Pro is <strong>$9 per month</strong> or <strong>$79 per year</strong>, billed through Stripe on the web — not through an app store."])],
     ),
+    dict(
+        slug="sasquatch-privacy", name="Sasquatch Privacy", accent="#3aa578", small_business=True,
+        logo=None, emoji="&#128737;", tag="Live", tagclass="live",
+        category="Website privacy scanner &middot; B2B",
+        tagline="See what your website is really doing.",
+        blurb=("A website privacy scanner for businesses. A free scan checks a site's cookies, "
+               "trackers, and consent behaviour; a one-time audit produces evidence you can hand "
+               "to counsel or a client; and ongoing monitoring re-scans on a schedule and alerts "
+               "you when something changes."),
+        meta=["Free cookie &amp; tracker scan", "Five-region scanning", "Evidence PDF for audits", "Monitoring from $49/month"],
+        hero_note="Free scan &middot; $99 one-time audit &middot; Monitoring from $49 to $249/month",
+        ctas=[("Visit sasquatchprivacy.com", "https://sasquatchprivacy.com", "primary", True)],
+        privacy_url="https://sasquatchprivacy.com/privacy",
+        promise=("Sasquatch Privacy checks a site from <strong>five real regions</strong>, using an "
+                 "actual browser rather than a static crawler, and every result states which region "
+                 "it ran from. What you see is what a visitor in that region actually gets."),
+        features=[
+            ("Free scan", "Run a scan of any site's cookies, trackers, and consent behaviour at no cost, in a few minutes."),
+            ("A $99 one-time audit", "A deeper pass that produces an evidence PDF you can hand to legal or a client, showing exactly what was found and when."),
+            ("Monitoring plans", "Ongoing plans from $49 to $249 a month re-scan a site on a schedule and alert you the moment cookies, trackers, or consent behaviour change."),
+            ("Five-region scanning", "Checks run from five separate regions using a real browser, not a static crawler, and each result states which region it ran from."),
+            ("Evidence, not a data dump", "Results are formatted the way an auditor, a client, or in-house counsel actually wants them."),
+        ],
+        detail=[("Pricing", [
+            "Sasquatch Privacy is free to try: a scan of a site's cookies, trackers, and consent behaviour costs nothing. A one-time audit with a full evidence PDF is <strong>$99</strong>. Ongoing monitoring plans that re-scan on a schedule and alert on changes run from <strong>$49 to $249 per month</strong>."]),
+            ("Region-aware scanning", [
+                "Checks run from five separate regions using a real browser, not a static crawler, because what a site shows a visitor can depend on where they are. Each result states which region ran the check."])],
+    ),
+    dict(
+        slug="sasquatch-small-business", name="Sasquatch Small Business", accent="#c07b3a", small_business=True,
+        logo=None, emoji="&#128188;", tag="Coming soon", tagclass="soon",
+        category="Business operations suite &middot; Web",
+        tagline="Run your business. Not your software.",
+        blurb=("An integrated operations suite for companies of five to five hundred people: HR and "
+               "PTO, hiring, CRM, expenses and procurement, tasks, and assets, with governance and "
+               "compliance built in rather than bolted on."),
+        meta=["HR, PTO &amp; hiring", "CRM &amp; procurement", "Compliance by Operation", "$12 per employee/month"],
+        hero_note="In development &middot; $12 per employee per month &middot; sasquatchsmallbusiness.com reserved",
+        ctas=[("In development", "#", "primary", False)],
+        privacy_url=None,
+        promise=("Sasquatch Small Business is built so that running the business is what generates "
+                 "the audit evidence. Approving PTO, closing a purchase order, onboarding a hire: "
+                 "each one becomes a record your GRC program can point to, instead of a separate "
+                 "compliance exercise done afterward."),
+        features=[
+            ("HR and PTO", "Employee records, time off requests, and approvals in one place, for companies of five to five hundred people."),
+            ("Hiring", "An applicant tracking system for posting roles, moving candidates through stages, and keeping the hiring record straight."),
+            ("CRM", "Track customers and deals without adopting a separate sales tool nobody else in the company opens."),
+            ("Expenses and procurement", "Purchase requests, approvals, and expense tracking that leave a clean trail by default."),
+            ("Tasks and assets", "Assign work and track the equipment and accounts a company issues to its people."),
+            ("Compliance by Operation", "Governance, risk, and compliance is built into the suite itself, so the operations you already run, approvals, onboarding, purchasing, generate the evidence an audit asks for, automatically."),
+        ],
+        detail=[("Pricing", ["Sasquatch Small Business is priced at <strong>$12 per employee per month</strong> once it ships."]),
+            ("Not yet available", ["The domain sasquatchsmallbusiness.com is reserved but not live yet. There is no signup and no waitlist: when there is something to try, it will be here."])],
+    ),
+    dict(
+        slug="saasquatch-grc", name="SaaSquatch GRC", accent="#4f86c6", small_business=True,
+        logo=None, emoji="&#9878;", tag="Coming soon", tagclass="soon",
+        category="Governance, risk &amp; compliance &middot; Web",
+        tagline="GRC without the GRC department.",
+        blurb=("Privacy-first, multi-framework governance, risk, and compliance for companies of "
+               "twenty to two hundred fifty employees: a shared control library mapped across "
+               "frameworks, evidence collected from how the business actually operates, policies "
+               "with acknowledgements, training, and a risk register."),
+        meta=["Shared control library", "Multi-framework mapping", "Policies &amp; training", "From $149/month"],
+        hero_note="In development &middot; $149, $299 or $599/month, plus an agency tier",
+        ctas=[("In development", "#", "primary", False)],
+        privacy_url=None,
+        promise=("SaaSquatch GRC is built for companies that answer to more than one framework at "
+                 "once. A shared control library maps to each framework you carry, so proving one "
+                 "control once satisfies every framework it belongs to, instead of repeating the "
+                 "same evidence collection per audit."),
+        features=[
+            ("Shared control library", "One set of controls mapped across multiple compliance frameworks, so a control satisfied once counts everywhere it applies."),
+            ("Evidence from operations", "Evidence is collected from how the business actually runs, instead of assembled by hand right before an audit."),
+            ("Policies with acknowledgements", "Publish policies and track who has actually read and acknowledged each one."),
+            ("Training", "Assign and track compliance training alongside the policies and controls it supports."),
+            ("Risk register", "A living register of identified risks, owners, and mitigation status, not a spreadsheet nobody opens between audits."),
+            ("Built for 20 to 250 employees", "Sized for companies past doing compliance in a spreadsheet, but well short of needing a dedicated GRC department."),
+        ],
+        detail=[("Pricing", ["SaaSquatch GRC is priced in tiers at <strong>$149, $299, and $599 per month</strong>, plus a separate agency tier for firms managing compliance on behalf of clients."]),
+            ("Not yet available", ["SaaSquatch GRC is still in development. There is no signup and no waitlist yet."])],
+    ),
 ]
 
 FOR_GOOD_SLUGS = ["squatch-vitals", "squatch-aphantasia"]
@@ -265,6 +348,23 @@ FOR_GOOD_FULL = [
     "paywall, and building it was the whole point.",
     "If you or someone you know could use one of these, or you have an idea for a tool that belongs in this "
     "family, we would like to hear it. Email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>.",
+]
+
+SMALL_BUSINESS_SLUGS = ["sasquatch-privacy", "sasquatch-small-business", "saasquatch-grc"]
+
+SMALL_BUSINESS_SHORT = (
+    "Sasquatch for Small Business is a family of tools for running and protecting a small company, "
+    "built by a small company, with the same privacy-first rules as everything else we ship."
+)
+
+SMALL_BUSINESS_FULL = [
+    "Sasquatch for Small Business is a family of tools for running and protecting a small company, "
+    "built by a small company, with the same privacy-first rules as everything else we ship.",
+    "A company that size does not need a security team, a compliance department, and six separate "
+    "vendors just to stay on top of its own operations and its own risk. It needs tools built for its "
+    "actual size, priced for its actual budget, and honest about what stage each one is at.",
+    "If you run a small business and one of these solves a problem you have, or you have a request "
+    "for what this family should build next, email <a href=\"mailto:hello@saasquatchlab.com\">hello@saasquatchlab.com</a>.",
 ]
 
 COMING = dict(

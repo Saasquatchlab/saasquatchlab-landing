@@ -11,6 +11,9 @@
 - [Squatch Vitals](https://www.saasquatchlab.com/squatch-vitals): A daily record of weight, blood pressure, blood oxygen, heart rate and sleep, built for someone who has been asked to keep track and hand it to a doctor. Photograph a paper log and it reads the numbers off the page. Everything stays on the phone.
 - [Squatch Aphantasia](https://www.saasquatchlab.com/squatch-aphantasia): Paste it, photograph it, or scan it. Squatch explains it without asking you to picture anything.
 - [App Tracker](https://www.saasquatchlab.com/app-tracker): A job application manager built around a resume vault and an append-only consistency ledger — so months into a search you still know which version of your story went where.
+- [Sasquatch Privacy](https://www.saasquatchlab.com/sasquatch-privacy): A website privacy scanner for businesses. A free scan checks a site's cookies, trackers, and consent behaviour; a one-time audit produces evidence you can hand to counsel or a client; and ongoing monitoring re-scans on a schedule and alerts you when something changes.
+- [Sasquatch Small Business](https://www.saasquatchlab.com/sasquatch-small-business): An integrated operations suite for companies of five to five hundred people: HR and PTO, hiring, CRM, expenses and procurement, tasks, and assets, with governance and compliance built in rather than bolted on.
+- [SaaSquatch GRC](https://www.saasquatchlab.com/saasquatch-grc): Privacy-first, multi-framework governance, risk, and compliance for companies of twenty to two hundred fifty employees: a shared control library mapped across frameworks, evidence collected from how the business actually operates, policies with acknowledgements, training, and a risk register.
 
 ## Policies
 - [Privacy](https://www.saasquatchlab.com/privacy)
