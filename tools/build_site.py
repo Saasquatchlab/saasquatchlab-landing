@@ -219,6 +219,16 @@ CSS = """
     .badge-app-store img { display: block; height: 50px; width: auto; }
     .badge-app-store:hover { opacity: 0.85; transform: translateY(-1px); }
 
+    /* Google's official PNG carries ~41px of built-in transparent clear space on every
+       side of a 646x250 canvas (visible glyph is 564x168) — that padding is required by
+       Google's brand guidelines and must not be cropped. Sized so the visible glyph is
+       ~50px tall to match the Apple badge; the padding is symmetric top/bottom, so the
+       visible artwork's centre lines up with the Apple badge under the shared
+       align-items: center on .acts. */
+    .badge-google-play { display: inline-block; line-height: 0; transition: opacity 0.4s var(--ease), transform 0.5s var(--ease); }
+    .badge-google-play img { display: block; height: 74px; width: auto; }
+    .badge-google-play:hover { opacity: 0.85; transform: translateY(-1px); }
+
     /* ── scene ─────────────────────────────────────────────────────────── */
     .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
     .scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -414,6 +424,12 @@ CSS = """
       .foot-g { grid-template-columns: 1fr; }
       .cryptid { left: 66%; height: clamp(80px, 20vw, 130px); opacity: 0.11; }
     }
+    /* Narrow phones: the App Store + Google Play badge pair must stay side by side and
+       above the fold (SizeSquatch is a live Meta ad destination). Tighten the gap only on
+       rows that actually pair the two badges — every other CTA row is untouched. */
+    @media (max-width: 480px) {
+      .acts:has(.badge-google-play) { gap: 0.5rem; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
@@ -530,6 +546,13 @@ APP_STORE_BADGE = ('<a class="badge-app-store" href="%s" target="_blank" rel="no
                    '<img src="/badge-app-store.svg" alt="Download on the App Store" '
                    'width="150" height="50" loading="lazy" /></a>')
 
+# Google's official PNG (646x250, ~41px built-in clear space per side) — see the
+# .badge-google-play CSS comment for the sizing math. Never redrawn or cropped.
+GOOGLE_PLAY_BADGE = ('<a class="badge-google-play" href="%s" target="_blank" rel="noopener" '
+                     'aria-label="Get it on Google Play">'
+                     '<img src="/badge-google-play.png" alt="Get it on Google Play" '
+                     'width="192" height="74" loading="lazy" /></a>')
+
 
 def link(label, href, key=False, off=False, ext=False):
     if off:
@@ -537,6 +560,9 @@ def link(label, href, key=False, off=False, ext=False):
     if href.startswith("https://apps.apple.com/"):
         # Apple's official badge, unmodified, per App Store marketing guidelines
         return APP_STORE_BADGE % href
+    if href.startswith("https://play.google.com/store/apps/details?id="):
+        # Google's official badge, unmodified, per Google Play badge brand guidelines
+        return GOOGLE_PLAY_BADGE % href
     rel = ' target="_blank" rel="noopener"' if ext else ""
     return '<a class="lnk%s" href="%s"%s>%s %s</a>' % (" key" if key else "", href, rel, label, ARR)
 
@@ -916,6 +942,8 @@ __SCENE__
 
 def product_schema(p):
     store = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://apps.apple.com/")), None)
+    play = next((h for l, h, k, on in p["ctas"]
+                 if on and h.startswith("https://play.google.com/store/apps/details?id=")), None)
     d = {"@context": "https://schema.org", "@type": "SoftwareApplication",
          "name": p["name"], "applicationCategory": "TravelApplication" if "eSIM" in p["category"] else "UtilitiesApplication",
          "operatingSystem": "iOS" + (", Android" if "Android" in p["category"] else ""),
@@ -924,7 +952,11 @@ def product_schema(p):
          "image": "https://www.saasquatchlab.com/%s" % p["logo"] if p.get("logo") else None,
          "author": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com"},
          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}
-    if store: d["installUrl"] = store
+    # installUrl accepts an array in schema.org — a second entry for the Play listing
+    # never disturbs a single Apple-only value already relied on elsewhere.
+    urls = [u for u in (store, play) if u]
+    if urls: d["installUrl"] = urls if len(urls) > 1 else urls[0]
+    if play: d["sameAs"] = [play]
     return {k: v for k, v in d.items() if v is not None}
 
 
@@ -1239,8 +1271,11 @@ def write_crawl_files(pages):
     lines = ["# SaaSquatch Lab", "", "> Privacy-first software that is actually easy to use. Independent studio in the Pacific Northwest.", "", "## Products"]
     for p in PRODUCTS:
         store = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://apps.apple.com/")), None)
+        play = next((h for l, h, k, on in p["ctas"]
+                     if on and h.startswith("https://play.google.com/store/apps/details?id=")), None)
         desc = re.sub(r"<[^>]+>", "", p["blurb"]).replace("&rsquo;", "'").replace("&middot;", "·")
-        lines.append("- [%s](%s/%s): %s%s" % (p["name"], base, p["slug"], desc, (" App Store: " + store) if store else ""))
+        extra = ((" App Store: " + store) if store else "") + ((" Google Play: " + play) if play else "")
+        lines.append("- [%s](%s/%s): %s%s" % (p["name"], base, p["slug"], desc, extra))
     lines += ["", "## Policies", "- [Privacy](%s/privacy)" % base, "- [Terms of Use](%s/terms)" % base, "- [Support](%s/support)" % base]
     Path("llms.txt").write_text("\n".join(lines) + "\n")
     print("  robots.txt, sitemap.xml (%d urls), llms.txt" % len(pages))

@@ -106,6 +106,16 @@
     .badge-app-store img { display: block; height: 50px; width: auto; }
     .badge-app-store:hover { opacity: 0.85; transform: translateY(-1px); }
 
+    /* Google's official PNG carries ~41px of built-in transparent clear space on every
+       side of a 646x250 canvas (visible glyph is 564x168) — that padding is required by
+       Google's brand guidelines and must not be cropped. Sized so the visible glyph is
+       ~50px tall to match the Apple badge; the padding is symmetric top/bottom, so the
+       visible artwork's centre lines up with the Apple badge under the shared
+       align-items: center on .acts. */
+    .badge-google-play { display: inline-block; line-height: 0; transition: opacity 0.4s var(--ease), transform 0.5s var(--ease); }
+    .badge-google-play img { display: block; height: 74px; width: auto; }
+    .badge-google-play:hover { opacity: 0.85; transform: translateY(-1px); }
+
     /* ── scene ─────────────────────────────────────────────────────────── */
     .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
     .scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -301,6 +311,12 @@
       .foot-g { grid-template-columns: 1fr; }
       .cryptid { left: 66%; height: clamp(80px, 20vw, 130px); opacity: 0.11; }
     }
+    /* Narrow phones: the App Store + Google Play badge pair must stay side by side and
+       above the fold (SizeSquatch is a live Meta ad destination). Tighten the gap only on
+       rows that actually pair the two badges — every other CTA row is untouched. */
+    @media (max-width: 480px) {
+      .acts:has(.badge-google-play) { gap: 0.5rem; }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
@@ -308,7 +324,7 @@
       .w > span { transform: none; }
     }
 </style>
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "SizeSquatch", "applicationCategory": "UtilitiesApplication", "operatingSystem": "iOS, Android", "description": "Resize and crop any photo or video to exactly the right size for wherever it is going \u2014 Reels, TikTok, Shorts, Instagram, LinkedIn, ads, prints, even passport photos. Everything is processed on your device: your photos and videos never leave your phone.", "url": "https://www.saasquatchlab.com/sizesquatch", "image": "https://www.saasquatchlab.com/logo-sizesquatch.png", "author": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "installUrl": "https://apps.apple.com/app/id6806940474"}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "SizeSquatch", "applicationCategory": "UtilitiesApplication", "operatingSystem": "iOS, Android", "description": "Resize and crop any photo or video to exactly the right size for wherever it is going \u2014 Reels, TikTok, Shorts, Instagram, LinkedIn, ads, prints, even passport photos. Everything is processed on your device: your photos and videos never leave your phone.", "url": "https://www.saasquatchlab.com/sizesquatch", "image": "https://www.saasquatchlab.com/logo-sizesquatch.png", "author": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "installUrl": ["https://apps.apple.com/app/id6806940474", "https://play.google.com/store/apps/details?id=com.saasquatchlabs.snapsize"], "sameAs": ["https://play.google.com/store/apps/details?id=com.saasquatchlabs.snapsize"]}</script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -356,7 +372,7 @@
         <h1 class="mega" style="font-size: clamp(2.3rem, 6.6vw, 5.2rem)"><span class="w"><span style="transition-delay:0.000s">Any</span></span> <span class="w"><span style="transition-delay:0.080s">photo.</span></span> <span class="w"><span style="transition-delay:0.160s">Any</span></span> <span class="w"><span style="transition-delay:0.240s">video.</span></span> <span class="w"><span style="transition-delay:0.320s">Perfect</span></span> <span class="w"><span style="transition-delay:0.400s">size.</span></span></h1>
       </div>
       <div class="hero-foot">
-        <div class="hero-acts"><div class="acts"><a class="badge-app-store" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener" aria-label="Download on the App Store"><img src="/badge-app-store.svg" alt="Download on the App Store" width="150" height="50" loading="lazy" /></a></div></div>
+        <div class="hero-acts"><div class="acts"><a class="badge-app-store" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener" aria-label="Download on the App Store"><img src="/badge-app-store.svg" alt="Download on the App Store" width="150" height="50" loading="lazy" /></a> <a class="badge-google-play" href="https://play.google.com/store/apps/details?id=com.saasquatchlabs.snapsize" target="_blank" rel="noopener" aria-label="Get it on Google Play"><img src="/badge-google-play.png" alt="Get it on Google Play" width="192" height="74" loading="lazy" /></a></div></div>
         <div class="hero-lede"><p class="lede">Resize and crop any photo or video to exactly the right size for wherever it is going — Reels, TikTok, Shorts, Instagram, LinkedIn, ads, prints, even passport photos. Everything is processed on your device: your photos and videos never leave your phone.</p></div>
         <p class="fig hero-cap">Free to try &middot; three free exports &middot; $4.99 one-time unlock &middot; No subscription</p>
       </div>
@@ -390,7 +406,7 @@
       <div class="closer-in">
         <h2 class="r">SizeSquatch</h2>
         <p class="lede r">Any photo. Any video. Perfect size.</p>
-        <div class="acts r"><a class="badge-app-store" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener" aria-label="Download on the App Store"><img src="/badge-app-store.svg" alt="Download on the App Store" width="150" height="50" loading="lazy" /></a></div>
+        <div class="acts r"><a class="badge-app-store" href="https://apps.apple.com/app/id6806940474" target="_blank" rel="noopener" aria-label="Download on the App Store"><img src="/badge-app-store.svg" alt="Download on the App Store" width="150" height="50" loading="lazy" /></a> <a class="badge-google-play" href="https://play.google.com/store/apps/details?id=com.saasquatchlabs.snapsize" target="_blank" rel="noopener" aria-label="Get it on Google Play"><img src="/badge-google-play.png" alt="Get it on Google Play" width="192" height="74" loading="lazy" /></a></div>
       </div>
     </div>
   </section>

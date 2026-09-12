@@ -106,6 +106,16 @@
     .badge-app-store img { display: block; height: 50px; width: auto; }
     .badge-app-store:hover { opacity: 0.85; transform: translateY(-1px); }
 
+    /* Google's official PNG carries ~41px of built-in transparent clear space on every
+       side of a 646x250 canvas (visible glyph is 564x168) — that padding is required by
+       Google's brand guidelines and must not be cropped. Sized so the visible glyph is
+       ~50px tall to match the Apple badge; the padding is symmetric top/bottom, so the
+       visible artwork's centre lines up with the Apple badge under the shared
+       align-items: center on .acts. */
+    .badge-google-play { display: inline-block; line-height: 0; transition: opacity 0.4s var(--ease), transform 0.5s var(--ease); }
+    .badge-google-play img { display: block; height: 74px; width: auto; }
+    .badge-google-play:hover { opacity: 0.85; transform: translateY(-1px); }
+
     /* ── scene ─────────────────────────────────────────────────────────── */
     .scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
     .scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -300,6 +310,12 @@
       .led:nth-child(2) { border-right: 0; }
       .foot-g { grid-template-columns: 1fr; }
       .cryptid { left: 66%; height: clamp(80px, 20vw, 130px); opacity: 0.11; }
+    }
+    /* Narrow phones: the App Store + Google Play badge pair must stay side by side and
+       above the fold (SizeSquatch is a live Meta ad destination). Tighten the gap only on
+       rows that actually pair the two badges — every other CTA row is untouched. */
+    @media (max-width: 480px) {
+      .acts:has(.badge-google-play) { gap: 0.5rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {

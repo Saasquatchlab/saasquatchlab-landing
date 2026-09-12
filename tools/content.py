@@ -45,6 +45,7 @@ PRODUCTS = [
                "your training data never touches a server."),
         meta=["130+ exercise library", "Personal record tracking", "No accounts, no tracking", "iPhone, iPad &amp; Android"],
         hero_note="Three full workouts free &middot; Pro $4.99/month or $29.99/year &middot; No account, ever",
+        # Google Play CTA goes in once the Squatch Lift Play Store listing returns 200 (404 as of 2026-09-11).
         ctas=[("Coming to the App Store", "#", "primary", False)],
         promise=("Squatch Lift has <strong>no servers of its own</strong>. Your workouts, measurements, "
                  "and photos live in a database on your phone, and we could not see your training "
@@ -78,7 +79,9 @@ PRODUCTS = [
                "is processed on your device: your photos and videos never leave your phone."),
         meta=["45+ built-in presets", "Passport &amp; ID sizing", "Exact file-size targets", "100% on-device"],
         hero_note="Free to try &middot; three free exports &middot; $4.99 one-time unlock &middot; No subscription",
-        ctas=[("Download on the App Store", APPSTORE + "6806940474", "primary", True)],
+        ctas=[("Download on the App Store", APPSTORE + "6806940474", "primary", True),
+              ("Get it on Google Play",
+               "https://play.google.com/store/apps/details?id=com.saasquatchlabs.snapsize", "primary", True)],
         promise=("<strong>Your photos and videos never leave your device.</strong> All resizing, cropping "
                  "and video re-encoding happens locally, and SizeSquatch has no server of its own to send "
                  "anything to. There is no cloud render step — a video you crop in SizeSquatch is decoded "
@@ -109,6 +112,7 @@ PRODUCTS = [
                "tap — or just ask Siri. No account, no tracking, no passport uploads."),
         meta=["No account required", "One-tap eSIM install", "Live usage widgets", "Apple Pay checkout"],
         hero_note="Plans from $1.99 &middot; No account &middot; No subscription &middot; Pay as you travel",
+        # Google Play CTA goes in once the Squatch Connect Play Store listing returns 200 (404 as of 2026-09-11).
         ctas=[("Download on the App Store", APPSTORE + "6808746597", "primary", True)],
         promise=("Squatch Connect has <strong>no user accounts at all</strong>. We process the destination "
                  "you picked and an email for your receipt. Stripe handles the payment; we never see "
