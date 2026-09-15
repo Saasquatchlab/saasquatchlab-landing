@@ -37,7 +37,7 @@ PRODUCTS = [
     ),
     dict(
         slug="squatch-lift", name="Squatch Lift", accent="#74c69d",
-        logo="logo-squatchlift.png", tag="In App Review", tagclass="review",
+        logo="logo-squatchlift.png", tag="Live", tagclass="live",
         category="Fitness &middot; iOS &amp; Android",
         tagline="Log the set. Close the phone.",
         blurb=("A no-nonsense workout tracker built for the gym floor. Log lifts in seconds "
@@ -45,8 +45,9 @@ PRODUCTS = [
                "your training data never touches a server."),
         meta=["130+ exercise library", "Personal record tracking", "No accounts, no tracking", "iPhone, iPad &amp; Android"],
         hero_note="Three full workouts free &middot; Pro $4.99/month or $29.99/year &middot; No account, ever",
-        # Google Play CTA goes in once the Squatch Lift Play Store listing returns 200 (404 as of 2026-09-11).
-        ctas=[("Coming to the App Store", "#", "primary", False)],
+        ctas=[("Download on the App Store", APPSTORE + "6807970854", "primary", True),
+              ("Get it on Google Play",
+               "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchlift", "primary", True)],
         promise=("Squatch Lift has <strong>no servers of its own</strong>. Your workouts, measurements, "
                  "and photos live in a database on your phone, and we could not see your training "
                  "data if we wanted to. On iPhone and iPad the app makes no network requests at all; "
