@@ -597,6 +597,7 @@ def shell(title, desc, body, accent="#52b788", canonical="", schema=None):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="msvalidate.01" content="58AAC2D5D00B6D4CDBC1C466E5C94828">
   <title>__T__</title>
   <meta name="description" content="__D__" />
   <link rel="canonical" href="__C__" />
