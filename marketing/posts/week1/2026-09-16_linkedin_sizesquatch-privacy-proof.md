@@ -19,5 +19,3 @@ We built it this way for a simple reason. A passport photo, a kid's school pictu
 Three free exports, then a one-time $4.99 unlock. No subscription, no account, no photo library scraping, just the system photo picker so it only ever touches what you hand it.
 
 Available on iOS and Android.
-
-Gary

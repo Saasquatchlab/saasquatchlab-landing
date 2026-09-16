@@ -19,5 +19,3 @@ It's the same editor used for Instagram, LinkedIn, and ad sizes, 45 presets in t
 Three exports free, then $4.99 once, no subscription. iOS and Android.
 
 Try it before your next trip.
-
-Gary
