@@ -18,6 +18,25 @@ PRODUCTS = [
         hero_note="Free to join &middot; iOS and web &middot; Identity verification optional",
         ctas=[("Open Sasquatch Social", "https://www.sasquatchsocial.com", "primary", True),
               ("Download on the App Store", APPSTORE + "6762406901", "ghost", True)],
+        summary=(
+            "Sasquatch Social is a community-first social network for real conversation, civic debate, local marketplace and hiring, with optional identity verification. It is free on iOS and web, for people who want a feed without algorithmic manipulation."
+        ),
+        app_category="SocialNetworkingApplication", os="iOS, Web",
+        price_offers=[dict(price="0", description="Free to join")],
+        faq=[
+            ("Is Sasquatch Social free to join?",
+             "Yes. Sasquatch Social is free to join on iOS and web."),
+            ("Do I have to verify my identity to use it?",
+             "No, verification is optional. If you choose to verify, a provider checks your ID and returns a pass or fail result. Sasquatch Social never receives or stores images of your document."),
+            ("Does Sasquatch Social sell my data or run ad trackers?",
+             "No. It runs no advertising SDKs or cross-app trackers, does not build advertising profiles from your activity, and does not sell or rent your information."),
+            ("Is the dating feature always on?",
+             "No. Dating stays switched off unless you deliberately enable it."),
+            ("What is The Agora?",
+             "The Agora is Sasquatch Social&rsquo;s structured debate space for civic argument, where topics are framed and threads are built for reasoning."),
+            ("Can I buy and sell things or post jobs on Sasquatch Social?",
+             "Yes. It includes a local marketplace, job postings, and hiring tools inside the same community account."),
+        ],
         promise=("Sasquatch Social is the one product that necessarily stores what you post — it is a "
                  "social network. It still runs <strong>no advertising SDKs and no cross-app trackers</strong>, "
                  "and identity verification returns a pass or fail without us ever holding your ID."),
@@ -48,6 +67,25 @@ PRODUCTS = [
         ctas=[("Download on the App Store", APPSTORE + "6807970854", "primary", True),
               ("Get it on Google Play",
                "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchlift", "primary", True)],
+        summary=(
+            "Squatch Lift is an on-device workout tracker for logging sets, tracking personal records and strength trends, and recording body measurements. It is free for three workouts, then $4.99 a month or $29.99 a year, for iPhone, iPad and Android."
+        ),
+        app_category="HealthApplication", os="iOS, Android",
+        price_offers=[dict(price="0", description="Free, three workouts"), dict(price="4.99", description="Pro, monthly subscription"), dict(price="29.99", description="Pro, annual subscription")],
+        faq=[
+            ("Does Squatch Lift require an account?",
+             "No. Squatch Lift has no accounts, ever. Your training data lives in a database on your own device."),
+            ("How much does Squatch Lift cost?",
+             "Your first three completed workouts are free. After that, Pro unlocks unlimited use at $4.99 a month or $29.99 a year."),
+            ("Does Squatch Lift track me or send my data anywhere?",
+             "On iPhone and iPad it makes no network requests at all. On Android, Google&rsquo;s billing library needs network permission to process the subscription, and that is the only thing it is used for."),
+            ("What platforms is Squatch Lift available on?",
+             "iPhone, iPad, and Android."),
+            ("How many exercises are in the library?",
+             "Over 130, plus your own custom movements."),
+            ("What happens to my data if I delete the app?",
+             "It is deleted with it, so keep a device backup if you want to preserve your history."),
+        ],
         promise=("Squatch Lift has <strong>no servers of its own</strong>. Your workouts, measurements, "
                  "and photos live in a database on your phone, and we could not see your training "
                  "data if we wanted to. On iPhone and iPad the app makes no network requests at all; "
@@ -83,6 +121,25 @@ PRODUCTS = [
         ctas=[("Download on the App Store", APPSTORE + "6806940474", "primary", True),
               ("Get it on Google Play",
                "https://play.google.com/store/apps/details?id=com.saasquatchlabs.snapsize", "primary", True)],
+        summary=(
+            "SizeSquatch is an on-device photo and video resizer for Reels, TikTok, Shorts, ads, prints and passport photos. It is free for three exports, then a single $4.99 unlock, with no subscription and nothing uploaded."
+        ),
+        app_category="MultimediaApplication", os="iOS, Android",
+        price_offers=[dict(price="0", description="Free, three exports"), dict(price="4.99", description="One-time unlock")],
+        faq=[
+            ("Does SizeSquatch upload my photos or videos?",
+             "No. Everything is processed on your device. Your photos and videos never leave your phone, and there is no cloud render step."),
+            ("How much does SizeSquatch cost?",
+             "It is free to try, with three free exports. A single $4.99 one-time unlock removes the limit permanently. There is no subscription."),
+            ("What sizes does SizeSquatch support?",
+             "Over 45 built-in presets covering Instagram, TikTok, Reels, Shorts, LinkedIn, X, YouTube, Pinterest, ad sizes, print at 300 DPI, passport and ID photos, and custom pixel sizes."),
+            ("Can SizeSquatch resize video, not just photos?",
+             "Yes. It can crop video to vertical or square formats for Reels, TikTok, and Shorts, decoded and re-encoded entirely on your device."),
+            ("Is SizeSquatch available on Android?",
+             "Yes, with the same presets and pricing as iOS. The Android build declares network permissions only because Google&rsquo;s billing library requires them to process the unlock. No photo is ever sent anywhere."),
+            ("Can I hit an exact file size?",
+             "Yes. Set a KB or MB ceiling and SizeSquatch searches for the highest quality that fits underneath it."),
+        ],
         promise=("<strong>Your photos and videos never leave your device.</strong> All resizing, cropping "
                  "and video re-encoding happens locally, and SizeSquatch has no server of its own to send "
                  "anything to. There is no cloud render step — a video you crop in SizeSquatch is decoded "
@@ -115,6 +172,25 @@ PRODUCTS = [
         hero_note="Plans from $1.99 &middot; No account &middot; No subscription &middot; Pay as you travel",
         # Google Play CTA goes in once the Squatch Connect Play Store listing returns 200 (404 as of 2026-09-11).
         ctas=[("Download on the App Store", APPSTORE + "6808746597", "primary", True)],
+        summary=(
+            "Squatch Connect is a privacy-first travel eSIM app that installs mobile data plans in one tap, with no account, no passport upload, and no subscription, for travelers who want data abroad without carrier roaming fees."
+        ),
+        app_category="TravelApplication", os="iOS",
+        price_offers=[dict(price="1.99", description="Starting plan price, pay per plan")],
+        faq=[
+            ("Does Squatch Connect need an account?",
+             "No. Squatch Connect has no user accounts at all."),
+            ("How much do plans cost?",
+             "Plans start from $1.99, priced per destination and paid as you travel. There is no subscription."),
+            ("Which countries does Squatch Connect cover?",
+             "Countries and regions, each with plans sized for a weekend or a month, with prices shown before you commit."),
+            ("Do I need to upload my passport or ID?",
+             "No. There is no passport upload and no KYC. Squatch Connect only processes the destination you picked and an email for your receipt."),
+            ("How do I install the eSIM?",
+             "On iOS 17.4 and later it installs through Apple&rsquo;s own provisioning link in one tap, or you can ask Siri. QR and manual entry are always available as fallbacks."),
+            ("Is Squatch Connect available on Android?",
+             "A native Android build is in review on Google Play."),
+        ],
         promise=("Squatch Connect has <strong>no user accounts at all</strong>. We process the destination "
                  "you picked and an email for your receipt. Stripe handles the payment; we never see "
                  "your card. There is no passport upload and no KYC."),
@@ -144,6 +220,25 @@ PRODUCTS = [
         meta=["Works fully offline", "29-language phrasebook", "66 destination packs", "On-device translation"],
         hero_note="$4.99 per trip, or $29.99/year for unlimited trips",
         ctas=[("Coming to the App Store", "#", "primary", False)],
+        summary=(
+            "Squatch Travel is an offline-first trip companion with itinerary, translation, emergency numbers and currency downloaded before you fly. It costs $4.99 per trip or $29.99 a year, for travelers who need everything to work with no signal."
+        ),
+        app_category="TravelApplication", os="iOS",
+        price_offers=[dict(price="4.99", description="Per trip"), dict(price="29.99", description="Annual, unlimited trips")],
+        faq=[
+            ("Does Squatch Travel work without cell service?",
+             "Yes. Itinerary, translation, emergency numbers, and currency are all downloaded before you fly, so everything works with no signal."),
+            ("How much does Squatch Travel cost?",
+             "$4.99 per trip, or $29.99 a year for unlimited trips."),
+            ("How many languages does the phrasebook cover?",
+             "29 languages, downloaded before you go, plus translated allergy and medication cards."),
+            ("Does Squatch Travel track my location?",
+             "Destination packs are fetched with only a two-letter country code, so Squatch Travel cannot tell who asked or when you are travelling."),
+            ("Can Squatch Travel add mobile data for my trip?",
+             "Yes, through its connection to Squatch Connect, so you can add an eSIM from inside your itinerary."),
+            ("Is Squatch Travel available yet?",
+             "It is currently in App Store review."),
+        ],
         promise=("Your itinerary, documents, and health information stay <strong>on your device</strong>. "
                  "Destination packs are fetched with a two-letter country code and nothing else — "
                  "we cannot tell who asked, or when you are travelling."),
@@ -173,6 +268,25 @@ PRODUCTS = [
         meta=["Weight against a goal", "Reads your paper log sheet", "Apple Watch import", "PDF report for your doctor"],
         hero_note="Free &middot; No account &middot; Nothing leaves your iPhone unless you send it",
         ctas=[("Coming to the App Store", "#", "primary", False)],
+        summary=(
+            "Squatch Vitals is a free, on-device daily log for weight, blood pressure, blood oxygen, heart rate and sleep that can read a photographed paper log, for anyone asked to track vitals and hand a report to a doctor."
+        ),
+        app_category="HealthApplication", os="iOS",
+        price_offers=[dict(price="0", description="Free")],
+        faq=[
+            ("Is Squatch Vitals free?",
+             "Yes, completely free. No account, no subscription, and no payment processing of any kind."),
+            ("Does Squatch Vitals send my health data anywhere?",
+             "No. It contains no networking code at all. It cannot transmit a reading because it has nothing to transmit to."),
+            ("Can Squatch Vitals read a paper log sheet?",
+             "Yes. Photograph a handwritten sheet and it reads the numbers off the page using on-device text recognition. You check every row before anything is saved."),
+            ("Does it write to Apple Health?",
+             "No. Health access is read-only, so the app structurally cannot alter your Health record."),
+            ("Can I generate a report for my doctor?",
+             "Yes, a PDF or CSV for any date range, sent by email, message, AirDrop, or Files."),
+            ("Is Squatch Vitals a medical device?",
+             "No. It is a personal record-keeping tool, not a diagnostic or medical device."),
+        ],
         promise=("Squatch Vitals contains <strong>no networking code at all</strong> &mdash; no account, no "
                  "server, no analytics. Apple Health access is <strong>read-only</strong>, so the app "
                  "structurally cannot alter your Health record. The only way a reading leaves the phone "
@@ -204,6 +318,25 @@ PRODUCTS = [
         meta=["No mental imagery required", "Persistent Learning Board", "Ask Squatch tutor", "Free, no account, no ads"],
         hero_note="Free &middot; No account required &middot; No ads &middot; For students 13+",
         ctas=[("Coming to the App Store", "#", "primary", False)],
+        summary=(
+            "Squatch Aphantasia is a free educational app that explains any material in words, structure and logic instead of imagery, for students 13 and up with aphantasia or weak mental imagery."
+        ),
+        app_category="EducationApplication", os="iOS, iPadOS",
+        price_offers=[dict(price="0", description="Free")],
+        faq=[
+            ("Is Squatch Aphantasia free?",
+             "Yes. It is free, with no account and no ads."),
+            ("Who is Squatch Aphantasia for?",
+             "Students 13 and up, including high school, college, and adult learners, who have aphantasia or otherwise weak mental imagery."),
+            ("Does Squatch Aphantasia diagnose aphantasia?",
+             "No. It is an educational accessibility tool, not a diagnosis or treatment."),
+            ("What happens when I press &ldquo;I Can&rsquo;t Picture This&rdquo;?",
+             "The explanation is rewritten in words, structure, and logic instead of imagery. No picturing required."),
+            ("Does any of my material leave my device?",
+             "Only the material you choose to have explained is sent, to generate that explanation. Nothing is sent when you are just viewing a lesson you already saved."),
+            ("Does Squatch Aphantasia work offline?",
+             "Yes, once saved. Explanations, Learning Boards, quizzes, and tutor conversations stay usable with no connection."),
+        ],
         promise=("You don&rsquo;t have to picture it to understand it. Squatch Aphantasia asks for nothing "
                  "but the material you want explained &mdash; <strong>no account, no ads, no data sale</strong>. "
                  "Everything you save stays on your device; the only thing that ever leaves it is the material "
@@ -235,6 +368,25 @@ PRODUCTS = [
         meta=["Resume vault", "Consistency ledger", "AI writing suite", "LinkedIn import"],
         hero_note="Free to start &middot; Pro $9/month or $79/year",
         ctas=[("Open App Tracker", "https://saasquatchapptracker.com", "primary", True)],
+        summary=(
+            "App Tracker is a job search manager with a resume vault and an append-only consistency ledger tracking which materials went to which employer. It is free to start, with Pro at $9 a month or $79 a year."
+        ),
+        app_category="BusinessApplication", os="Web",
+        price_offers=[dict(price="0", description="Free to start"), dict(price="9", description="Pro, monthly subscription"), dict(price="79", description="Pro, annual subscription")],
+        faq=[
+            ("Is App Tracker free?",
+             "Yes, free to start. Pro is $9 a month or $79 a year."),
+            ("What is the consistency ledger?",
+             "An append-only, private record of which resume, claims, and answers went to which employer, so you never contradict yourself later in the process."),
+            ("Does App Tracker share my job search with employers?",
+             "No, never, not with employers, recruiters, or anyone else."),
+            ("Can I import my LinkedIn history?",
+             "Yes, from a LinkedIn export, instead of retyping a decade of roles."),
+            ("How does the AI writing suite work?",
+             "It drafts tailored resumes, cover letters, and thank-you notes against a specific posting, starting from what is already in your vault."),
+            ("What platform is App Tracker on?",
+             "It is a web app at saasquatchapptracker.com."),
+        ],
         promise=("App Tracker stores the applications and documents you create so they follow you "
                  "across devices. <strong>We never share your job search</strong> with employers, "
                  "recruiters, or anyone else."),
@@ -263,6 +415,25 @@ PRODUCTS = [
         hero_note="Free scan &middot; $99 one-time audit &middot; Monitoring from $49 to $249/month",
         ctas=[("Visit sasquatchprivacy.com", "https://sasquatchprivacy.com", "primary", True)],
         privacy_url="https://sasquatchprivacy.com/privacy",
+        summary=(
+            "Sasquatch Privacy is a website privacy scanner that checks cookies, trackers and consent behaviour from five regions, with a free scan, a $99 one-time audit, or ongoing monitoring from $49 to $249 a month."
+        ),
+        app_category="SecurityApplication", os="Web",
+        price_offers=[dict(price="0", description="Free scan"), dict(price="99", description="One-time audit"), dict(price="49", description="Monitoring, starting price per month"), dict(price="249", description="Monitoring, top price per month")],
+        faq=[
+            ("Is the scan free?",
+             "Yes. A free scan checks a site&rsquo;s cookies, trackers, and consent behaviour at no cost."),
+            ("How much does a full audit cost?",
+             "A one-time audit with a full evidence PDF is $99."),
+            ("How much does ongoing monitoring cost?",
+             "Monitoring plans that re-scan on a schedule and alert on changes run from $49 to $249 a month."),
+            ("What regions does Sasquatch Privacy scan from?",
+             "Five separate regions, using a real browser rather than a static crawler, with each result stating which region it ran from."),
+            ("Who is the evidence PDF for?",
+             "It is formatted for handing to legal counsel or a client, showing exactly what was found and when."),
+            ("Is Sasquatch Privacy for consumers or businesses?",
+             "Businesses. It is part of the Sasquatch for Small Business family."),
+        ],
         promise=("Sasquatch Privacy checks a site from <strong>five real regions</strong>, using an "
                  "actual browser rather than a static crawler, and every result states which region "
                  "it ran from. What you see is what a visitor in that region actually gets."),
@@ -290,6 +461,23 @@ PRODUCTS = [
         hero_note="In development &middot; $12 per employee per month &middot; sasquatchsmallbusiness.com reserved",
         ctas=[("In development", "#", "primary", False)],
         privacy_url=None,
+        summary=(
+            "Sasquatch Small Business is a coming-soon operations suite for HR, hiring, CRM, procurement and compliance, built for companies of five to five hundred people, priced at $12 per employee per month once it ships."
+        ),
+        app_category="BusinessApplication", os="Web",
+        price_offers=[dict(price="12", description="Per employee per month, once available")],
+        faq=[
+            ("Is Sasquatch Small Business available yet?",
+             "Not yet. It is in development, with no signup or waitlist."),
+            ("How much will it cost?",
+             "$12 per employee per month once it ships."),
+            ("What will it include?",
+             "HR and PTO, hiring, CRM, expenses and procurement, and tasks and assets, with compliance built in."),
+            ("Who is it built for?",
+             "Companies of five to five hundred people."),
+            ("How does &ldquo;Compliance by Operation&rdquo; work?",
+             "Everyday actions like approving PTO or closing a purchase order become the audit evidence themselves, instead of a separate compliance exercise."),
+        ],
         promise=("Sasquatch Small Business is built so that running the business is what generates "
                  "the audit evidence. Approving PTO, closing a purchase order, onboarding a hire: "
                  "each one becomes a record your GRC program can point to, instead of a separate "
@@ -318,6 +506,25 @@ PRODUCTS = [
         hero_note="In development &middot; $149, $299 or $599/month, plus an agency tier",
         ctas=[("In development", "#", "primary", False)],
         privacy_url=None,
+        summary=(
+            "SaaSquatch GRC is a coming-soon governance, risk and compliance platform with a shared multi-framework control library, policies, training and a risk register, for companies of twenty to two hundred fifty employees."
+        ),
+        app_category="BusinessApplication", os="Web",
+        price_offers=[dict(price="149", description="Starter tier, monthly"), dict(price="299", description="Mid tier, monthly"), dict(price="599", description="Top tier, monthly")],
+        faq=[
+            ("Is SaaSquatch GRC available yet?",
+             "Not yet. It is still in development, with no signup or waitlist."),
+            ("How much will it cost?",
+             "Tiers at $149, $299, and $599 a month, plus a separate agency tier for firms managing compliance on behalf of clients."),
+            ("Who is it built for?",
+             "Companies of 20 to 250 employees that answer to more than one compliance framework at once."),
+            ("What is the shared control library?",
+             "One set of controls mapped across multiple frameworks, so proving a control once satisfies every framework it belongs to."),
+            ("Does it include policy and training tracking?",
+             "Yes. Publish policies, track acknowledgements, and assign compliance training alongside the controls they support."),
+            ("Does it include a risk register?",
+             "Yes, a living register of identified risks, owners, and mitigation status."),
+        ],
         promise=("SaaSquatch GRC is built for companies that answer to more than one framework at "
                  "once. A shared control library maps to each framework you carry, so proving one "
                  "control once satisfies every framework it belongs to, instead of repeating the "

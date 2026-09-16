@@ -15,7 +15,48 @@
 - [Sasquatch Small Business](https://www.saasquatchlab.com/sasquatch-small-business): An integrated operations suite for companies of five to five hundred people: HR and PTO, hiring, CRM, expenses and procurement, tasks, and assets, with governance and compliance built in rather than bolted on.
 - [SaaSquatch GRC](https://www.saasquatchlab.com/saasquatch-grc): Privacy-first, multi-framework governance, risk, and compliance for companies of twenty to two hundred fifty employees: a shared control library mapped across frameworks, evidence collected from how the business actually operates, policies with acknowledgements, training, and a risk register.
 
+## About
+- [About SaaSquatch Lab](https://www.saasquatchlab.com/about)
+
+## Questions people ask
+### Sasquatch Social
+- Q: Is Sasquatch Social free to join? A: Yes. Sasquatch Social is free to join on iOS and web.
+- Q: Do I have to verify my identity to use it? A: No, verification is optional. If you choose to verify, a provider checks your ID and returns a pass or fail result. Sasquatch Social never receives or stores images of your document.
+### Squatch Lift
+- Q: Does Squatch Lift require an account? A: No. Squatch Lift has no accounts, ever. Your training data lives in a database on your own device.
+- Q: How much does Squatch Lift cost? A: Your first three completed workouts are free. After that, Pro unlocks unlimited use at $4.99 a month or $29.99 a year.
+### SizeSquatch
+- Q: Does SizeSquatch upload my photos or videos? A: No. Everything is processed on your device. Your photos and videos never leave your phone, and there is no cloud render step.
+- Q: How much does SizeSquatch cost? A: It is free to try, with three free exports. A single $4.99 one-time unlock removes the limit permanently. There is no subscription.
+### Squatch Connect
+- Q: Does Squatch Connect need an account? A: No. Squatch Connect has no user accounts at all.
+- Q: How much do plans cost? A: Plans start from $1.99, priced per destination and paid as you travel. There is no subscription.
+### Squatch Travel
+- Q: Does Squatch Travel work without cell service? A: Yes. Itinerary, translation, emergency numbers, and currency are all downloaded before you fly, so everything works with no signal.
+- Q: How much does Squatch Travel cost? A: $4.99 per trip, or $29.99 a year for unlimited trips.
+### Squatch Vitals
+- Q: Is Squatch Vitals free? A: Yes, completely free. No account, no subscription, and no payment processing of any kind.
+- Q: Does Squatch Vitals send my health data anywhere? A: No. It contains no networking code at all. It cannot transmit a reading because it has nothing to transmit to.
+### Squatch Aphantasia
+- Q: Is Squatch Aphantasia free? A: Yes. It is free, with no account and no ads.
+- Q: Who is Squatch Aphantasia for? A: Students 13 and up, including high school, college, and adult learners, who have aphantasia or otherwise weak mental imagery.
+### App Tracker
+- Q: Is App Tracker free? A: Yes, free to start. Pro is $9 a month or $79 a year.
+- Q: What is the consistency ledger? A: An append-only, private record of which resume, claims, and answers went to which employer, so you never contradict yourself later in the process.
+### Sasquatch Privacy
+- Q: Is the scan free? A: Yes. A free scan checks a site's cookies, trackers, and consent behaviour at no cost.
+- Q: How much does a full audit cost? A: A one-time audit with a full evidence PDF is $99.
+### Sasquatch Small Business
+- Q: Is Sasquatch Small Business available yet? A: Not yet. It is in development, with no signup or waitlist.
+- Q: How much will it cost? A: $12 per employee per month once it ships.
+### SaaSquatch GRC
+- Q: Is SaaSquatch GRC available yet? A: Not yet. It is still in development, with no signup or waitlist.
+- Q: How much will it cost? A: Tiers at $149, $299, and $599 a month, plus a separate agency tier for firms managing compliance on behalf of clients.
+
 ## Policies
 - [Privacy](https://www.saasquatchlab.com/privacy)
 - [Terms of Use](https://www.saasquatchlab.com/terms)
 - [Support](https://www.saasquatchlab.com/support)
+
+## Contact
+- hello@saasquatchlab.com

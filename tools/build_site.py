@@ -568,7 +568,10 @@ def link(label, href, key=False, off=False, ext=False):
 
 
 def shell(title, desc, body, accent="#52b788", canonical="", schema=None):
-    ld = '\n  <script type="application/ld+json">%s</script>' % json.dumps(schema) if schema else ""
+    """`schema` is a single JSON-LD dict, a list of dicts (each its own <script> block, so an
+    answer engine or `json.loads` can parse them independently), or None."""
+    schemas = schema if isinstance(schema, list) else ([schema] if schema else [])
+    ld = "".join('\n  <script type="application/ld+json">%s</script>' % json.dumps(s) for s in schemas)
     return """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -619,7 +622,7 @@ def nav_groups(home):
     return [
         dict(kind="drop", id="products", label="Products", href="%s#products" % prefix, items=products),
         dict(kind="link", label="Principles", href="%s#principles" % prefix),
-        dict(kind="link", label="About", href="%s#about" % prefix),
+        dict(kind="link", label="About", href="/about"),
         dict(kind="drop", id="smallbiz", label="Small Business", href="/small-business", items=small_business),
         dict(kind="drop", id="forgood", label="Sasquatch for Good", href="/for-good", items=for_good),
         dict(kind="drop", id="support", label="Support", href="/support", items=support),
@@ -698,6 +701,7 @@ def footer():
         <div><h4>Products</h4><ul><li><a href="/small-business">Sasquatch for Small Business</a></li><li><a href="/for-good">Sasquatch for Good</a></li>__PRODS__</ul></div>
         <div><h4>Privacy</h4><ul><li><a href="/privacy">All policies</a></li>__PRIVS__</ul></div>
         <div><h4>Company</h4><ul>
+          <li><a href="/about">About</a></li>
           <li><a href="/support">Support</a></li>
           <li><a href="/terms">Terms of Use</a></li>
           <li><a href="/privacy">Privacy Policy</a></li>
@@ -937,27 +941,77 @@ __SCENE__
                 "logo": "https://www.saasquatchlab.com/mark-sasquatch.png",
                 "email": "hello@saasquatchlab.com",
                 "description": "Independent privacy-first software studio in the Pacific Northwest.",
-                "sameAs": ["https://www.sasquatchsocial.com", "https://saasquatchapptracker.com"]})
+                "sameAs": ["https://www.sasquatchsocial.com", "https://saasquatchapptracker.com"],
+                "contactPoint": {"@type": "ContactPoint", "email": "hello@saasquatchlab.com",
+                                  "contactType": "customer support"}})
+
+
+# Coming-soon products are not yet purchasable; in-review ones are submitted but not live either.
+OFFER_AVAILABILITY = {"live": "https://schema.org/InStock", "review": "https://schema.org/PreOrder",
+                       "soon": "https://schema.org/PreOrder"}
 
 
 def product_schema(p):
     store = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://apps.apple.com/")), None)
     play = next((h for l, h, k, on in p["ctas"]
                  if on and h.startswith("https://play.google.com/store/apps/details?id=")), None)
+    availability = OFFER_AVAILABILITY.get(p["tagclass"], "https://schema.org/InStock")
+    offers = [{"@type": "Offer", "price": o["price"], "priceCurrency": "USD",
+               "availability": availability, "description": o["description"]}
+              for o in p.get("price_offers", [dict(price="0", description="Free")])]
     d = {"@context": "https://schema.org", "@type": "SoftwareApplication",
-         "name": p["name"], "applicationCategory": "TravelApplication" if "eSIM" in p["category"] else "UtilitiesApplication",
-         "operatingSystem": "iOS" + (", Android" if "Android" in p["category"] else ""),
+         "name": p["name"], "applicationCategory": p.get("app_category", "UtilitiesApplication"),
+         "operatingSystem": p.get("os", "iOS"),
          "description": re.sub(r"<[^>]+>", "", p["blurb"]).replace("&rsquo;", "'").replace("&middot;", "·"),
          "url": "https://www.saasquatchlab.com/%s" % p["slug"],
          "image": "https://www.saasquatchlab.com/%s" % p["logo"] if p.get("logo") else None,
          "author": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com"},
-         "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}
+         "publisher": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com/"},
+         "offers": offers if len(offers) > 1 else offers[0]}
     # installUrl accepts an array in schema.org — a second entry for the Play listing
     # never disturbs a single Apple-only value already relied on elsewhere.
     urls = [u for u in (store, play) if u]
     if urls: d["installUrl"] = urls if len(urls) > 1 else urls[0]
-    if play: d["sameAs"] = [play]
+    if urls: d["sameAs"] = urls
     return {k: v for k, v in d.items() if v is not None}
+
+
+def faq_schema(faq):
+    return {"@context": "https://schema.org", "@type": "FAQPage",
+            "mainEntity": [{"@type": "Question", "name": re.sub(r"<[^>]+>", "", q).replace("&rsquo;", "'"),
+                             "acceptedAnswer": {"@type": "Answer",
+                                                 "text": re.sub(r"<[^>]+>", "", a).replace("&rsquo;", "'")}}
+                            for q, a in faq]}
+
+
+def breadcrumb_schema(crumbs):
+    """`crumbs` is an ordered list of (name, path) pairs, path relative to the site root ("" for home)."""
+    return {"@context": "https://schema.org", "@type": "BreadcrumbList",
+            "itemListElement": [
+                {"@type": "ListItem", "position": i,
+                 "name": name, "item": "https://www.saasquatchlab.com/%s" % path.lstrip("/")}
+                for i, (name, path) in enumerate(crumbs, 1)]}
+
+
+def faq_section(name, faq):
+    """Visible 'Questions' block in house style — hairline spec rows, deliberately not an accordion."""
+    if not faq:
+        return ""
+    rows = "".join(
+        '<div class="spec r"><div class="spec-n">%02d</div><div class="spec-t">%s</div>'
+        '<div class="spec-d">%s</div></div>' % (i, q, a)
+        for i, (q, a) in enumerate(faq, 1))
+    return """
+  <section class="ruled">
+    <div class="g">
+      <div class="head r">
+        <p class="marque key">Questions</p>
+        <h2 class="t">__NAME__, <em>answered</em></h2>
+      </div>
+      <div class="specs">__ROWS__</div>
+    </div>
+  </section>
+""".replace("__NAME__", name).replace("__ROWS__", rows)
 
 
 def product_page(p):
@@ -999,6 +1053,13 @@ __SCENE__
   <main id="main">
   <section style="padding-top: 0">
     <div class="g">
+      <p class="marque key r">In one sentence</p>
+      <p class="lede r" style="grid-column: 1 / span 9; margin-top: 0.9rem">__SUMMARY__</p>
+    </div>
+  </section>
+
+  <section style="padding-top: clamp(2rem, 5vh, 3.5rem)">
+    <div class="g">
       <div class="band r">
         <p>__PROMISE__</p>
         <div class="side">__PLINK__</div>
@@ -1017,6 +1078,8 @@ __SCENE__
   </section>
 
   __DETAIL__
+
+  __FAQ__
 
   <section class="closer ruled">
     <div class="g">
@@ -1039,17 +1102,23 @@ __SCENE__
         .replace("__TAGLINE_P__", p["tagline"])
         .replace("__ACTS__", acts).replace("__BLURB__", p["blurb"])
         .replace("__NOTE__", p["hero_note"]).replace("__PROMISE__", p["promise"])
-        .replace("__PLINK__", plink)
+        .replace("__PLINK__", plink).replace("__SUMMARY__", p.get("summary", p["blurb"]))
         .replace("__NAME__", p["name"]).replace("__SPECS__", spec_rows(p["features"]))
         .replace("__DETAIL__",
                  ('<section class="ruled"><div class="g"><div class="prose">%s</div></div></section>' % detail)
-                 if detail else "") + footer())
+                 if detail else "")
+        .replace("__FAQ__", faq_section(p["name"], p.get("faq", []))) + footer())
+
+    schemas = [product_schema(p),
+               breadcrumb_schema([("SaaSquatch Lab", ""), (p["name"], p["slug"])])]
+    if p.get("faq"):
+        schemas.append(faq_schema(p["faq"]))
 
     return shell(
         "%s — %s | SaaSquatch Lab" % (p["name"], p["tagline"].rstrip(".")),
-        p["blurb"].replace("&mdash;", "—").replace("&rsquo;", "'"),
+        p.get("summary", p["blurb"]).replace("&mdash;", "—").replace("&rsquo;", "'"),
         body, accent=p["accent"],
-        canonical="https://www.saasquatchlab.com/%s" % p["slug"], schema=product_schema(p))
+        canonical="https://www.saasquatchlab.com/%s" % p["slug"], schema=schemas)
 
 
 def privacy_page(slug, d):
@@ -1143,7 +1212,8 @@ __SCENE__
         "Sasquatch for Good — SaaSquatch Lab",
         "A family of free apps built to help, not to make money: no accounts, no ads, no subscriptions. "
         "Squatch Vitals and Squatch Aphantasia.",
-        body, accent="#4f86c6", canonical="https://www.saasquatchlab.com/for-good")
+        body, accent="#4f86c6", canonical="https://www.saasquatchlab.com/for-good",
+        schema=breadcrumb_schema([("SaaSquatch Lab", ""), ("Sasquatch for Good", "for-good")]))
 
 
 def small_business_page():
@@ -1200,7 +1270,95 @@ __SCENE__
         "Sasquatch for Small Business — SaaSquatch Lab",
         "A family of tools for running and protecting a small company: Sasquatch Privacy, Sasquatch "
         "Small Business, and SaaSquatch GRC.",
-        body, accent="#c07b3a", canonical="https://www.saasquatchlab.com/small-business")
+        body, accent="#c07b3a", canonical="https://www.saasquatchlab.com/small-business",
+        schema=breadcrumb_schema([("SaaSquatch Lab", ""), ("Sasquatch for Small Business", "small-business")]))
+
+
+def about_page():
+    """A standalone, crawlable /about — the home page's #about section is an anchor inside a much
+    longer document; answer engines quote a dedicated URL far more reliably than a fragment."""
+    n_products = len(PRODUCTS)
+    body = (nav(back=True) + """
+  <header class="hero" style="padding-bottom: clamp(2rem, 5vh, 3.5rem)">
+__SCENE__
+    <div class="g">
+      <p class="marque hero-mark key">About</p>
+      <div class="hero-type">
+        <h1 class="mega" style="font-size: clamp(2.6rem, 7.2vw, 5.6rem)">Independent software,<em class="ind"> long-term thinking</em></h1>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+  <section style="padding-top: 0">
+    <div class="g">
+      <div class="prose r">
+        <p class="lead">SaaSquatch Lab is an independent software company in the Pacific Northwest, building
+        tools for communities, travellers, job seekers, and people who lift heavy things, without a
+        surveillance business model underneath.</p>
+        <p>Every product is self-funded, which is the whole reason we can build this way: no investors to
+        answer to, no growth targets that only make sense with an advertising business model bolted on, and
+        no pressure to monetise data we have deliberately chosen not to collect.</p>
+        <p>Four of our __NCOUNT__ live-or-in-review products collect nothing at all, because they have no
+        servers to collect it to. That is a structural promise, not a policy one: there is no data to
+        sell even if we wanted to. The rest collect only what the product cannot work without, and say so
+        in plain language.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="g">
+      <div class="head r">
+        <p class="marque key">How we build</p>
+        <h2 class="t">Principles,<br /><em>not platitudes</em></h2>
+        <p class="lede">Constraints we hold ourselves to when it costs us something, which is the only
+        time a principle counts.</p>
+      </div>
+      <div class="specs">__PRINCIPLES__</div>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="g">
+      <div class="ledger r">
+        <div class="led"><div class="led-n">__NCOUNT__</div><div class="led-l">Products shipping or in review</div></div>
+        <div class="led"><div class="led-n">4</div><div class="led-l">Apps that collect zero data</div></div>
+        <div class="led"><div class="led-n">0</div><div class="led-l">Ad trackers, ever</div></div>
+        <div class="led"><div class="led-n">PNW</div><div class="led-l">Pacific Northwest built</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closer ruled">
+    <div class="g">
+      <div class="closer-in">
+        <h2 class="r">Get in <em>touch</em></h2>
+        <p class="lede r">Questions about a product, the company, or an idea for what we should build
+        next? Email us, we read everything.</p>
+        <div class="acts r">__CONTACT__ __PRODUCTS__</div>
+      </div>
+    </div>
+  </section>
+  </main>
+""".replace("__SCENE__", scene(cryptid=True))
+        .replace("__NCOUNT__", str(n_products))
+        .replace("__PRINCIPLES__", spec_rows(PRINCIPLES))
+        .replace("__CONTACT__", link("hello@saasquatchlab.com", "mailto:hello@saasquatchlab.com", key=True))
+        .replace("__PRODUCTS__", link("Browse the catalogue", "/#products")) + footer())
+
+    return shell(
+        "About — SaaSquatch Lab",
+        "SaaSquatch Lab is an independent, self-funded software studio in the Pacific Northwest "
+        "building privacy-first apps with no ad trackers, no data brokers, and no dark patterns.",
+        body, accent="#52b788", canonical="https://www.saasquatchlab.com/about",
+        schema=[{"@context": "https://schema.org", "@type": "AboutPage",
+                 "name": "About SaaSquatch Lab", "url": "https://www.saasquatchlab.com/about",
+                 "isPartOf": {"@type": "WebSite", "name": "SaaSquatch Lab",
+                              "url": "https://www.saasquatchlab.com/"},
+                 "about": {"@type": "Organization", "name": "SaaSquatch Lab",
+                           "url": "https://www.saasquatchlab.com/"}},
+                breadcrumb_schema([("SaaSquatch Lab", ""), ("About", "about")])])
 
 
 def legal_page(body, title, desc, canonical, accent="#52b788"):
@@ -1230,6 +1388,7 @@ def main():
         "A public/ directory exists — that 404s the whole site. See CLAUDE.md."
     print("Building saasquatchlab.com")
     write("index.html", home())
+    write("about/index.html", about_page())
     write("for-good/index.html", for_good_page())
     write("small-business/index.html", small_business_page())
     for p in PRODUCTS:
@@ -1253,7 +1412,7 @@ def main():
         "Support for SaaSquatch Lab products: SizeSquatch, Sasquatch Social, and App Tracker.",
         "https://www.saasquatchlab.com/support"))
 
-    pages = ["/", "/for-good", "/small-business"] + ["/%s" % p["slug"] for p in PRODUCTS] \
+    pages = ["/", "/about", "/for-good", "/small-business"] + ["/%s" % p["slug"] for p in PRODUCTS] \
         + ["/%s/privacy" % slug for slug in POLICIES] \
         + ["/sizesquatch/privacy", "/squatch-connect/privacy", "/squatchtravel/privacy"] \
         + ["/privacy", "/terms", "/support"]
@@ -1263,11 +1422,27 @@ def main():
     print("  /squatchtravel/privacy (each App Store registered, content unchanged)")
 
 
+# Explicit allows for AI-search and answer-engine crawlers/fetchers, alongside the wildcard
+# `Allow: /` that already covers everyone (GPTBot and CCBot included, deliberately — the owner
+# wants this site included in those training/index crawls too, so they are never blocked here).
+AI_SEARCH_BOTS = [
+    "OAI-SearchBot", "ChatGPT-User", "PerplexityBot", "Perplexity-User", "Bingbot", "Googlebot",
+    "Google-Extended", "Applebot", "Applebot-Extended", "ClaudeBot", "Claude-User",
+    "Claude-SearchBot", "Amazonbot", "DuckAssistBot",
+]
+
+
 def write_crawl_files(pages):
     base = "https://www.saasquatchlab.com"
-    Path("robots.txt").write_text("User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % base)
+    robots = ["User-agent: *", "Allow: /", ""]
+    for bot in AI_SEARCH_BOTS:
+        robots += ["User-agent: %s" % bot, "Allow: /", ""]
+    robots.append("Sitemap: %s/sitemap.xml" % base)
+    Path("robots.txt").write_text("\n".join(robots) + "\n")
+
     urls = "".join("  <url><loc>%s%s</loc></url>\n" % (base, u) for u in pages)
     Path("sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s</urlset>\n' % urls)
+
     lines = ["# SaaSquatch Lab", "", "> Privacy-first software that is actually easy to use. Independent studio in the Pacific Northwest.", "", "## Products"]
     for p in PRODUCTS:
         store = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://apps.apple.com/")), None)
@@ -1276,9 +1451,22 @@ def write_crawl_files(pages):
         desc = re.sub(r"<[^>]+>", "", p["blurb"]).replace("&rsquo;", "'").replace("&middot;", "·")
         extra = ((" App Store: " + store) if store else "") + ((" Google Play: " + play) if play else "")
         lines.append("- [%s](%s/%s): %s%s" % (p["name"], base, p["slug"], desc, extra))
+    lines += ["", "## About", "- [About SaaSquatch Lab](%s/about)" % base]
+    lines += ["", "## Questions people ask"]
+    for p in PRODUCTS:
+        if not p.get("faq"):
+            continue
+        lines.append("### %s" % p["name"])
+        for q, a in p["faq"][:2]:
+            qc = re.sub(r"<[^>]+>", "", q).replace("&rsquo;", "'").replace("&ldquo;", '"').replace("&rdquo;", '"')
+            ac = re.sub(r"<[^>]+>", "", a).replace("&rsquo;", "'").replace("&ldquo;", '"').replace("&rdquo;", '"')
+            lines.append("- Q: %s A: %s" % (qc, ac))
     lines += ["", "## Policies", "- [Privacy](%s/privacy)" % base, "- [Terms of Use](%s/terms)" % base, "- [Support](%s/support)" % base]
-    Path("llms.txt").write_text("\n".join(lines) + "\n")
-    print("  robots.txt, sitemap.xml (%d urls), llms.txt" % len(pages))
+    lines += ["", "## Contact", "- hello@saasquatchlab.com"]
+    llms_text = "\n".join(lines) + "\n"
+    assert len(llms_text.encode("utf-8")) < 8192, "llms.txt is %d bytes, over the 8KB budget" % len(llms_text.encode("utf-8"))
+    Path("llms.txt").write_text(llms_text)
+    print("  robots.txt, sitemap.xml (%d urls), llms.txt (%d bytes)" % (len(pages), len(llms_text.encode("utf-8"))))
 
 
 if __name__ == "__main__":
