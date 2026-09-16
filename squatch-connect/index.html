@@ -460,6 +460,26 @@
   <script>
   (function () {
     var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Store-link attribution: carry the campaign into Apple's campaign link (pt/ct) and Google Play's
+    // install referrer, so ad clicks that land here still attribute installs and purchases per campaign.
+    try {
+      var q = new URLSearchParams(location.search);
+      var slug = location.pathname.replace(/^\/|\/$/g, '') || 'home';
+      var ct = q.get('utm_campaign') || (q.get('fbclid') ? 'meta_' + slug : q.get('utm_source') ? q.get('utm_source') + '_' + slug : '');
+      if (ct) {
+        ct = ct.replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40);
+        document.querySelectorAll('a.badge-app-store').forEach(function (a) {
+          var m = a.href.match(/id(\d+)/);
+          if (m) a.href = 'https://apps.apple.com/app/apple-store/id' + m[1] + '?pt=128775609&ct=' + ct + '&mt=8';
+        });
+        document.querySelectorAll('a.badge-google-play').forEach(function (a) {
+          var u = new URL(a.href);
+          var ref = 'utm_source=' + (q.get('utm_source') || 'site') + '&utm_medium=' + (q.get('utm_medium') || 'referral') + '&utm_campaign=' + ct;
+          u.searchParams.set('referrer', ref); a.href = u.toString();
+        });
+      }
+    } catch (e) {}
     var nav = document.querySelector('.nav');
     function stick() { nav.classList.toggle('stuck', scrollY > 20); }
     stick(); addEventListener('scroll', stick, { passive: true });
