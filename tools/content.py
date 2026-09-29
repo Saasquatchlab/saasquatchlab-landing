@@ -70,6 +70,22 @@ PRODUCTS = [
         summary=(
             "Squatch Lift is an on-device workout tracker for logging sets, tracking personal records and strength trends, and recording body measurements. It is free for three workouts, then $4.99 a month or $29.99 a year, for iPhone, iPad and Android."
         ),
+        # Product film. Every frame is a real screen from the iPhone app with real
+        # logged sets; source project in the SquatchLift repo, marketing/ad-video.
+        video=dict(
+            src="ads/squatchlift/squatch-lift-ad.mp4",
+            poster="ads/squatchlift/squatch-lift-ad-poster.jpg",
+            width=720, height=1280, seconds=21,
+            upload_date="2026-09-29",
+            title="Twenty seconds, <em>real screens</em>",
+            body=("A bench session logged in the app: last week&rsquo;s numbers sitting beside every set, "
+                  "a new 145&nbsp;lb best lighting up gold the moment it is checked off, and the privacy "
+                  "promise straight from Settings. Nothing in it is mocked up."),
+            note="Filmed on iPhone &middot; No sound",
+            label=("Squatch Lift in twenty seconds: a bench press workout shows last week&rsquo;s weights beside "
+                   "each set, a new personal record gets a gold PR badge, and Settings confirms the data stays "
+                   "on the device."),
+        ),
         app_category="HealthApplication", os="iOS, Android",
         price_offers=[dict(price="0", description="Free, three workouts"), dict(price="4.99", description="Pro, monthly subscription"), dict(price="29.99", description="Pro, annual subscription")],
         faq=[

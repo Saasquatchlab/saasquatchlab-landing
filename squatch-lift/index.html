@@ -278,6 +278,16 @@
     .foot-blurb { font-size: 0.83rem; color: var(--ink-2); margin-top: 1rem; max-width: 28ch; line-height: 1.7; }
     .foot-base { grid-column: 1 / -1; margin-top: clamp(2.25rem, 5vh, 3rem); padding-top: 1.5rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
 
+    /* ── product film ──────────────────────────────────────────────────── */
+    .reel-copy { grid-column: 1 / span 5; align-self: center; }
+    .reel-copy .t { margin-top: 1.1rem; }
+    .reel-copy .lede { margin-top: 1.4rem; }
+    .reel-copy .fig { margin-top: 1.6rem; }
+    .reel { grid-column: 7 / span 5; justify-self: center; position: relative; width: min(100%, calc(76vh * 9 / 16), 400px); }
+    .reel video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 22px; border: 1px solid var(--rule-lit); background: var(--bg-2); box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); cursor: pointer; }
+    .reel-toggle { position: absolute; right: 0.9rem; bottom: 0.9rem; font: inherit; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: #fff; background: rgba(5, 9, 7, 0.62); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 3px; padding: 0.45rem 0.7rem; cursor: pointer; backdrop-filter: blur(6px); }
+    .reel-toggle:hover, .reel-toggle:focus-visible { background: rgba(5, 9, 7, 0.85); }
+
     /* ── reveal ────────────────────────────────────────────────────────── */
     .r { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
     .r.lit { opacity: 1; transform: none; }
@@ -292,6 +302,8 @@
       .band { grid-template-columns: 1fr; }
       .band .side { justify-self: start; padding-left: clamp(0px, 2vw, 1.5rem); }
       .foot-g { grid-template-columns: 1fr 1fr; }
+      .reel-copy { grid-column: 1 / span 6; }
+      .reel { grid-column: 7 / -1; }
       .item { grid-template-columns: 3.5rem minmax(0, 1fr) auto; }
       .item-desc { grid-column: 2 / -1; margin-top: 0.5rem; }
     }
@@ -310,6 +322,8 @@
       .led { border-bottom: 1px solid var(--rule); }
       .led:nth-child(2) { border-right: 0; }
       .foot-g { grid-template-columns: 1fr; }
+      .reel-copy, .reel { grid-column: 1 / -1; }
+      .reel { margin-top: 2.5rem; width: min(100%, 360px); }
       .cryptid { left: 66%; height: clamp(80px, 20vw, 130px); opacity: 0.11; }
     }
     /* Narrow phones: the App Store + Google Play badge pair must stay side by side and
@@ -327,6 +341,7 @@
 </style>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Squatch Lift", "applicationCategory": "HealthApplication", "operatingSystem": "iOS, Android", "description": "A no-nonsense workout tracker built for the gym floor. Log lifts in seconds between sets, watch strength trend upward, and keep every rep on your device \u2014 your training data never touches a server.", "url": "https://www.saasquatchlab.com/squatch-lift", "image": "https://www.saasquatchlab.com/logo-squatchlift.png", "author": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com"}, "publisher": {"@type": "Organization", "name": "SaaSquatch Lab", "url": "https://www.saasquatchlab.com/"}, "offers": [{"@type": "Offer", "price": "0", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "description": "Free, three workouts"}, {"@type": "Offer", "price": "4.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "description": "Pro, monthly subscription"}, {"@type": "Offer", "price": "29.99", "priceCurrency": "USD", "availability": "https://schema.org/InStock", "description": "Pro, annual subscription"}], "installUrl": ["https://apps.apple.com/app/id6807970854", "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchlift"], "sameAs": ["https://apps.apple.com/app/id6807970854", "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchlift"]}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SaaSquatch Lab", "item": "https://www.saasquatchlab.com/"}, {"@type": "ListItem", "position": 2, "name": "Squatch Lift", "item": "https://www.saasquatchlab.com/squatch-lift"}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoObject", "name": "Squatch Lift in 21 seconds", "description": "Squatch Lift in twenty seconds: a bench press workout shows last week\u2019s weights beside each set, a new personal record gets a gold PR badge, and Settings confirms the data stays on the device.", "thumbnailUrl": "https://www.saasquatchlab.com/ads/squatchlift/squatch-lift-ad-poster.jpg", "contentUrl": "https://www.saasquatchlab.com/ads/squatchlift/squatch-lift-ad.mp4", "uploadDate": "2026-09-29", "duration": "PT21S"}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does Squatch Lift require an account?", "acceptedAnswer": {"@type": "Answer", "text": "No. Squatch Lift has no accounts, ever. Your training data lives in a database on your own device."}}, {"@type": "Question", "name": "How much does Squatch Lift cost?", "acceptedAnswer": {"@type": "Answer", "text": "Your first three completed workouts are free. After that, Pro unlocks unlimited use at $4.99 a month or $29.99 a year."}}, {"@type": "Question", "name": "Does Squatch Lift track me or send my data anywhere?", "acceptedAnswer": {"@type": "Answer", "text": "On iPhone and iPad it makes no network requests at all. On Android, Google's billing library needs network permission to process the subscription, and that is the only thing it is used for."}}, {"@type": "Question", "name": "What platforms is Squatch Lift available on?", "acceptedAnswer": {"@type": "Answer", "text": "iPhone, iPad, and Android."}}, {"@type": "Question", "name": "How many exercises are in the library?", "acceptedAnswer": {"@type": "Answer", "text": "Over 130, plus your own custom movements."}}, {"@type": "Question", "name": "What happens to my data if I delete the app?", "acceptedAnswer": {"@type": "Answer", "text": "It is deleted with it, so keep a device backup if you want to preserve your history."}}]}</script>
 </head>
 <body>
@@ -387,6 +402,22 @@
     <div class="g">
       <p class="marque key r">In one sentence</p>
       <p class="lede r" style="grid-column: 1 / span 9; margin-top: 0.9rem">Squatch Lift is an on-device workout tracker for logging sets, tracking personal records and strength trends, and recording body measurements. It is free for three workouts, then $4.99 a month or $29.99 a year, for iPhone, iPad and Android.</p>
+    </div>
+  </section>
+
+  <section style="padding-top: clamp(3rem, 8vh, 5.5rem)">
+    <div class="g">
+      <div class="reel-copy r">
+        <p class="marque key">See it</p>
+        <h2 class="t">Twenty seconds, <em>real screens</em></h2>
+        <p class="lede">A bench session logged in the app: last week&rsquo;s numbers sitting beside every set, a new 145&nbsp;lb best lighting up gold the moment it is checked off, and the privacy promise straight from Settings. Nothing in it is mocked up.</p>
+        <p class="fig">Filmed on iPhone &middot; No sound</p>
+      </div>
+      <figure class="reel r">
+        <video src="/ads/squatchlift/squatch-lift-ad.mp4" poster="/ads/squatchlift/squatch-lift-ad-poster.jpg" width="720" height="1280" muted loop playsinline preload="metadata"
+               aria-label="Squatch Lift in twenty seconds: a bench press workout shows last week&rsquo;s weights beside each set, a new personal record gets a gold PR badge, and Settings confirms the data stays on the device."></video>
+        <button type="button" class="reel-toggle">Play</button>
+      </figure>
     </div>
   </section>
 
@@ -497,6 +528,27 @@
       }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
       items.forEach(function (el, i) { el.style.transitionDelay = Math.min(i % 5, 4) * 70 + 'ms'; io.observe(el); });
     }
+
+    // Product film: muted autoplay only while it is on screen, and never when the
+    // visitor has asked for reduced motion (they get native controls instead).
+    document.querySelectorAll('.reel').forEach(function (box) {
+      var v = box.querySelector('video'), btn = box.querySelector('.reel-toggle');
+      var userPaused = false;
+      function label() { btn.textContent = v.paused ? 'Play' : 'Pause'; btn.setAttribute('aria-label', (v.paused ? 'Play' : 'Pause') + ' the Squatch Lift video'); }
+      function toggle() { if (v.paused) { userPaused = false; v.play(); } else { userPaused = true; v.pause(); } }
+      v.addEventListener('play', label); v.addEventListener('pause', label);
+      if (reduce) { v.controls = true; btn.hidden = true; return; }
+      btn.addEventListener('click', toggle); v.addEventListener('click', toggle);
+      label();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting && !userPaused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+            else if (!e.isIntersecting) v.pause();
+          });
+        }, { threshold: 0.35 }).observe(v);
+      }
+    });
 
     // Atmospheric parallax — near ranks travel further than distant ones
     var lyrs = document.querySelectorAll('.lyr');

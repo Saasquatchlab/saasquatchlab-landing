@@ -23,6 +23,7 @@ ART DIRECTION — "It's out there"
 
 NEVER emit into a `public/` directory — see CLAUDE.md (that takes the site down).
 """
+import html as html_lib
 import json
 import re
 from pathlib import Path
@@ -390,6 +391,16 @@ CSS = """
     .foot-blurb { font-size: 0.83rem; color: var(--ink-2); margin-top: 1rem; max-width: 28ch; line-height: 1.7; }
     .foot-base { grid-column: 1 / -1; margin-top: clamp(2.25rem, 5vh, 3rem); padding-top: 1.5rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; }
 
+    /* ── product film ──────────────────────────────────────────────────── */
+    .reel-copy { grid-column: 1 / span 5; align-self: center; }
+    .reel-copy .t { margin-top: 1.1rem; }
+    .reel-copy .lede { margin-top: 1.4rem; }
+    .reel-copy .fig { margin-top: 1.6rem; }
+    .reel { grid-column: 7 / span 5; justify-self: center; position: relative; width: min(100%, calc(76vh * 9 / 16), 400px); }
+    .reel video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 22px; border: 1px solid var(--rule-lit); background: var(--bg-2); box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55); cursor: pointer; }
+    .reel-toggle { position: absolute; right: 0.9rem; bottom: 0.9rem; font: inherit; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: #fff; background: rgba(5, 9, 7, 0.62); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 3px; padding: 0.45rem 0.7rem; cursor: pointer; backdrop-filter: blur(6px); }
+    .reel-toggle:hover, .reel-toggle:focus-visible { background: rgba(5, 9, 7, 0.85); }
+
     /* ── reveal ────────────────────────────────────────────────────────── */
     .r { opacity: 0; transform: translateY(26px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
     .r.lit { opacity: 1; transform: none; }
@@ -404,6 +415,8 @@ CSS = """
       .band { grid-template-columns: 1fr; }
       .band .side { justify-self: start; padding-left: clamp(0px, 2vw, 1.5rem); }
       .foot-g { grid-template-columns: 1fr 1fr; }
+      .reel-copy { grid-column: 1 / span 6; }
+      .reel { grid-column: 7 / -1; }
       .item { grid-template-columns: 3.5rem minmax(0, 1fr) auto; }
       .item-desc { grid-column: 2 / -1; margin-top: 0.5rem; }
     }
@@ -422,6 +435,8 @@ CSS = """
       .led { border-bottom: 1px solid var(--rule); }
       .led:nth-child(2) { border-right: 0; }
       .foot-g { grid-template-columns: 1fr; }
+      .reel-copy, .reel { grid-column: 1 / -1; }
+      .reel { margin-top: 2.5rem; width: min(100%, 360px); }
       .cryptid { left: 66%; height: clamp(80px, 20vw, 130px); opacity: 0.11; }
     }
     /* Narrow phones: the App Store + Google Play badge pair must stay side by side and
@@ -477,6 +492,27 @@ JS = """
       }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
       items.forEach(function (el, i) { el.style.transitionDelay = Math.min(i % 5, 4) * 70 + 'ms'; io.observe(el); });
     }
+
+    // Product film: muted autoplay only while it is on screen, and never when the
+    // visitor has asked for reduced motion (they get native controls instead).
+    document.querySelectorAll('.reel').forEach(function (box) {
+      var v = box.querySelector('video'), btn = box.querySelector('.reel-toggle');
+      var userPaused = false;
+      function label() { btn.textContent = v.paused ? 'Play' : 'Pause'; btn.setAttribute('aria-label', (v.paused ? 'Play' : 'Pause') + ' the Squatch Lift video'); }
+      function toggle() { if (v.paused) { userPaused = false; v.play(); } else { userPaused = true; v.pause(); } }
+      v.addEventListener('play', label); v.addEventListener('pause', label);
+      if (reduce) { v.controls = true; btn.hidden = true; return; }
+      btn.addEventListener('click', toggle); v.addEventListener('click', toggle);
+      label();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting && !userPaused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+            else if (!e.isIntersecting) v.pause();
+          });
+        }, { threshold: 0.35 }).observe(v);
+      }
+    });
 
     // Atmospheric parallax — near ranks travel further than distant ones
     var lyrs = document.querySelectorAll('.lyr');
@@ -1035,6 +1071,41 @@ def faq_section(name, faq):
 """.replace("__NAME__", name).replace("__ROWS__", rows)
 
 
+def video_section(p):
+    """Optional product film: copy on the left, the vertical clip on the right."""
+    v = p.get("video")
+    if not v:
+        return ""
+    return """<section style="padding-top: clamp(3rem, 8vh, 5.5rem)">
+    <div class="g">
+      <div class="reel-copy r">
+        <p class="marque key">See it</p>
+        <h2 class="t">%s</h2>
+        <p class="lede">%s</p>
+        <p class="fig">%s</p>
+      </div>
+      <figure class="reel r">
+        <video src="/%s" poster="/%s" width="%d" height="%d" muted loop playsinline preload="metadata"
+               aria-label="%s"></video>
+        <button type="button" class="reel-toggle">Play</button>
+      </figure>
+    </div>
+  </section>""" % (v["title"], v["body"], v["note"], v["src"], v["poster"], v["width"], v["height"],
+                    v["label"].replace('"', "&quot;"))
+
+
+def video_schema(p):
+    v = p["video"]
+    base = "https://www.saasquatchlab.com/"
+    return {
+        "@context": "https://schema.org", "@type": "VideoObject",
+        "name": "%s in %d seconds" % (p["name"], v["seconds"]),
+        "description": html_lib.unescape(v["label"]),
+        "thumbnailUrl": base + v["poster"], "contentUrl": base + v["src"],
+        "uploadDate": v["upload_date"], "duration": "PT%dS" % v["seconds"],
+    }
+
+
 def product_page(p):
     acts = " ".join(link(l, h, key=(k == "primary"), off=not on, ext=on and h.startswith("http"))
                     for l, h, k, on in p["ctas"])
@@ -1078,6 +1149,8 @@ __SCENE__
       <p class="lede r" style="grid-column: 1 / span 9; margin-top: 0.9rem">__SUMMARY__</p>
     </div>
   </section>
+
+  __VIDEO__
 
   <section style="padding-top: clamp(2rem, 5vh, 3.5rem)">
     <div class="g">
@@ -1128,10 +1201,13 @@ __SCENE__
         .replace("__DETAIL__",
                  ('<section class="ruled"><div class="g"><div class="prose">%s</div></div></section>' % detail)
                  if detail else "")
-        .replace("__FAQ__", faq_section(p["name"], p.get("faq", []))) + footer())
+        .replace("__FAQ__", faq_section(p["name"], p.get("faq", [])))
+        .replace("__VIDEO__", video_section(p)) + footer())
 
     schemas = [product_schema(p),
                breadcrumb_schema([("SaaSquatch Lab", ""), (p["name"], p["slug"])])]
+    if p.get("video"):
+        schemas.append(video_schema(p))
     if p.get("faq"):
         schemas.append(faq_schema(p["faq"]))
 
