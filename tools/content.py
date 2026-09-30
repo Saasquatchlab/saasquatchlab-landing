@@ -187,7 +187,9 @@ PRODUCTS = [
         meta=["No account required", "One-tap eSIM install", "Live usage widgets", "Apple Pay checkout"],
         hero_note="Plans from $1.99 &middot; No account &middot; No subscription &middot; Pay as you travel",
         # Google Play CTA goes in once the Squatch Connect Play Store listing returns 200 (404 as of 2026-09-11).
-        ctas=[("Download on the App Store", APPSTORE + "6808746597", "primary", True)],
+        ctas=[("Download on the App Store", APPSTORE + "6808746597", "primary", True),
+              ("Get it on Google Play",
+               "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchconnect", "primary", True)],
         summary=(
             "Squatch Connect is a privacy-first travel eSIM app that installs mobile data plans in one tap, with no account, no passport upload, and no subscription, for travelers who want data abroad without carrier roaming fees."
         ),
@@ -223,7 +225,8 @@ PRODUCTS = [
         detail=[("What an eSIM is and is not", [
             "Squatch Connect sells cellular data plans that install as an eSIM profile on your phone. It gives you working mobile data abroad at local rates instead of your carrier&rsquo;s roaming price.",
             "It is a connectivity product, not a privacy tunnel — it does not encrypt or anonymise your traffic beyond what normal cellular service does. We would rather tell you that plainly than let you assume otherwise."]),
-            ("Android", ["A native Android build is <strong>in review on Google Play</strong>, with the same catalogue, the same install flow, and a home screen widget that refreshes in the background."])],
+            ("Android", ["A native Android build is <strong>available on Google Play</strong>, with the same catalogue, the same install flow, and a home screen widget that refreshes in the background."]),
+            ("Destination pricing", ["Exact plans and pricing for 20 popular destinations are broken out on their own pages, pulled from the same catalogue the app uses: <a href=\"/squatch-connect/esim\">browse eSIM destinations</a>, read <a href=\"/squatch-connect/esim-guide\">how eSIMs work on iPhone and Android</a>, or see <a href=\"/squatch-connect/airalo-alternatives\">how Squatch Connect compares to other travel eSIM apps</a>."])],
     ),
     dict(
         slug="squatchtravel", name="Squatch Travel", accent="#E07A5F",
@@ -326,14 +329,14 @@ PRODUCTS = [
     ),
     dict(
         slug="squatch-aphantasia", name="Squatch Aphantasia", accent="#4f86c6",
-        logo="logo-squatch-aphantasia.png", tag="Coming soon", tagclass="soon", for_good=True,
+        logo="logo-squatch-aphantasia.png", tag="Live", tagclass="live", for_good=True,
         category="Education &amp; accessibility &middot; iOS &amp; iPadOS",
         tagline="What do you need to visualize?",
         blurb=("Paste it, photograph it, or scan it. Squatch explains it without asking you to "
                "picture anything."),
         meta=["No mental imagery required", "Persistent Learning Board", "Ask Squatch tutor", "Free, no account, no ads"],
         hero_note="Free &middot; No account required &middot; No ads &middot; For students 13+",
-        ctas=[("Coming to the App Store", "#", "primary", False)],
+        ctas=[("Download on the App Store", APPSTORE + "6810984799", "primary", True)],
         summary=(
             "Squatch Aphantasia is a free educational app that explains any material in words, structure and logic instead of imagery, for students 13 and up with aphantasia or weak mental imagery."
         ),

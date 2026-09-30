@@ -36,8 +36,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from content import (PRODUCTS, COMING, POLICIES, FOR_GOOD_SLUGS, FOR_GOOD_SHORT, FOR_GOOD_FULL,  # noqa: E402
                       SMALL_BUSINESS_SLUGS, SMALL_BUSINESS_SHORT, SMALL_BUSINESS_FULL)
 from legal import PRIVACY, SUPPORT, TERMS  # noqa: E402
+import seo_content as SEO  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CATALOG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "connect_catalog.json")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Ridgeline art — deterministic, so the skyline never shifts between builds
@@ -1472,6 +1474,489 @@ def legal_page(body, title, desc, canonical, accent="#52b788"):
     return shell(title, desc, inner, accent=accent, canonical=canonical)
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Squatch Connect eSIM SEO/GEO pages — generated from tools/data/connect_catalog.json
+# ─────────────────────────────────────────────────────────────────────────────
+def load_catalog():
+    with open(CATALOG_PATH) as f:
+        d = json.load(f)
+    dest_by_id = {x["id"]: x for x in d["destinations"]}
+    plans_by_dest = {}
+    for p in d["plans"]:
+        plans_by_dest.setdefault(p["destinationID"], []).append(p)
+    for k in plans_by_dest:
+        plans_by_dest[k].sort(key=lambda p: p["priceUSD"])
+    return d, dest_by_id, plans_by_dest
+
+
+CONNECT_ACCENT = find_product("squatch-connect")["accent"]
+
+
+def _esim_store_ctas(slug):
+    return (link("Download on the App Store", SEO.appstore_url(slug), key=True, ext=True) + " " +
+            link("Get it on Google Play", SEO.play_url(slug), ext=True))
+
+
+def _plan_table(plans):
+    rows = []
+    for p in plans:
+        per_gb = p["priceUSD"] / p["dataGB"]
+        hotspot = ' <span class="pill some">Hotspot tier</span>' if p.get("hotspotTier") else ""
+        rows.append(
+            "<tr><td>%dGB</td><td>%d days</td><td>$%.2f</td><td>$%.2f/GB</td><td>%s%s</td></tr>" % (
+                p["dataGB"], p["days"], p["priceUSD"], per_gb, p["network"], hotspot))
+    return ('<div class="tbl-wrap"><table><thead><tr><th>Data</th><th>Validity</th><th>Price</th>'
+            '<th>Price per GB</th><th>Network</th></tr></thead><tbody>%s</tbody></table></div>'
+            % "".join(rows))
+
+
+def _faq_block(qas):
+    return "".join('<h3>%s</h3><p>%s</p>' % (q, a) for q, a in qas)
+
+
+def _faq_schema(qas, url):
+    return {
+        "@context": "https://schema.org", "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a.replace("&rsquo;", "'").replace("&ldquo;", '"').replace("&rdquo;", '"')}}
+            for q, a in qas
+        ],
+    }
+
+
+def _breadcrumb_schema(items):
+    """items: list of (name, url)"""
+    return {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i, "name": name, "item": url}
+            for i, (name, url) in enumerate(items, 1)
+        ],
+    }
+
+
+def esim_destination_page(dest, plans):
+    name, slug, flag = dest["name"], dest["id"], dest.get("flag", "")
+    is_region = dest.get("kind") == "region"
+    min_price = min(p["priceUSD"] for p in plans)
+    canonical = "https://www.saasquatchlab.com/squatch-connect/esim/%s" % slug
+    qas = SEO.faqs_for(name, is_region)
+    region_note = (
+        '<p class="fig" style="margin-top:0.6rem">Regional plan &mdash; covers %d countries in %s.</p>'
+        % (dest.get("countryCount") or 0, name)) if is_region else ""
+
+    body = (nav(back=True) + """
+  <header class="hero" style="padding-bottom: clamp(2rem, 5vh, 3.5rem)">
+__SCENE__
+    <div class="g">
+      <p class="marque hero-mark key">Squatch Connect &middot; %s Destination</p>
+      <div class="hero-type">
+        <h1 class="mega" style="font-size: clamp(2.2rem, 6vw, 4.6rem)">eSIM for <em>%s</em></h1>
+      </div>
+      <div class="hero-foot">
+        <div class="hero-acts"><div class="acts">__ACTS__</div></div>
+        <div class="hero-lede"><p class="lede">%s data plans for %s%s, from <strong>$%.2f</strong>. No account,
+        no subscription &mdash; pick a plan, pay as a guest, install in minutes.</p></div>
+        %s
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+  <section style="padding-top: 0">
+    <div class="g">
+      <div class="prose wide r">
+        <h2>Plans for %s</h2>
+        <p>Prices and data allowances below come straight from the same catalogue the app uses &mdash;
+        nothing here is a teaser rate. Every plan permits tethering; the largest tier on each destination
+        is also flagged as a hotspot tier.</p>
+        __TABLE__
+      </div>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="g">
+      <div class="prose wide r">
+        <h2>How it works</h2>
+        <h3>On iPhone</h3>
+        %s
+        <h3>On Android</h3>
+        %s
+      </div>
+    </div>
+  </section>
+
+  <section class="ruled">
+    <div class="g">
+      <div class="prose wide r">
+        <h2>Frequently asked questions</h2>
+        __FAQ__
+      </div>
+    </div>
+  </section>
+
+  <section class="closer ruled">
+    <div class="g">
+      <div class="closer-in">
+        <h2 class="r">Get data in <em>%s</em></h2>
+        <p class="lede r">No account, no subscription &mdash; just a plan sized for your trip.</p>
+        <div class="acts r">__ACTS2__</div>
+        <p class="fig" style="margin-top:1.5rem"><a href="/squatch-connect">&larr; Back to Squatch Connect</a>
+        &middot; <a href="/squatch-connect/esim">All destinations</a></p>
+      </div>
+    </div>
+  </section>
+  </main>
+""" % (
+        "region" if is_region else "country", name,
+        len(plans), "" if is_region else "", name, min_price,
+        region_note, name,
+        "".join("<p>%s</p>" % x for x in SEO.HOW_IT_WORKS["iphone"]),
+        "".join("<p>%s</p>" % x for x in SEO.HOW_IT_WORKS["android"]),
+        name,
+    )).replace("__SCENE__", scene(cryptid=False)) \
+        .replace("__ACTS__", _esim_store_ctas(slug)) \
+        .replace("__ACTS2__", _esim_store_ctas(slug)) \
+        .replace("__TABLE__", _plan_table(plans)) \
+        .replace("__FAQ__", _faq_block(qas)) + footer()
+
+    schema = [
+        _faq_schema(qas, canonical),
+        _breadcrumb_schema([
+            ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+            ("Squatch Connect", "https://www.saasquatchlab.com/squatch-connect"),
+            ("eSIM destinations", "https://www.saasquatchlab.com/squatch-connect/esim"),
+            ("eSIM for %s" % name, canonical),
+        ]),
+    ]
+    return shell(
+        "eSIM for %s — from $%.2f | Squatch Connect" % (name, min_price),
+        "Compare Squatch Connect eSIM data plans for %s: price, validity, and price per GB, with no "
+        "account and no subscription. Plans from $%.2f." % (name, min_price),
+        body, accent=CONNECT_ACCENT, canonical=canonical, schema=schema)
+
+
+def esim_index_page(dest_by_id, plans_by_dest):
+    canonical = "https://www.saasquatchlab.com/squatch-connect/esim"
+    rows = []
+    for i, slug in enumerate(SEO.DESTINATION_SLUGS, 1):
+        d = dest_by_id[slug]
+        plans = plans_by_dest.get(slug, [])
+        min_price = min((p["priceUSD"] for p in plans), default=None)
+        rows.append("""
+          <a class="item r" href="/squatch-connect/esim/%s" style="--rc: %s">
+            <div class="item-n">%02d</div>
+            <div>
+              <div class="item-id">
+                <div class="item-logo em" aria-hidden="true">%s</div>
+                <div>
+                  <div class="item-name">%s</div>
+                  <div class="item-cat">%s</div>
+                </div>
+              </div>
+              <ul class="item-meta"><li>%s</li></ul>
+            </div>
+            <p class="item-desc">%s plans</p>
+            <span class="item-go">From $%.2f %s</span>
+          </a>
+""" % (slug, CONNECT_ACCENT, i, d.get("flag", ""), d["name"],
+       "Region" if d.get("kind") == "region" else "Country",
+       "%d plans" % len(plans),
+       len(plans), min_price if min_price else 0, ARR))
+
+    body = (nav(back=True) + """
+  <header class="hero" style="padding-bottom: clamp(2rem, 5vh, 3.5rem)">
+__SCENE__
+    <div class="g">
+      <p class="marque hero-mark key">Squatch Connect</p>
+      <div class="hero-type">
+        <h1 class="mega" style="font-size: clamp(2.4rem, 6.6vw, 5.2rem)">eSIM <em>destinations</em></h1>
+      </div>
+      <div class="hero-foot">
+        <div class="hero-lede"><p class="lede">Pick a destination for exact pricing, validity, and price
+        per GB &mdash; pulled from the same catalogue the app uses. No account, no subscription.</p></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+  <section style="padding-top: 0" class="ruled">
+    <div class="g">
+      <div class="idx">__ITEMS__</div>
+    </div>
+  </section>
+
+  <section class="closer ruled">
+    <div class="g">
+      <div class="closer-in">
+        <h2 class="r">Don&rsquo;t see your <em>destination</em></h2>
+        <p class="lede r">Squatch Connect covers dozens more countries and regions inside the app.</p>
+        <div class="acts r">__ACTS__</div>
+      </div>
+    </div>
+  </section>
+  </main>
+""").replace("__SCENE__", scene(cryptid=True)).replace("__ITEMS__", "".join(rows)) \
+        .replace("__ACTS__", link("Open Squatch Connect", "/squatch-connect", key=True)) + footer()
+
+    return shell(
+        "Squatch Connect eSIM Destinations — SaaSquatch Lab",
+        "Browse Squatch Connect eSIM plans by destination: exact pricing, validity, and price per GB for "
+        "%d countries and regions. No account, no subscription." % len(SEO.DESTINATION_SLUGS),
+        body, accent=CONNECT_ACCENT, canonical=canonical)
+
+
+def esim_guide_page():
+    canonical = "https://www.saasquatchlab.com/squatch-connect/esim-guide"
+    secs = "".join(
+        '<h2>%s</h2>%s' % (h, "".join("<p>%s</p>" % x for x in ps))
+        for h, ps in SEO.GUIDE_SECTIONS)
+    body = (nav(back=True) + """
+  <main id="main">
+    <section style="padding-top: clamp(3rem, 8vh, 5rem)">
+      <div class="g">
+        <div class="prose">
+          <p class="marque key" style="margin-bottom: 1.5rem">Squatch Connect &middot; Guide</p>
+          <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 1.3rem;">
+          How eSIMs work on iPhone and Android</h1>
+          <p class="lead">The four things that actually matter before you fly: your phone supports it,
+          it's installed before you need it, only the travel line roams, and your home number keeps working.</p>
+          %s
+          <h2>Where Squatch Connect fits</h2>
+          <p>Squatch Connect sells the eSIM data plan itself &mdash; pick a destination, pick a plan, and
+          install it using the steps above. No account, no subscription, and prices with the per-GB math
+          already done for you. <a href="/squatch-connect/esim">Browse destinations</a> or
+          <a href="/squatch-connect">see how Squatch Connect works</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+""" % secs) + footer()
+    return shell(
+        "How eSIMs Work on iPhone and Android — Squatch Connect Guide",
+        "A plain-language guide to using a travel eSIM: check compatibility, install before you fly, "
+        "roam only on the eSIM line, and keep your home SIM for calls and texts.",
+        body, accent=CONNECT_ACCENT, canonical=canonical,
+        schema=_breadcrumb_schema([
+            ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+            ("Squatch Connect", "https://www.saasquatchlab.com/squatch-connect"),
+            ("eSIM guide", canonical),
+        ]))
+
+
+def airalo_alternatives_page():
+    canonical = "https://www.saasquatchlab.com/squatch-connect/airalo-alternatives"
+    facts = "".join(
+        '<h3>%s</h3><p>%s</p>' % (t, d) for t, d in SEO.AIRALO_ALT_SQUATCH_FACTS)
+    body = (nav(back=True) + """
+  <main id="main">
+    <section style="padding-top: clamp(3rem, 8vh, 5rem)">
+      <div class="g">
+        <div class="prose">
+          <p class="marque key" style="margin-bottom: 1.5rem">Squatch Connect</p>
+          <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 1.3rem;">
+          Squatch Connect vs. Airalo and other travel eSIM apps</h1>
+          <p class="lead">%s</p>
+          <h2>What we can tell you about Squatch Connect</h2>
+          %s
+          <h2>How to compare any two eSIM apps</h2>
+          %s
+          <h2>See the plans yourself</h2>
+          <p><a href="/squatch-connect/esim">Browse Squatch Connect destinations and pricing</a> or read
+          <a href="/squatch-connect/esim-guide">how eSIMs work on iPhone and Android</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+""" % (
+        SEO.AIRALO_ALT_INTRO, facts,
+        "".join("<p>%s</p>" % x for x in SEO.AIRALO_ALT_HOW_TO_COMPARE),
+    )) + footer()
+    return shell(
+        "Squatch Connect vs. Airalo — Travel eSIM Comparison",
+        "How Squatch Connect compares to Airalo and other travel eSIM apps: no account, guest checkout, "
+        "and price-per-GB shown upfront. An honest look, without claims we can't verify about competitors.",
+        body, accent=CONNECT_ACCENT, canonical=canonical,
+        schema=_breadcrumb_schema([
+            ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+            ("Squatch Connect", "https://www.saasquatchlab.com/squatch-connect"),
+            ("Airalo alternatives", canonical),
+        ]))
+
+
+def squatch_lift_compare_page():
+    canonical = "https://www.saasquatchlab.com/squatch-lift/compare"
+    accent = find_product("squatch-lift")["accent"]
+    facts = "".join('<h3>%s</h3><p>%s</p>' % (t, d) for t, d in SEO.SQUATCH_LIFT_FACTS)
+    acts = link("Coming to the App Store", "#", key=True, off=True)
+    body = (nav(back=True) + """
+  <main id="main">
+    <section style="padding-top: clamp(3rem, 8vh, 5rem)">
+      <div class="g">
+        <div class="prose">
+          <p class="marque key" style="margin-bottom: 1.5rem">Squatch Lift</p>
+          <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 1.3rem;">
+          Squatch Lift vs. Hevy vs. Strong</h1>
+          <p class="lead">%s</p>
+          <h2>What Squatch Lift actually does</h2>
+          %s
+          <h2>On the comparison</h2>
+          <p>%s</p>
+          <h2>Try it yourself</h2>
+          <p><a href="/squatch-lift">See the full Squatch Lift feature list</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+""" % (
+        "A straight look at what we can verify about Squatch Lift, for anyone comparing workout trackers.",
+        facts, SEO.SQUATCH_LIFT_COMPARE_NOTE,
+    )) + footer()
+    return shell(
+        "Squatch Lift vs. Hevy vs. Strong — Workout Tracker Comparison",
+        "What Squatch Lift offers compared to other workout trackers: on-device training data, no account, "
+        "130+ exercise library, and a $4.99/month or $29.99/year Pro tier after three free workouts.",
+        body, accent=accent, canonical=canonical,
+        schema=_breadcrumb_schema([
+            ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+            ("Squatch Lift", "https://www.saasquatchlab.com/squatch-lift"),
+            ("Compare", canonical),
+        ]))
+
+
+def app_tracker_template_page():
+    canonical = "https://www.saasquatchlab.com/app-tracker/job-application-tracker-template"
+    accent = find_product("app-tracker")["accent"]
+    header_cols = ["Company", "Role", "Date applied", "Resume version", "Contact", "Status", "Next step"]
+    thead = "".join("<th>%s</th>" % c for c in header_cols)
+    blank_row = "".join("<td>&nbsp;</td>" for _ in header_cols)
+    rows = "".join("<tr>%s</tr>" % blank_row for _ in range(10))
+    body = (nav(back=True) + """
+  <main id="main">
+    <section style="padding-top: clamp(3rem, 8vh, 5rem)">
+      <div class="g">
+        <div class="prose wide">
+          <p class="marque key" style="margin-bottom: 1.5rem">App Tracker</p>
+          <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 1.3rem;">
+          Free job application tracker template</h1>
+          <p class="lead">A copyable table for tracking a job search by hand: company, role, date applied,
+          resume version, contact, status, and next step. Select the table, copy it into a spreadsheet, and
+          go.</p>
+          <div class="tbl-wrap"><table><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>
+          <h2>Why these seven columns</h2>
+          <p>Company, role, and date applied are the minimum anyone tracks. The other four are the ones
+          people usually add back in after losing track of a search by month two: <strong>resume version</strong>
+          so you know which variant you sent, <strong>contact</strong> so a reply doesn't arrive from a
+          stranger, <strong>status</strong> so nothing silently dies, and <strong>next step</strong> so every
+          row has an action instead of just a memory.</p>
+          <h2>When a spreadsheet stops being enough</h2>
+          <p>A table works until the resume-version column starts needing its own table &mdash; which
+          version actually went where, and whether you told two interviewers two different numbers for the
+          same job. That's what App Tracker's resume vault and append-only consistency ledger are for: the
+          same idea as this template, kept honest automatically as the search grows past what a spreadsheet
+          can track.</p>
+          <div class="acts" style="margin: 2rem 0">%s</div>
+          <p><a href="/app-tracker/compare">See how App Tracker compares to Teal and Huntr</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+""" % (thead, rows, link("Open App Tracker", "https://saasquatchapptracker.com", key=True, ext=True))) + footer()
+    return shell(
+        "Free Job Application Tracker Template — App Tracker",
+        "A free, copyable job application tracker template: company, role, date applied, resume version, "
+        "contact, status, and next step. From the makers of App Tracker.",
+        body, accent=accent, canonical=canonical,
+        schema=_breadcrumb_schema([
+            ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+            ("App Tracker", "https://www.saasquatchlab.com/app-tracker"),
+            ("Job application tracker template", canonical),
+        ]))
+
+
+def app_tracker_compare_page():
+    canonical = "https://www.saasquatchlab.com/app-tracker/compare"
+    accent = find_product("app-tracker")["accent"]
+    facts = "".join('<h3>%s</h3><p>%s</p>' % (t, d) for t, d in SEO.APP_TRACKER_FACTS)
+    body = (nav(back=True) + """
+  <main id="main">
+    <section style="padding-top: clamp(3rem, 8vh, 5rem)">
+      <div class="g">
+        <div class="prose">
+          <p class="marque key" style="margin-bottom: 1.5rem">App Tracker</p>
+          <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 1.3rem;">
+          App Tracker vs. Teal vs. Huntr</h1>
+          <p class="lead">A straight look at what App Tracker does, for anyone comparing job-search
+          trackers.</p>
+          <h2>What App Tracker actually does</h2>
+          %s
+          <h2>On the comparison</h2>
+          <p>%s</p>
+          <h2>Try it yourself</h2>
+          <p><a href="https://saasquatchapptracker.com">Open App Tracker</a> or
+          <a href="/app-tracker/job-application-tracker-template">start with the free template</a> if you're
+          not ready for an account.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+""" % (facts, SEO.APP_TRACKER_COMPARE_NOTE)) + footer()
+    return shell(
+        "App Tracker vs. Teal vs. Huntr — Job Search Tracker Comparison",
+        "What App Tracker offers compared to other job application trackers: a resume vault, an "
+        "append-only consistency ledger, AI writing tools, and a free tier before Pro at $9/month.",
+        body, accent=accent, canonical=canonical,
+        schema=_breadcrumb_schema([
+            ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+            ("App Tracker", "https://www.saasquatchlab.com/app-tracker"),
+            ("Compare", canonical),
+        ]))
+
+
+def sitemap_xml(urls):
+    entries = "".join("  <url><loc>%s</loc></url>\n" % u for u in urls)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + entries + "</urlset>\n")
+
+
+def robots_txt():
+    return """# saasquatchlab.com
+User-agent: *
+Allow: /
+
+# AI / LLM crawlers — explicitly allowed
+User-agent: GPTBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-User
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://www.saasquatchlab.com/sitemap.xml
+"""
+
+
 def write(rel, html):
     path = os.path.join(ROOT, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -1513,10 +1998,51 @@ def main():
         + ["/%s/privacy" % slug for slug in POLICIES] \
         + ["/sizesquatch/privacy", "/squatch-connect/privacy", "/squatchtravel/privacy"] \
         + ["/privacy", "/terms", "/support"]
-    write_crawl_files(sorted(set(pages), key=pages.index))
 
     print("Still hand-maintained: /sizesquatch/privacy, /squatch-connect/privacy,")
     print("  /squatchtravel/privacy (each App Store registered, content unchanged)")
+
+    # ── SEO/GEO marketing pages ──────────────────────────────────────────
+    _, dest_by_id, plans_by_dest = load_catalog()
+    sitemap_urls = [
+        "https://www.saasquatchlab.com/",
+        "https://www.saasquatchlab.com/for-good",
+        "https://www.saasquatchlab.com/privacy",
+        "https://www.saasquatchlab.com/terms",
+        "https://www.saasquatchlab.com/support",
+    ]
+    for p in PRODUCTS:
+        sitemap_urls.append("https://www.saasquatchlab.com/%s" % p["slug"])
+        sitemap_urls.append("https://www.saasquatchlab.com/%s/privacy" % p["slug"])
+
+    write("squatch-connect/esim/index.html", esim_index_page(dest_by_id, plans_by_dest))
+    sitemap_urls.append("https://www.saasquatchlab.com/squatch-connect/esim")
+
+    missing = [s for s in SEO.DESTINATION_SLUGS if s not in dest_by_id or s not in plans_by_dest]
+    assert not missing, "catalog snapshot is missing destinations: %r — run tools/data/refresh_catalog.py" % missing
+    for slug in SEO.DESTINATION_SLUGS:
+        write("squatch-connect/esim/%s/index.html" % slug,
+              esim_destination_page(dest_by_id[slug], plans_by_dest[slug]))
+        sitemap_urls.append("https://www.saasquatchlab.com/squatch-connect/esim/%s" % slug)
+
+    write("squatch-connect/esim-guide/index.html", esim_guide_page())
+    sitemap_urls.append("https://www.saasquatchlab.com/squatch-connect/esim-guide")
+
+    write("squatch-connect/airalo-alternatives/index.html", airalo_alternatives_page())
+    sitemap_urls.append("https://www.saasquatchlab.com/squatch-connect/airalo-alternatives")
+
+    write("squatch-lift/compare/index.html", squatch_lift_compare_page())
+    sitemap_urls.append("https://www.saasquatchlab.com/squatch-lift/compare")
+
+    write("app-tracker/job-application-tracker-template/index.html", app_tracker_template_page())
+    sitemap_urls.append("https://www.saasquatchlab.com/app-tracker/job-application-tracker-template")
+
+    write("app-tracker/compare/index.html", app_tracker_compare_page())
+    sitemap_urls.append("https://www.saasquatchlab.com/app-tracker/compare")
+
+    base = "https://www.saasquatchlab.com"
+    pages += [u[len(base):] or "/" for u in sitemap_urls]
+    write_crawl_files(sorted(set(pages), key=pages.index))
 
 
 # Explicit allows for AI-search and answer-engine crawlers/fetchers, alongside the wildcard
