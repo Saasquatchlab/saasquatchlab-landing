@@ -226,7 +226,7 @@ PRODUCTS = [
             "Squatch Connect sells cellular data plans that install as an eSIM profile on your phone. It gives you working mobile data abroad at local rates instead of your carrier&rsquo;s roaming price.",
             "It is a connectivity product, not a privacy tunnel — it does not encrypt or anonymise your traffic beyond what normal cellular service does. We would rather tell you that plainly than let you assume otherwise."]),
             ("Android", ["A native Android build is <strong>available on Google Play</strong>, with the same catalogue, the same install flow, and a home screen widget that refreshes in the background."]),
-            ("Destination pricing", ["Exact plans and pricing for 20 popular destinations are broken out on their own pages, pulled from the same catalogue the app uses: <a href=\"/squatch-connect/esim\">browse eSIM destinations</a>, read <a href=\"/squatch-connect/esim-guide\">how eSIMs work on iPhone and Android</a>, or see <a href=\"/squatch-connect/airalo-alternatives\">how Squatch Connect compares to other travel eSIM apps</a>."])],
+            ("Destination pricing", ["Exact plans and pricing for 86 destinations — countries, regions, and global — are broken out on their own pages, pulled from the same catalogue the app uses: <a href=\"/squatch-connect/esim\">browse eSIM destinations</a>, read <a href=\"/squatch-connect/esim-guide\">how eSIMs work on iPhone and Android</a>, see <a href=\"/squatch-connect/esim-without-account\">how the no-account checkout works</a>, or see <a href=\"/squatch-connect/airalo-alternatives\">how Squatch Connect compares to other travel eSIM apps</a>."])],
     ),
     dict(
         slug="squatchtravel", name="Squatch Travel", accent="#E07A5F",
