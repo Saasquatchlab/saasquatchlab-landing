@@ -23,6 +23,7 @@ ART DIRECTION — "It's out there"
 
 NEVER emit into a `public/` directory — see CLAUDE.md (that takes the site down).
 """
+import datetime
 import html as html_lib
 import json
 import re
@@ -1536,6 +1537,38 @@ def _breadcrumb_schema(items):
     }
 
 
+def _esim_product_schema(dest, plans, canonical):
+    """Product + AggregateOffer for a destination page. No ratings/reviews — we have none
+    and must never fabricate them (see CLAUDE.md SEO/GEO rules)."""
+    name = dest["name"]
+    is_region = dest.get("kind") == "region"
+    prices = [p["priceUSD"] for p in plans]
+    desc = ("Prepaid data eSIM plans for the %s region (%d countries), no account, no subscription."
+            % (name, dest.get("countryCount") or 0)) if is_region else (
+            "Prepaid data eSIM plans for %s, no account, no subscription." % name)
+    offers = [
+        {"@type": "Offer", "name": "%dGB · %d days" % (p["dataGB"], p["days"]),
+         "price": "%.2f" % p["priceUSD"], "priceCurrency": "USD",
+         "availability": "https://schema.org/InStock", "url": canonical}
+        for p in plans
+    ]
+    return {
+        "@context": "https://schema.org", "@type": "Product",
+        "name": "Squatch Connect eSIM for %s" % name,
+        "brand": {"@type": "Brand", "name": "SaaSquatch Lab"},
+        "description": desc,
+        "url": canonical,
+        "offers": {
+            "@type": "AggregateOffer",
+            "priceCurrency": "USD",
+            "lowPrice": "%.2f" % min(prices),
+            "highPrice": "%.2f" % max(prices),
+            "offerCount": len(plans),
+            "offers": offers,
+        },
+    }
+
+
 def esim_destination_page(dest, plans):
     name, slug, flag = dest["name"], dest["id"], dest.get("flag", "")
     is_region = dest.get("kind") == "region"
@@ -1604,7 +1637,8 @@ __SCENE__
         <p class="lede r">No account, no subscription &mdash; just a plan sized for your trip.</p>
         <div class="acts r">__ACTS2__</div>
         <p class="fig" style="margin-top:1.5rem"><a href="/squatch-connect">&larr; Back to Squatch Connect</a>
-        &middot; <a href="/squatch-connect/esim">All destinations</a></p>
+        &middot; <a href="/squatch-connect/esim">All destinations</a>
+        &middot; <a href="/squatch-connect/esim-without-account">No account, explained</a></p>
       </div>
     </div>
   </section>
@@ -1623,6 +1657,7 @@ __SCENE__
         .replace("__FAQ__", _faq_block(qas)) + footer()
 
     schema = [
+        _esim_product_schema(dest, plans, canonical),
         _faq_schema(qas, canonical),
         _breadcrumb_schema([
             ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
@@ -1694,6 +1729,8 @@ __SCENE__
         <h2 class="r">Don&rsquo;t see your <em>destination</em></h2>
         <p class="lede r">Squatch Connect covers dozens more countries and regions inside the app.</p>
         <div class="acts r">__ACTS__</div>
+        <p class="fig" style="margin-top:1.5rem"><a href="/squatch-connect/esim-without-account">How the
+        no-account checkout works</a> &middot; <a href="/squatch-connect/esim-guide">eSIM setup guide</a></p>
       </div>
     </div>
   </section>
@@ -1727,8 +1764,9 @@ def esim_guide_page():
           <h2>Where Squatch Connect fits</h2>
           <p>Squatch Connect sells the eSIM data plan itself &mdash; pick a destination, pick a plan, and
           install it using the steps above. No account, no subscription, and prices with the per-GB math
-          already done for you. <a href="/squatch-connect/esim">Browse destinations</a> or
-          <a href="/squatch-connect">see how Squatch Connect works</a>.</p>
+          already done for you. <a href="/squatch-connect/esim">Browse destinations</a>,
+          <a href="/squatch-connect/esim-without-account">see exactly how the no-account checkout works</a>,
+          or <a href="/squatch-connect">see how Squatch Connect works</a>.</p>
         </div>
       </div>
     </section>
@@ -1784,6 +1822,54 @@ def airalo_alternatives_page():
             ("Squatch Connect", "https://www.saasquatchlab.com/squatch-connect"),
             ("Airalo alternatives", canonical),
         ]))
+
+
+def esim_without_account_page():
+    canonical = "https://www.saasquatchlab.com/squatch-connect/esim-without-account"
+    how = "".join('<h3>%s</h3><p>%s</p>' % (t, d) for t, d in SEO.NO_ACCOUNT_HOW)
+    data_facts = "".join('<h3>%s</h3><p>%s</p>' % (t, d) for t, d in SEO.NO_ACCOUNT_DATA_FACTS)
+    faqs = SEO.NO_ACCOUNT_FAQS
+    faq_block = _faq_block(faqs)
+    body = (nav(back=True) + """
+  <main id="main">
+    <section style="padding-top: clamp(3rem, 8vh, 5rem)">
+      <div class="g">
+        <div class="prose">
+          <p class="marque key" style="margin-bottom: 1.5rem">Squatch Connect</p>
+          <h1 style="font-size: clamp(2.1rem, 5.5vw, 3.3rem); line-height: 1.05; margin-bottom: 1.3rem;">
+          A travel eSIM with no account to create</h1>
+          <p class="lead">%s</p>
+          <h2>What &ldquo;no account&rdquo; means here</h2>
+          %s
+          <h2>Not anonymous, and we're not going to say otherwise</h2>
+          <p>%s</p>
+          <h2>What Squatch Connect actually processes</h2>
+          %s
+          <h2>Frequently asked questions</h2>
+          %s
+          <h2>See the plans</h2>
+          <p><a href="/squatch-connect/esim">Browse destinations and pricing</a>, read
+          <a href="/squatch-connect/esim-guide">how eSIMs work on iPhone and Android</a>, see
+          <a href="/squatch-connect/airalo-alternatives">how Squatch Connect compares to other travel eSIM
+          apps</a>, or read the full <a href="/squatch-connect/privacy">privacy policy</a>.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+""" % (SEO.NO_ACCOUNT_INTRO, how, SEO.NO_ACCOUNT_NOT_ANONYMOUS, data_facts, faq_block)) + footer()
+    return shell(
+        "Travel eSIM With No Account — Squatch Connect",
+        "How Squatch Connect's no-account checkout actually works: no sign-up, no passport upload, guest "
+        "checkout via Apple Pay or Stripe, and exactly what data is processed for a receipt and support.",
+        body, accent=CONNECT_ACCENT, canonical=canonical,
+        schema=[
+            _faq_schema(faqs, canonical),
+            _breadcrumb_schema([
+                ("SaaSquatch Lab", "https://www.saasquatchlab.com/"),
+                ("Squatch Connect", "https://www.saasquatchlab.com/squatch-connect"),
+                ("eSIM without an account", canonical),
+            ]),
+        ])
 
 
 def squatch_lift_compare_page():
@@ -2003,7 +2089,7 @@ def main():
     print("  /squatchtravel/privacy (each App Store registered, content unchanged)")
 
     # ── SEO/GEO marketing pages ──────────────────────────────────────────
-    _, dest_by_id, plans_by_dest = load_catalog()
+    catalog, dest_by_id, plans_by_dest = load_catalog()
     sitemap_urls = [
         "https://www.saasquatchlab.com/",
         "https://www.saasquatchlab.com/for-good",
@@ -2031,6 +2117,9 @@ def main():
     write("squatch-connect/airalo-alternatives/index.html", airalo_alternatives_page())
     sitemap_urls.append("https://www.saasquatchlab.com/squatch-connect/airalo-alternatives")
 
+    write("squatch-connect/esim-without-account/index.html", esim_without_account_page())
+    sitemap_urls.append("https://www.saasquatchlab.com/squatch-connect/esim-without-account")
+
     write("squatch-lift/compare/index.html", squatch_lift_compare_page())
     sitemap_urls.append("https://www.saasquatchlab.com/squatch-lift/compare")
 
@@ -2042,7 +2131,14 @@ def main():
 
     base = "https://www.saasquatchlab.com"
     pages += [u[len(base):] or "/" for u in sitemap_urls]
-    write_crawl_files(sorted(set(pages), key=pages.index))
+    write_crawl_files(sorted(set(pages), key=pages.index), dest_by_id, plans_by_dest, catalog["fetchedAt"])
+
+
+# IndexNow verification key (Bing/Yandex; ChatGPT search uses Bing). Fixed, not regenerated per
+# build — IndexNow verifies ownership by fetching https://www.saasquatchlab.com/<key>.txt and
+# checking its body equals this key, so it must stay stable across rebuilds. Generated once
+# 2026-10-15. tools/indexnow.py re-submits the sitemap using this same key; see CLAUDE.md.
+INDEXNOW_KEY = "65dfeb78b47748c99d3d879fcffc7b8f"
 
 
 # Explicit allows for AI-search and answer-engine crawlers/fetchers, alongside the wildcard
@@ -2055,7 +2151,7 @@ AI_SEARCH_BOTS = [
 ]
 
 
-def write_crawl_files(pages):
+def write_crawl_files(pages, dest_by_id=None, plans_by_dest=None, catalog_fetched_at=None):
     base = "https://www.saasquatchlab.com"
     robots = ["User-agent: *", "Allow: /", ""]
     for bot in AI_SEARCH_BOTS:
@@ -2063,8 +2159,14 @@ def write_crawl_files(pages):
     robots.append("Sitemap: %s/sitemap.xml" % base)
     Path("robots.txt").write_text("\n".join(robots) + "\n")
 
-    urls = "".join("  <url><loc>%s%s</loc></url>\n" % (base, u) for u in pages)
+    build_date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
+    urls = "".join(
+        "  <url><loc>%s%s</loc><lastmod>%s</lastmod></url>\n" % (base, u, build_date) for u in pages)
     Path("sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n%s</urlset>\n' % urls)
+
+    # IndexNow ownership-verification key file — must be served at exactly this path with the
+    # key as its body. Generated by the build so it can never drift from INDEXNOW_KEY above.
+    Path("%s.txt" % INDEXNOW_KEY).write_text(INDEXNOW_KEY)
 
     lines = ["# SaaSquatch Lab", "", "> Privacy-first software that is actually easy to use. Independent studio in the Pacific Northwest.", "", "## Products"]
     for p in PRODUCTS:
@@ -2084,12 +2186,50 @@ def write_crawl_files(pages):
             qc = re.sub(r"<[^>]+>", "", q).replace("&rsquo;", "'").replace("&ldquo;", '"').replace("&rdquo;", '"')
             ac = re.sub(r"<[^>]+>", "", a).replace("&rsquo;", "'").replace("&ldquo;", '"').replace("&rdquo;", '"')
             lines.append("- Q: %s A: %s" % (qc, ac))
+
+    # Squatch Connect plans and prices — generated from the catalog snapshot, never hand-edited.
+    # The full per-destination price list is split into llms-full.txt because it alone is larger
+    # than this file's whole 8KB budget; llms.txt only points at it.
+    full_text = ""
+    if dest_by_id and plans_by_dest:
+        slugs = [s for s in SEO.DESTINATION_SLUGS if s in dest_by_id and s in plans_by_dest]
+        all_prices = [p["priceUSD"] for s in slugs for p in plans_by_dest[s]]
+        lines += [
+            "", "## Squatch Connect eSIM plans and prices",
+            "Fetched %s from the live catalog. %d destinations, plans from $%.2f. Full price list "
+            "(cheapest plan and every plan, one line per destination): %s/llms-full.txt. Browse pages: "
+            "%s/squatch-connect/esim. No account, no subscription — pay as a guest, per plan."
+            % (catalog_fetched_at, len(slugs), min(all_prices) if all_prices else 0, base, base),
+        ]
+
+        full_lines = [
+            "# Squatch Connect — eSIM plans and prices (full list)",
+            "",
+            "Generated by tools/build_site.py from tools/data/connect_catalog.json. Do not hand-edit.",
+            "Fetched %s from %s." % (catalog_fetched_at, base + "/squatch-connect/esim"),
+            "",
+        ]
+        for s in slugs:
+            d = dest_by_id[s]
+            plans = plans_by_dest[s]
+            min_price = min(p["priceUSD"] for p in plans)
+            plan_list = ", ".join(
+                "%dGB/%dd $%.2f" % (p["dataGB"], p["days"], p["priceUSD"]) for p in plans)
+            full_lines.append(
+                "- %s (%s/squatch-connect/esim/%s): from $%.2f — %s"
+                % (d["name"], base, s, min_price, plan_list))
+        full_text = "\n".join(full_lines) + "\n"
+
     lines += ["", "## Policies", "- [Privacy](%s/privacy)" % base, "- [Terms of Use](%s/terms)" % base, "- [Support](%s/support)" % base]
     lines += ["", "## Contact", "- hello@saasquatchlab.com"]
     llms_text = "\n".join(lines) + "\n"
     assert len(llms_text.encode("utf-8")) < 8192, "llms.txt is %d bytes, over the 8KB budget" % len(llms_text.encode("utf-8"))
+    if full_text:
+        Path("llms-full.txt").write_text(full_text)
     Path("llms.txt").write_text(llms_text)
-    print("  robots.txt, sitemap.xml (%d urls), llms.txt (%d bytes)" % (len(pages), len(llms_text.encode("utf-8"))))
+    print("  robots.txt, sitemap.xml (%d urls), llms.txt (%d bytes)%s" % (
+        len(pages), len(llms_text.encode("utf-8")),
+        ", llms-full.txt (%d bytes)" % len(full_text.encode("utf-8")) if full_text else ""))
 
 
 if __name__ == "__main__":

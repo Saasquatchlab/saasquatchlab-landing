@@ -53,6 +53,9 @@
 - Q: Is SaaSquatch GRC available yet? A: Not yet. It is still in development, with no signup or waitlist.
 - Q: How much will it cost? A: Tiers at $149, $299, and $599 a month, plus a separate agency tier for firms managing compliance on behalf of clients.
 
+## Squatch Connect eSIM plans and prices
+Fetched 2026-10-15T20:48:44Z from the live catalog. 86 destinations, plans from $1.99. Full price list (cheapest plan and every plan, one line per destination): https://www.saasquatchlab.com/llms-full.txt. Browse pages: https://www.saasquatchlab.com/squatch-connect/esim. No account, no subscription — pay as a guest, per plan.
+
 ## Policies
 - [Privacy](https://www.saasquatchlab.com/privacy)
 - [Terms of Use](https://www.saasquatchlab.com/terms)

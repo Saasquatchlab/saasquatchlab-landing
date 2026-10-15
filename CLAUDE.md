@@ -92,3 +92,19 @@ Note the inconsistent slug: Squatch Travel is `/squatchtravel` (no hyphen) becau
 Any app shipping auto-renewable subscriptions must carry a functional Terms of Use (EULA) link in its App Store *description* — `/terms` or Apple's standard EULA. Squatch Lift was rejected under guideline 3.1.2 for omitting it.
 
 Domain DNS: AWS Route 53 (zone Z0940405PC2A5NJQUM30). Apex 307-redirects to www. Email: Google Workspace (`hello@saasquatchlab.com`).
+
+## IndexNow (Bing/Yandex — ChatGPT search uses Bing)
+
+The site's IndexNow key is `INDEXNOW_KEY` in `tools/build_site.py`. The build writes
+`<key>.txt` at the site root with the key as its body — that file is what IndexNow fetches
+to verify ownership, so never hand-edit or delete it, and never change `INDEXNOW_KEY` without
+also deploying the new key file first (changing the key without redeploying breaks
+verification until the new file is live).
+
+After deploying any build where page content changed:
+
+```bash
+python3 tools/indexnow.py    # re-submits every URL in sitemap.xml to https://api.indexnow.org/indexnow
+```
+
+A 200/202 response means the submission was accepted.
