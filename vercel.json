@@ -1,6 +1,23 @@
 {
   "rewrites": [
-    { "source": "/mcp", "destination": "https://nbcwerrjqdouekpydfsy.supabase.co/functions/v1/mcp" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/mcp",
+      "destination": "https://nbcwerrjqdouekpydfsy.supabase.co/functions/v1/mcp"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/.well-known/openai-apps-challenge",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
+      ]
+    }
   ]
 }
