@@ -184,12 +184,13 @@ PRODUCTS = [
         tagline="Data abroad without the surveillance.",
         blurb=("A privacy-first travel eSIM. Pick a destination, pick a plan, and install in one "
                "tap — or just ask Siri. No account, no tracking, no passport uploads."),
-        meta=["No account required", "One-tap eSIM install", "Live usage widgets", "Apple Pay checkout"],
+        meta=["No account required", "One-tap eSIM install", "Live usage widgets", "Apple Pay checkout", "Plans in ChatGPT"],
         hero_note="Plans from $1.99 &middot; No account &middot; No subscription &middot; Pay as you travel",
         # Google Play CTA goes in once the Squatch Connect Play Store listing returns 200 (404 as of 2026-09-11).
         ctas=[("Download on the App Store", APPSTORE + "6808746597", "primary", True),
               ("Get it on Google Play",
-               "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchconnect", "primary", True)],
+               "https://play.google.com/store/apps/details?id=com.saasquatchlabs.squatchconnect", "primary", True),
+              ("Find plans in ChatGPT", "https://chatgpt.com/plugins/plugin_asdk_app_6ade604abe5c819188ae32f5c6326b15", "secondary", True)],
         summary=(
             "Squatch Connect is a privacy-first travel eSIM app that installs mobile data plans in one tap, with no account, no passport upload, and no subscription, for travelers who want data abroad without carrier roaming fees."
         ),
@@ -206,6 +207,8 @@ PRODUCTS = [
              "No. There is no passport upload and no KYC. Squatch Connect only processes the destination you picked and an email for your receipt."),
             ("How do I install the eSIM?",
              "On iOS 17.4 and later it installs through Apple&rsquo;s own provisioning link in one tap, or you can ask Siri. QR and manual entry are always available as fallbacks."),
+            ("Can I use Squatch Connect in ChatGPT?",
+             "Yes. The Squatch Connect plugin is in the ChatGPT plugin directory. Ask ChatGPT what a destination costs or which plan fits your trip, and it answers from the same catalogue the app uses. Plans are bought in the Squatch Connect app, not inside ChatGPT."),
             ("Is Squatch Connect available on Android?",
              "A native Android build is in review on Google Play."),
         ],
@@ -216,6 +219,7 @@ PRODUCTS = [
             ("Pick a destination", "Countries and regions, each with plans sized for a weekend or a month. Prices are shown before you commit, with no conversion games at checkout."),
             ("One-tap install", "On iOS 17.4 and later the eSIM installs through Apple&rsquo;s own provisioning link — no QR gymnastics. QR and manual entry are always available as fallbacks."),
             ("Ask Siri", "&ldquo;Hey Siri, add an eSIM for France in Squatch Connect.&rdquo; App Shortcuts cover every destination we sell."),
+            ("Ask ChatGPT", "The <a href=\"https://chatgpt.com/plugins/plugin_asdk_app_6ade604abe5c819188ae32f5c6326b15\">Squatch Connect plugin for ChatGPT</a> looks up plans and prices for any destination and recommends one for your trip length. You buy and install in the app; ChatGPT never takes payment."),
             ("Live usage", "A gauge showing exactly how much data is left and when the plan expires, refreshed when you open the app or pull to refresh."),
             ("Home and lock screen widgets", "Data remaining on your home screen and lock screen, kept current in the background so you can check without unlocking."),
             ("Hotspot-ready plans", "Tiers that permit tethering, for when the laptop needs to come online too."),
@@ -226,6 +230,7 @@ PRODUCTS = [
             "Squatch Connect sells cellular data plans that install as an eSIM profile on your phone. It gives you working mobile data abroad at local rates instead of your carrier&rsquo;s roaming price.",
             "It is a connectivity product, not a privacy tunnel — it does not encrypt or anonymise your traffic beyond what normal cellular service does. We would rather tell you that plainly than let you assume otherwise."]),
             ("Android", ["A native Android build is <strong>available on Google Play</strong>, with the same catalogue, the same install flow, and a home screen widget that refreshes in the background."]),
+            ("In ChatGPT and other AI assistants", ["Squatch Connect is published in the <a href=\"https://chatgpt.com/plugins/plugin_asdk_app_6ade604abe5c819188ae32f5c6326b15\">ChatGPT plugin directory</a>. Ask which plans cover a destination, what they cost, or how much data a trip needs, and ChatGPT answers from the live catalogue. The plugin only looks things up: it sells nothing and links to the app rather than a checkout.", "Other assistants that support MCP connectors, such as Claude, can use the same lookup by adding <code>https://www.saasquatchlab.com/mcp</code> as a custom connector. No sign-in or API key is needed. See <a href=\"/squatch-connect/privacy\">the privacy policy</a> for exactly what an assistant sends us."]),
             ("Destination pricing", ["Exact plans and pricing for 86 destinations — countries, regions, and global — are broken out on their own pages, pulled from the same catalogue the app uses: <a href=\"/squatch-connect/esim\">browse eSIM destinations</a>, read <a href=\"/squatch-connect/esim-guide\">how eSIMs work on iPhone and Android</a>, see <a href=\"/squatch-connect/esim-without-account\">how the no-account checkout works</a>, or see <a href=\"/squatch-connect/airalo-alternatives\">how Squatch Connect compares to other travel eSIM apps</a>."])],
     ),
     dict(

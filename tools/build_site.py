@@ -2174,7 +2174,9 @@ def write_crawl_files(pages, dest_by_id=None, plans_by_dest=None, catalog_fetche
         play = next((h for l, h, k, on in p["ctas"]
                      if on and h.startswith("https://play.google.com/store/apps/details?id=")), None)
         desc = re.sub(r"<[^>]+>", "", p["blurb"]).replace("&rsquo;", "'").replace("&middot;", "·")
-        extra = ((" App Store: " + store) if store else "") + ((" Google Play: " + play) if play else "")
+        gpt = next((h for l, h, k, on in p["ctas"] if on and h.startswith("https://chatgpt.com/plugins/")), None)
+        extra = ((" App Store: " + store) if store else "") + ((" Google Play: " + play) if play else "") \
+            + ((" ChatGPT plugin: " + gpt) if gpt else "")
         lines.append("- [%s](%s/%s): %s%s" % (p["name"], base, p["slug"], desc, extra))
     lines += ["", "## About", "- [About SaaSquatch Lab](%s/about)" % base]
     lines += ["", "## Questions people ask"]
@@ -2200,6 +2202,9 @@ def write_crawl_files(pages, dest_by_id=None, plans_by_dest=None, catalog_fetche
             "(cheapest plan and every plan, one line per destination): %s/llms-full.txt. Browse pages: "
             "%s/squatch-connect/esim. No account, no subscription — pay as a guest, per plan."
             % (catalog_fetched_at, len(slugs), min(all_prices) if all_prices else 0, base, base),
+            "Live lookup for AI assistants: ChatGPT plugin "
+            "https://chatgpt.com/plugins/plugin_asdk_app_6ade604abe5c819188ae32f5c6326b15, or any MCP client at "
+            "%s/mcp (Streamable HTTP, read-only, no auth). Plans are purchased in the iOS app, not in the assistant." % base,
         ]
 
         full_lines = [
